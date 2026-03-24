@@ -4,62 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wiki - Echoes of the Tempest</title>
-<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff4444',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+table tbody tr { transition: background-color 0.15s ease; }
+</style>
 
 </head>
-<body>
-<nav>
-  <span class="brand">EotT</span>
-  <div class="links">
-    <a href="/index.html">Home</a>
-    <a href="/wiki/index.html">Wiki</a>
-    <a href="/wiki/items.html">Items</a>
-    <a href="/wiki/enemies.html">Enemies</a>
-    <a href="/wiki/dungeons.html">Dungeons</a>
-    <a href="/wiki/classes.html">Classes</a>
-    <a href="/wiki/mechanics.html">Mechanics</a>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
+      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+        <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
+        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
+        <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
+        <a href="enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Enemies</a>
+        <a href="dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Dungeons</a>
+        <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
+        <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
+      </div>
+    </div>
   </div>
 </nav>
-<div class="container">
-  <h1>Wiki</h1>
-  <p>Comprehensive reference for Echoes of the Tempest game data.</p>
-  <div class="grid grid-3" style="margin-top:1.5rem;">
-      <a class="card-link" href="/wiki/items.html">
-        <div class="card">
-          <h3>Items</h3>
-          <p>All custom equipment: weapons, armor, rings, and abilities with full stats.</p>
-        </div>
-      </a>
-      <a class="card-link" href="/wiki/enemies.html">
-        <div class="card">
-          <h3>Enemies</h3>
-          <p>Every custom enemy and boss with HP, DEF, projectile data, and status effects.</p>
-        </div>
-      </a>
-      <a class="card-link" href="/wiki/dungeons.html">
-        <div class="card">
-          <h3>Dungeons</h3>
-          <p>Guide to all 5 custom dungeons with boss phases, enemies, and loot tables.</p>
-        </div>
-      </a>
-      <a class="card-link" href="/wiki/classes.html">
-        <div class="card">
-          <h3>Classes</h3>
-          <p>Compare all 12 classes with visual stat bars and weapon types.</p>
-        </div>
-      </a>
-      <a class="card-link" href="/wiki/mechanics.html">
-        <div class="card">
-          <h3>Mechanics</h3>
-          <p>Damage formulas, fire rate calculations, ScaleHP, and status effects.</p>
-        </div>
-      </a>
+
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-10">
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Wiki</span>
+    </h1>
+    <p class="text-slate-400">Comprehensive reference for Echoes of the Tempest game data.</p>
+  </div>
+
+  <!-- Decorative search bar (non-functional) -->
+  <div class="glass rounded-xl p-3 mb-10 flex items-center gap-3">
+    <span class="text-slate-500">&#128269;</span>
+    <span class="text-slate-500 text-sm">Search the wiki... (coming soon)</span>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <a href="items.html" class="glass rounded-xl p-6 glass-hover transition-all duration-300 block no-underline group">
+      <div class="text-3xl mb-3">&#9876;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-1 group-hover:text-violet-200 transition-colors">Items</h3>
+      <p class="text-xs text-cyan-400 font-medium mb-2">24 entries</p>
+      <p class="text-slate-400 text-sm leading-relaxed">All custom equipment: weapons, armor, rings, and abilities with full stats.</p>
+    </a>
+
+    <a href="enemies.html" class="glass rounded-xl p-6 glass-hover transition-all duration-300 block no-underline group">
+      <div class="text-3xl mb-3">&#128128;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-1 group-hover:text-violet-200 transition-colors">Enemies</h3>
+      <p class="text-xs text-cyan-400 font-medium mb-2">24 entries</p>
+      <p class="text-slate-400 text-sm leading-relaxed">Every custom enemy and boss with HP, DEF, projectile data, and status effects.</p>
+    </a>
+
+    <a href="dungeons.html" class="glass rounded-xl p-6 glass-hover transition-all duration-300 block no-underline group">
+      <div class="text-3xl mb-3">&#9889;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-1 group-hover:text-violet-200 transition-colors">Dungeons</h3>
+      <p class="text-xs text-cyan-400 font-medium mb-2">5 dungeons</p>
+      <p class="text-slate-400 text-sm leading-relaxed">Guide to all 5 custom dungeons with boss phases, enemies, and loot tables.</p>
+    </a>
+
+    <a href="classes.html" class="glass rounded-xl p-6 glass-hover transition-all duration-300 block no-underline group">
+      <div class="text-3xl mb-3">&#9812;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-1 group-hover:text-violet-200 transition-colors">Classes</h3>
+      <p class="text-xs text-cyan-400 font-medium mb-2">12 classes</p>
+      <p class="text-slate-400 text-sm leading-relaxed">Compare all 12 classes with visual stat bars and weapon types.</p>
+    </a>
+
+    <a href="mechanics.html" class="glass rounded-xl p-6 glass-hover transition-all duration-300 block no-underline group">
+      <div class="text-3xl mb-3">&#9881;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-1 group-hover:text-violet-200 transition-colors">Mechanics</h3>
+      <p class="text-xs text-cyan-400 font-medium mb-2">Formulas</p>
+      <p class="text-slate-400 text-sm leading-relaxed">Damage formulas, fire rate calculations, ScaleHP, and status effects.</p>
+    </a>
 
   </div>
-</div>
-<footer>
-  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
-  <p><a href="#">Join our Discord</a></p>
+</section>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="../index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
+    </div>
+  </div>
 </footer>
 </body>
 </html>

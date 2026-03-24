@@ -4,115 +4,274 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mechanics - Echoes of the Tempest</title>
-<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff4444',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+table tbody tr { transition: background-color 0.15s ease; }
+</style>
 
 </head>
-<body>
-<nav>
-  <span class="brand">EotT</span>
-  <div class="links">
-    <a href="/index.html">Home</a>
-    <a href="/wiki/index.html">Wiki</a>
-    <a href="/wiki/items.html">Items</a>
-    <a href="/wiki/enemies.html">Enemies</a>
-    <a href="/wiki/dungeons.html">Dungeons</a>
-    <a href="/wiki/classes.html">Classes</a>
-    <a href="/wiki/mechanics.html">Mechanics</a>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
+      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+        <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
+        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
+        <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
+        <a href="enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Enemies</a>
+        <a href="dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Dungeons</a>
+        <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
+        <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
+      </div>
+    </div>
   </div>
 </nav>
-<div class="container">
-  <h1>Combat Mechanics</h1>
-  <p>Reference for damage formulas, fire rate calculations, and status effects.</p>
 
-  <div class="section">
-    <h2>Damage Formula</h2>
-    <div class="card">
-      <p>Base damage for each projectile hit:</p>
-      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
-damage = avg(MinDamage, MaxDamage) * (0.5 + ATT / 50) - DEF
-      </pre>
-      <p style="margin-top:0.5rem;">Minimum damage is <strong>25%</strong> of the pre-DEF value (damage can never go below this floor).</p>
-      <p style="margin-top:0.5rem;">For example, a weapon with 80-120 damage (avg 100) used by a character with 60 ATT against an enemy with 20 DEF:</p>
-      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
-avg    = (80 + 120) / 2 = 100
+<section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Combat Mechanics</span>
+    </h1>
+    <p class="text-slate-400">Reference for damage formulas, fire rate calculations, and status effects.</p>
+  </div>
+
+  <!-- Damage Formula -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Damage Formula</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-slate-300 text-sm mb-3">Base damage for each projectile hit:</p>
+      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-cyan-300 font-mono overflow-x-auto mb-3">damage = avg(MinDamage, MaxDamage) * (0.5 + ATT / 50) - DEF</pre>
+      <p class="text-slate-400 text-sm mb-3">Minimum damage is <strong class="text-slate-200">25%</strong> of the pre-DEF value (damage can never go below this floor).</p>
+      <p class="text-slate-400 text-sm mb-2">Example: weapon with 80-120 damage (avg 100), 60 ATT, vs 20 DEF:</p>
+      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-green-300 font-mono overflow-x-auto">avg    = (80 + 120) / 2 = 100
 scaled = 100 * (0.5 + 60/50) = 100 * 1.7 = 170
 final  = 170 - 20 = 150
 floor  = 170 * 0.25 = 42.5
-result = max(150, 42.5) = 150
-      </pre>
+result = max(150, 42.5) = 150</pre>
     </div>
   </div>
 
-  <div class="section">
-    <h2>Fire Rate Formula</h2>
-    <div class="card">
-      <p>Attacks per second are determined by DEX and the weapon's Rate of Fire multiplier:</p>
-      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
-frequency = 0.0015 + (DEX / 75) * 0.0065
-period    = 1 / frequency / RateOfFire
-      </pre>
-      <p style="margin-top:0.5rem;">At 75 DEX with a 1.0x RoF weapon: frequency = 0.008, period = 125ms (8 shots/sec).</p>
-      <p>At 75 DEX with a 1.2x RoF weapon: period = ~104ms (9.6 shots/sec).</p>
+  <!-- Fire Rate -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Fire Rate Formula</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-slate-300 text-sm mb-3">Attacks per second are determined by DEX and the weapon's Rate of Fire multiplier:</p>
+      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-cyan-300 font-mono overflow-x-auto mb-3">frequency = 0.0015 + (DEX / 75) * 0.0065
+period    = 1 / frequency / RateOfFire</pre>
+      <p class="text-slate-400 text-sm">At 75 DEX with 1.0x RoF: frequency = 0.008, period = 125ms (<strong class="text-slate-200">8 shots/sec</strong>).</p>
+      <p class="text-slate-400 text-sm">At 75 DEX with 1.2x RoF: period = ~104ms (<strong class="text-slate-200">9.6 shots/sec</strong>).</p>
     </div>
   </div>
 
-  <div class="section">
-    <h2>ScaleHP</h2>
-    <div class="card">
-      <p>Boss HP scales with the number of players in the dungeon:</p>
-      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
-effective_hp = base_hp + (player_count - 1) * ScaleHP_value
-      </pre>
-      <p style="margin-top:0.5rem;">Example: Thaleos has 50,000 base HP and ScaleHP of 25,000. With 4 players: 50,000 + 3 * 25,000 = <strong>125,000 HP</strong>.</p>
+  <!-- ScaleHP -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">ScaleHP</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-slate-300 text-sm mb-3">Boss HP scales with the number of players in the dungeon:</p>
+      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-cyan-300 font-mono overflow-x-auto mb-3">effective_hp = base_hp + (player_count - 1) * ScaleHP_value</pre>
+      <p class="text-slate-400 text-sm">Example: Thaleos has 50,000 base HP and ScaleHP of 25,000. With 4 players: 50,000 + 3 &times; 25,000 = <strong class="text-slate-200">125,000 HP</strong>.</p>
     </div>
   </div>
 
-  <div class="section">
-    <h2>Status Effects</h2>
-    <div style="overflow-x:auto;">
-    <table>
-      <thead><tr><th>Effect</th><th>Description</th></tr></thead>
-      <tbody>
-        <tr><td><span class="badge badge-effect">Slowed</span></td><td>Movement speed reduced by 50%</td></tr>
-        <tr><td><span class="badge badge-effect">Paralyzed</span></td><td>Cannot move (can still shoot and use abilities)</td></tr>
-        <tr><td><span class="badge badge-effect">Sick</span></td><td>Cannot heal from any source (HP pots, abilities, VIT regen)</td></tr>
-        <tr><td><span class="badge badge-effect">Armor Broken</span></td><td>DEF reduced to 0</td></tr>
-        <tr><td><span class="badge badge-effect">Stunned</span></td><td>Cannot shoot or use abilities</td></tr>
-        <tr><td><span class="badge badge-effect">Confused</span></td><td>Movement controls are scrambled (WASD swapped)</td></tr>
-        <tr><td><span class="badge badge-effect">Dazed</span></td><td>All attacks deal 50% reduced damage</td></tr>
-        <tr><td><span class="badge badge-effect">Quiet</span></td><td>Cannot use abilities (MP locked)</td></tr>
-        <tr><td><span class="badge badge-effect">Weak</span></td><td>Attack damage reduced by 50%</td></tr>
-        <tr><td><span class="badge badge-effect">Darkness</span></td><td>Vision radius significantly reduced</td></tr>
-        <tr><td><span class="badge badge-effect">Armored</span></td><td>DEF doubled (buff, used by bosses)</td></tr>
-        <tr><td><span class="badge badge-effect">Invulnerable</span></td><td>Immune to all damage (used by bosses during phase transitions)</td></tr>
-        <tr><td><span class="badge badge-effect">Healing</span></td><td>Rapidly regenerate HP over time</td></tr>
-        <tr><td><span class="badge badge-effect">Berserk</span></td><td>Attack speed increased by 50%</td></tr>
-        <tr><td><span class="badge badge-effect">Swiftness</span></td><td>Movement speed increased</td></tr>
-      </tbody>
-    </table>
+  <!-- Status Effects -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Status Effects</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Slowed</span>
+        <span class="text-sm text-slate-400">Movement speed reduced by 50%</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Paralyzed</span>
+        <span class="text-sm text-slate-400">Cannot move (can still shoot and use abilities)</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Sick</span>
+        <span class="text-sm text-slate-400">Cannot heal from any source</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Armor Broken</span>
+        <span class="text-sm text-slate-400">DEF reduced to 0</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Stunned</span>
+        <span class="text-sm text-slate-400">Cannot shoot or use abilities</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Confused</span>
+        <span class="text-sm text-slate-400">Movement controls are scrambled</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Dazed</span>
+        <span class="text-sm text-slate-400">All attacks deal 50% reduced damage</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Quiet</span>
+        <span class="text-sm text-slate-400">Cannot use abilities (MP locked)</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Weak</span>
+        <span class="text-sm text-slate-400">Attack damage reduced by 50%</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30 whitespace-nowrap">Darkness</span>
+        <span class="text-sm text-slate-400">Vision radius significantly reduced</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-green-900/40 text-green-400 border border-green-700/30 whitespace-nowrap">Armored</span>
+        <span class="text-sm text-slate-400">DEF doubled (buff, used by bosses)</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-green-900/40 text-green-400 border border-green-700/30 whitespace-nowrap">Invulnerable</span>
+        <span class="text-sm text-slate-400">Immune to all damage (phase transitions)</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-green-900/40 text-green-400 border border-green-700/30 whitespace-nowrap">Healing</span>
+        <span class="text-sm text-slate-400">Rapidly regenerate HP over time</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-green-900/40 text-green-400 border border-green-700/30 whitespace-nowrap">Berserk</span>
+        <span class="text-sm text-slate-400">Attack speed increased by 50%</span>
+      </div>
+      <div class="glass rounded-lg p-3 flex gap-3 items-start">
+        <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-green-900/40 text-green-400 border border-green-700/30 whitespace-nowrap">Swiftness</span>
+        <span class="text-sm text-slate-400">Movement speed increased</span>
+      </div>
     </div>
   </div>
 
-  <div class="section">
-    <h2>Loot Bag Types</h2>
-    <div style="overflow-x:auto;">
-    <table>
-      <thead><tr><th>Bag Type</th><th>Color</th><th>Description</th></tr></thead>
-      <tbody>
-        <tr><td>0</td><td>Brown</td><td>Basic drops (T0 starter gear)</td></tr>
-        <tr><td>1</td><td>Pink</td><td>Low-tier loot</td></tr>
-        <tr><td>2</td><td>Purple</td><td>Mid-tier loot (T5 gear)</td></tr>
-        <tr><td>3-5</td><td>Cyan/Blue</td><td>Higher-tier drops</td></tr>
-        <tr><td>6</td><td>White</td><td>UT and Legendary items (Soulbound)</td></tr>
-        <tr><td>8</td><td>Gold</td><td>Ancient Relic items (Soulbound)</td></tr>
-      </tbody>
-    </table>
+  <!-- Loot Bag Types -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Loot Bag Types</h2>
+    <div class="overflow-x-auto glass rounded-xl">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-slate-700">
+            <th class="px-4 py-3 text-left text-xs font-bold text-violet-400 uppercase">Bag Type</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-violet-400 uppercase">Color</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-violet-400 uppercase">Description</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          <tr class="hover:bg-slate-800/50"><td class="px-4 py-2 text-sm">0</td><td class="px-4 py-2 text-sm text-amber-700">Brown</td><td class="px-4 py-2 text-sm text-slate-400">Basic drops (T0 starter gear)</td></tr>
+          <tr class="hover:bg-slate-800/50"><td class="px-4 py-2 text-sm">1</td><td class="px-4 py-2 text-sm text-pink-400">Pink</td><td class="px-4 py-2 text-sm text-slate-400">Low-tier loot</td></tr>
+          <tr class="hover:bg-slate-800/50"><td class="px-4 py-2 text-sm">2</td><td class="px-4 py-2 text-sm text-purple-400">Purple</td><td class="px-4 py-2 text-sm text-slate-400">Mid-tier loot (T5 gear)</td></tr>
+          <tr class="hover:bg-slate-800/50"><td class="px-4 py-2 text-sm">3-5</td><td class="px-4 py-2 text-sm text-cyan-400">Cyan/Blue</td><td class="px-4 py-2 text-sm text-slate-400">Higher-tier drops</td></tr>
+          <tr class="hover:bg-slate-800/50"><td class="px-4 py-2 text-sm">6</td><td class="px-4 py-2 text-sm text-white">White</td><td class="px-4 py-2 text-sm text-slate-400">UT and Legendary items (Soulbound)</td></tr>
+          <tr class="hover:bg-slate-800/50"><td class="px-4 py-2 text-sm">8</td><td class="px-4 py-2 text-sm text-yellow-400">Gold</td><td class="px-4 py-2 text-sm text-slate-400">Ancient Relic items (Soulbound)</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
-<footer>
-  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
-  <p><a href="#">Join our Discord</a></p>
+</section>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="../index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
+    </div>
+  </div>
 </footer>
 </body>
 </html>

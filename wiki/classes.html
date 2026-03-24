@@ -4,681 +4,1336 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Classes - Echoes of the Tempest</title>
-<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff4444',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+table tbody tr { transition: background-color 0.15s ease; }
+</style>
 
 </head>
-<body>
-<nav>
-  <span class="brand">EotT</span>
-  <div class="links">
-    <a href="/index.html">Home</a>
-    <a href="/wiki/index.html">Wiki</a>
-    <a href="/wiki/items.html">Items</a>
-    <a href="/wiki/enemies.html">Enemies</a>
-    <a href="/wiki/dungeons.html">Dungeons</a>
-    <a href="/wiki/classes.html">Classes</a>
-    <a href="/wiki/mechanics.html">Mechanics</a>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
+      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+        <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
+        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
+        <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
+        <a href="enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Enemies</a>
+        <a href="dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Dungeons</a>
+        <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
+        <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
+      </div>
+    </div>
   </div>
 </nav>
-<div class="container">
-  <h1>Classes</h1>
-  <p>All 12 playable classes with max stat values and weapon types.</p>
 
-  <div class="grid grid-3" style="margin-top:1.5rem;">
-    <div class="card">
-      <h3>Wizard</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Staff</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">630</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:77%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">385</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Classes</span>
+    </h1>
+    <p class="text-slate-400">All 12 playable classes with max stat values and weapon types.</p>
+  </div>
 
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Wizard</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">630</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">385</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">630</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:77%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">385</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Warrior</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Sword</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:87%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">830</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">252</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Warrior</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">830</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">252</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:87%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">830</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">252</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Knight</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Sword</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">950</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">252</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Knight</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">950</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">252</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">950</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">252</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Rogue</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Dagger</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:71%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">680</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">252</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Rogue</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Dagger</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">680</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">252</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:71%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">680</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">252</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Archer</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Bow</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:71%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">680</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">252</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Archer</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Bow</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">680</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">252</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:71%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">680</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">252</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Priest</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Wand</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">630</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:77%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">385</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:73%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">55</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Priest</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Wand</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">630</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">385</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">630</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:77%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">385</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:73%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Paladin</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Sword</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:86%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">820</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">252</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:75%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">30</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:73%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">55</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:60%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">45</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Paladin</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">820</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">252</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:86%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">820</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">252</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:75%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">30</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:73%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:60%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">45</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Assassin</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Dagger</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:71%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">680</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">252</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:86%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">65</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Assassin</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Dagger</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">680</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">252</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:71%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">680</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">252</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:86%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">65</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Necromancer</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Staff</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">630</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:77%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">385</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:86%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">65</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:75%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">30</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">50</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:86%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">65</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Necromancer</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">630</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">385</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">630</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:77%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">385</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:86%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">65</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:75%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">30</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">50</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:86%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">65</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Mystic</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Staff</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:66%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">630</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:77%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">385</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:73%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">55</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Mystic</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">630</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">385</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:66%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">630</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:77%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">385</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:73%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Samurai</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Katana</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">760</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:45%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">225</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:86%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">65</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:62%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">25</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:73%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">55</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:93%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">70</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:60%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">45</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Samurai</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Katana</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">760</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">225</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">760</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:45%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">225</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:86%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">65</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:62%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">25</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:73%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:93%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">70</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:60%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">45</span>
+            </div>
+
+      </div>
     </div>
-    <div class="card">
-      <h3>Summoner</h3>
-      <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.5rem;">Weapon: Summoning Staff</p>
-          <div class="stat-bar-container">
-            <span class="stat-label">HP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:63%;background:var(--hp-bar);"></div></div>
-            <span class="stat-value">600</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">MP</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--mp-bar);"></div></div>
-            <span class="stat-value">500</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">ATT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:73%;background:var(--att-bar);"></div></div>
-            <span class="stat-value">55</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEF</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:50%;background:var(--def-bar);"></div></div>
-            <span class="stat-value">20</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">SPD</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:73%;background:var(--spd-bar);"></div></div>
-            <span class="stat-value">55</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">DEX</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:80%;background:var(--dex-bar);"></div></div>
-            <span class="stat-value">60</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">VIT</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:53%;background:var(--vit-bar);"></div></div>
-            <span class="stat-value">40</span>
-          </div>
-          <div class="stat-bar-container">
-            <span class="stat-label">WIS</span>
-            <div class="stat-bar-bg"><div class="stat-bar" style="width:100%;background:var(--wis-bar);"></div></div>
-            <span class="stat-value">75</span>
-          </div>
 
+    <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-violet-300">Summoner</h3>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Summoning Staff</span>
+      </div>
+      <div class="flex gap-4 mb-3">
+        <div class="text-center">
+          <div class="text-lg font-bold text-red-400">600</div>
+          <div class="text-xs text-slate-500">HP</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold text-blue-400">500</div>
+          <div class="text-xs text-slate-500">MP</div>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">HP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-hp transition-all duration-500" style="width:63%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">600</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MP</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mp transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">500</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">ATT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-att transition-all duration-500" style="width:73%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEF</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-def transition-all duration-500" style="width:50%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">20</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">SPD</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-spd transition-all duration-500" style="width:73%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">DEX</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-dex transition-all duration-500" style="width:80%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">60</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">VIT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-vit transition-all duration-500" style="width:53%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">WIS</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-wis transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">75</span>
+            </div>
+
+      </div>
     </div>
 
   </div>
 
-  <div class="section">
-    <h2>Stat Comparison Table</h2>
-    <div style="overflow-x:auto;">
-    <table>
-      <thead><tr><th>Class</th><th>Weapon</th><th>HP</th><th>MP</th><th>ATT</th><th>DEF</th><th>SPD</th><th>DEX</th><th>VIT</th><th>WIS</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Wizard</strong></td>
-          <td>Staff</td>
-          <td>630</td><td>385</td>
-          <td>75</td><td>25</td>
-          <td>50</td><td>75</td>
-          <td>40</td><td>60</td>
+  <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Stat Comparison Table</h2>
+  <div class="overflow-x-auto glass rounded-xl">
+    <table class="w-full">
+      <thead>
+        <tr class="border-b border-slate-700">
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">Class</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">Weapon</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-red-400 uppercase tracking-wider">HP</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-blue-400 uppercase tracking-wider">MP</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">ATT</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">DEF</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">SPD</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">DEX</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">VIT</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">WIS</th>
         </tr>
-        <tr>
-          <td><strong>Warrior</strong></td>
-          <td>Sword</td>
-          <td>830</td><td>252</td>
-          <td>75</td><td>25</td>
-          <td>50</td><td>50</td>
-          <td>75</td><td>50</td>
+      </thead>
+      <tbody class="divide-y divide-slate-800">
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Wizard</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Staff</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">60</td>
         </tr>
-        <tr>
-          <td><strong>Knight</strong></td>
-          <td>Sword</td>
-          <td>950</td><td>252</td>
-          <td>50</td><td>40</td>
-          <td>50</td><td>50</td>
-          <td>75</td><td>50</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Warrior</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Sword</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">830</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">50</td>
         </tr>
-        <tr>
-          <td><strong>Rogue</strong></td>
-          <td>Dagger</td>
-          <td>680</td><td>252</td>
-          <td>50</td><td>25</td>
-          <td>75</td><td>75</td>
-          <td>40</td><td>50</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Knight</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Sword</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">950</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">50</td>
         </tr>
-        <tr>
-          <td><strong>Archer</strong></td>
-          <td>Bow</td>
-          <td>680</td><td>252</td>
-          <td>75</td><td>25</td>
-          <td>50</td><td>50</td>
-          <td>40</td><td>50</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Rogue</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Dagger</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">680</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">50</td>
         </tr>
-        <tr>
-          <td><strong>Priest</strong></td>
-          <td>Wand</td>
-          <td>630</td><td>385</td>
-          <td>60</td><td>25</td>
-          <td>55</td><td>60</td>
-          <td>40</td><td>75</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Archer</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Bow</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">680</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">50</td>
         </tr>
-        <tr>
-          <td><strong>Paladin</strong></td>
-          <td>Sword</td>
-          <td>820</td><td>252</td>
-          <td>50</td><td>30</td>
-          <td>55</td><td>45</td>
-          <td>40</td><td>75</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Priest</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Wand</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">55</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">75</td>
         </tr>
-        <tr>
-          <td><strong>Assassin</strong></td>
-          <td>Dagger</td>
-          <td>680</td><td>252</td>
-          <td>65</td><td>25</td>
-          <td>75</td><td>75</td>
-          <td>50</td><td>75</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Paladin</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Sword</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">820</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">30</td>
+          <td class="px-3 py-2 text-sm">55</td>
+          <td class="px-3 py-2 text-sm">45</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">75</td>
         </tr>
-        <tr>
-          <td><strong>Necromancer</strong></td>
-          <td>Staff</td>
-          <td>630</td><td>385</td>
-          <td>65</td><td>30</td>
-          <td>50</td><td>60</td>
-          <td>65</td><td>75</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Assassin</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Dagger</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">680</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
+          <td class="px-3 py-2 text-sm">65</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">75</td>
         </tr>
-        <tr>
-          <td><strong>Mystic</strong></td>
-          <td>Staff</td>
-          <td>630</td><td>385</td>
-          <td>60</td><td>25</td>
-          <td>60</td><td>55</td>
-          <td>40</td><td>75</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Necromancer</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Staff</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
+          <td class="px-3 py-2 text-sm">65</td>
+          <td class="px-3 py-2 text-sm">30</td>
+          <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">65</td>
+          <td class="px-3 py-2 text-sm">75</td>
         </tr>
-        <tr>
-          <td><strong>Samurai</strong></td>
-          <td>Katana</td>
-          <td>760</td><td>225</td>
-          <td>65</td><td>25</td>
-          <td>55</td><td>60</td>
-          <td>70</td><td>45</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Mystic</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Staff</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">55</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">75</td>
         </tr>
-        <tr>
-          <td><strong>Summoner</strong></td>
-          <td>Summoning Staff</td>
-          <td>600</td><td>500</td>
-          <td>55</td><td>20</td>
-          <td>55</td><td>60</td>
-          <td>40</td><td>75</td>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Samurai</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Katana</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">760</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">225</td>
+          <td class="px-3 py-2 text-sm">65</td>
+          <td class="px-3 py-2 text-sm">25</td>
+          <td class="px-3 py-2 text-sm">55</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">70</td>
+          <td class="px-3 py-2 text-sm">45</td>
+        </tr>
+
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Summoner</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Summoning Staff</td>
+          <td class="px-3 py-2 text-sm text-red-400 font-medium">600</td>
+          <td class="px-3 py-2 text-sm text-blue-400 font-medium">500</td>
+          <td class="px-3 py-2 text-sm">55</td>
+          <td class="px-3 py-2 text-sm">20</td>
+          <td class="px-3 py-2 text-sm">55</td>
+          <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm">40</td>
+          <td class="px-3 py-2 text-sm">75</td>
         </tr>
 
       </tbody>
     </table>
+  </div>
+</section>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="../index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
     </div>
   </div>
-</div>
-<footer>
-  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
-  <p><a href="#">Join our Discord</a></p>
 </footer>
 </body>
 </html>

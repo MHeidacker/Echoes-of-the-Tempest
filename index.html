@@ -4,72 +4,241 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home - Echoes of the Tempest</title>
-<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff4444',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+table tbody tr { transition: background-color 0.15s ease; }
+</style>
 
 </head>
-<body>
-<nav>
-  <span class="brand">EotT</span>
-  <div class="links">
-    <a href="/index.html">Home</a>
-    <a href="/wiki/index.html">Wiki</a>
-    <a href="/wiki/items.html">Items</a>
-    <a href="/wiki/enemies.html">Enemies</a>
-    <a href="/wiki/dungeons.html">Dungeons</a>
-    <a href="/wiki/classes.html">Classes</a>
-    <a href="/wiki/mechanics.html">Mechanics</a>
-  </div>
-</nav>
-<div class="hero">
-  <h1>Echoes of the Tempest</h1>
-  <p class="tagline">A Realm of the Mad God experience reimagined</p>
-  <p><a href="/wiki/index.html">Explore the Wiki</a></p>
-</div>
-<div class="container">
-  <div class="section">
-    <h2>Features</h2>
-    <div class="features">
-      <div class="feature">
-        <h3>5 Custom Dungeons</h3>
-        <p>Battle through the Temple of Storms, Inferno Depths, Glacial Sanctum, Prismatic Paradise, and the Void Abyss. Each dungeon features unique bosses with multi-phase encounters.</p>
-      </div>
-      <div class="feature">
-        <h3>12 Playable Classes</h3>
-        <p>Choose from 11 classic classes plus the all-new Summoner class, which channels elemental spirits with a summoning staff and orb.</p>
-      </div>
-      <div class="feature">
-        <h3>Realm Events</h3>
-        <p>Hunt 5 rare realm event bosses: The Stormweaver, Infernal Colossus, Frostbane the Eternal, The Void Sentinel, and Celestial Phoenix.</p>
-      </div>
-      <div class="feature">
-        <h3>Gold Economy</h3>
-        <p>Earn gold from defeated enemies and trade through a balanced economy. Harder content yields greater rewards.</p>
-      </div>
-      <div class="feature">
-        <h3>Marketplace &amp; Crafting</h3>
-        <p>Trade items with other players and craft powerful gear through the forge system.</p>
-      </div>
-      <div class="feature">
-        <h3>Skill Tree</h3>
-        <p>Progress through a marks and nodes skill tree system to customize your character beyond base stats.</p>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
+      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
+        <a href="wiki/index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
+        <a href="wiki/items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
+        <a href="wiki/enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Enemies</a>
+        <a href="wiki/dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Dungeons</a>
+        <a href="wiki/classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
+        <a href="wiki/mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
       </div>
     </div>
   </div>
+</nav>
 
-  <div class="section">
-    <h2>How to Play</h2>
-    <ol class="steps">
-      <li>Download the game client (Echoes of the Tempest AIR application)</li>
-      <li>Launch the executable &mdash; no Flash Player required</li>
-      <li>Create an account and pick your starting class</li>
-      <li>Enter the realm, defeat enemies, and collect loot</li>
-      <li>Explore dungeons, fight bosses, and earn legendary gear</li>
-    </ol>
+<!-- Hero -->
+<section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-violet-950/30 to-cyan-950/20"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+  <div class="particle-field"></div>
+  <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4">
+      <span class="bg-gradient-to-r from-violet-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
+        Echoes of the Tempest
+      </span>
+    </h1>
+    <p class="text-lg sm:text-xl text-slate-400 mb-10 max-w-xl mx-auto leading-relaxed">
+      A Realm of the Mad God experience reimagined with custom dungeons, legendary gear, and realm events
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="wiki/index.html" class="glow-btn inline-flex items-center px-8 py-3 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-semibold text-lg transition-all duration-300 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40">
+        Enter the Wiki &#8594;
+      </a>
+      <a href="#how-to-play" class="glow-btn inline-flex items-center px-8 py-3 rounded-lg border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 font-semibold text-lg transition-all duration-300">
+        Download
+      </a>
+    </div>
   </div>
-</div>
-<footer>
-  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
-  <p><a href="#">Join our Discord</a></p>
+</section>
+
+<!-- Features -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <h2 class="text-2xl sm:text-3xl font-bold text-center mb-3">
+    <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Game Features</span>
+  </h2>
+  <p class="text-slate-400 text-center mb-12 max-w-lg mx-auto">Everything that makes Echoes of the Tempest unique</p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="glass rounded-xl p-6 glass-hover transition-all duration-300">
+      <div class="text-3xl mb-3">&#9889;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-2">5 Custom Dungeons</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">Battle through the Temple of Storms, Inferno Depths, Glacial Sanctum, Prismatic Paradise, and Void Abyss. Multi-phase boss encounters await.</p>
+    </div>
+    <div class="glass rounded-xl p-6 glass-hover transition-all duration-300">
+      <div class="text-3xl mb-3">&#9876;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-2">12+ Classes</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">Choose from 11 classic classes plus the all-new Summoner, channeling elemental spirits with a summoning staff and orb.</p>
+    </div>
+    <div class="glass rounded-xl p-6 glass-hover transition-all duration-300">
+      <div class="text-3xl mb-3">&#9733;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-2">Realm Events</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">Hunt 5 rare realm event bosses: Stormweaver, Infernal Colossus, Frostbane the Eternal, Void Sentinel, and Celestial Phoenix.</p>
+    </div>
+    <div class="glass rounded-xl p-6 glass-hover transition-all duration-300">
+      <div class="text-3xl mb-3">&#9776;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-2">Gold Economy</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">Earn gold from defeated enemies and trade through a balanced economy. Harder content yields greater rewards.</p>
+    </div>
+    <div class="glass rounded-xl p-6 glass-hover transition-all duration-300">
+      <div class="text-3xl mb-3">&#9878;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-2">Marketplace</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">Trade items with other players and build your fortune through the player-driven marketplace system.</p>
+    </div>
+    <div class="glass rounded-xl p-6 glass-hover transition-all duration-300">
+      <div class="text-3xl mb-3">&#9881;</div>
+      <h3 class="text-lg font-semibold text-violet-300 mb-2">Crafting System</h3>
+      <p class="text-slate-400 text-sm leading-relaxed">Forge powerful gear through the crafting system. Combine materials dropped from dungeons to create custom equipment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How to Play -->
+<section id="how-to-play" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <h2 class="text-2xl sm:text-3xl font-bold text-center mb-12">
+    <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">How to Play</span>
+  </h2>
+  <div class="space-y-6">
+    <div class="flex gap-4 items-start">
+      <div class="flex-shrink-0 w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/30">1</div>
+      <div class="pt-1.5">
+        <p class="text-slate-200 font-medium">Download the game client (Echoes of the Tempest AIR application)</p>
+      </div>
+    </div>
+    <div class="flex gap-4 items-start">
+      <div class="flex-shrink-0 w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/30">2</div>
+      <div class="pt-1.5">
+        <p class="text-slate-200 font-medium">Launch the executable &mdash; no Flash Player required</p>
+      </div>
+    </div>
+    <div class="flex gap-4 items-start">
+      <div class="flex-shrink-0 w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/30">3</div>
+      <div class="pt-1.5">
+        <p class="text-slate-200 font-medium">Create an account and pick your starting class</p>
+      </div>
+    </div>
+    <div class="flex gap-4 items-start">
+      <div class="flex-shrink-0 w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/30">4</div>
+      <div class="pt-1.5">
+        <p class="text-slate-200 font-medium">Enter the realm, defeat enemies, and collect loot</p>
+      </div>
+    </div>
+    <div class="flex gap-4 items-start">
+      <div class="flex-shrink-0 w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/30">5</div>
+      <div class="pt-1.5">
+        <p class="text-slate-200 font-medium">Explore dungeons, fight bosses, and earn legendary gear</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="wiki/index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
+    </div>
+  </div>
 </footer>
 </body>
 </html>

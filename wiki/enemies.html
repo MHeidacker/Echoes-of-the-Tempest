@@ -4,269 +4,731 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enemies - Echoes of the Tempest</title>
-<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff4444',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+table tbody tr { transition: background-color 0.15s ease; }
+</style>
 
 </head>
-<body>
-<nav>
-  <span class="brand">EotT</span>
-  <div class="links">
-    <a href="/index.html">Home</a>
-    <a href="/wiki/index.html">Wiki</a>
-    <a href="/wiki/items.html">Items</a>
-    <a href="/wiki/enemies.html">Enemies</a>
-    <a href="/wiki/dungeons.html">Dungeons</a>
-    <a href="/wiki/classes.html">Classes</a>
-    <a href="/wiki/mechanics.html">Mechanics</a>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
+      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+        <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
+        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
+        <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
+        <a href="enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Enemies</a>
+        <a href="dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Dungeons</a>
+        <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
+        <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
+      </div>
+    </div>
   </div>
 </nav>
-<div class="container">
-  <h1>Enemies</h1>
-  <p>24 custom enemies parsed from game data.</p>
 
-  <div class="section">
-    <h2>Bosses &amp; Quest Enemies (11)</h2>
-    <div style="overflow-x:auto;">
-    <table>
-      <thead><tr><th>Name</th><th>ID</th><th>HP</th><th>DEF</th><th>XP</th><th>Projectiles</th><th>Effects / Immunities</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>The Void Sentinel <span class="badge badge-boss">Quest</span> <span class="badge badge-effect">Realm Event</span></td>
-          <td><code>0xF015</code></td>
-          <td>90000</td>
-          <td>30</td>
-          <td>0</td>
-          <td>Shadow Pulse (160 dmg)<br>Void Bolt (200 dmg)<br>Dark Matter Shot (130 dmg)</td>
-          <td><span class="badge badge-effect">Weak (3s)</span> <span class="badge badge-effect">Sick (2s)</span></td>
-        </tr>
-        <tr>
-          <td>The Prismatic Unicorn <span class="badge badge-boss">Quest</span> <span class="badge badge-boss">God</span> <span class="badge badge-effect">Realm Event</span></td>
-          <td><code>0xF00D</code></td>
-          <td>80000</td>
-          <td>25</td>
-          <td>1.0</td>
-          <td>Rainbow Bolt (100 dmg)<br>Sparkle Shot (60 dmg)<br>Glitter Bomb (150 dmg)</td>
-          <td><span class="badge badge-effect">Multi-hit</span> <span class="badge badge-effect">Confused (2s)</span> <span class="badge badge-effect">ArmorBroken (3s)</span> <span class="badge badge-immune">Stasis</span> <span class="badge badge-immune">Stun</span></td>
-        </tr>
-        <tr>
-          <td>Infernal Colossus <span class="badge badge-boss">Quest</span> <span class="badge badge-effect">Realm Event</span></td>
-          <td><code>0xF013</code></td>
-          <td>75000</td>
-          <td>25</td>
-          <td>0</td>
-          <td>Magma Blast (140 dmg)<br>Eruption Shard (180 dmg)</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td>Frostbane the Eternal <span class="badge badge-boss">Quest</span> <span class="badge badge-effect">Realm Event</span></td>
-          <td><code>0xF014</code></td>
-          <td>70000</td>
-          <td>22</td>
-          <td>0</td>
-          <td>Frost Shard (110 dmg)<br>Blizzard Bolt (130 dmg)<br>Ice Prison Shot (90 dmg)</td>
-          <td><span class="badge badge-effect">Slowed (3s)</span> <span class="badge badge-effect">Paralyzed (2s)</span></td>
-        </tr>
-        <tr>
-          <td>The Stormweaver <span class="badge badge-boss">Quest</span> <span class="badge badge-effect">Realm Event</span></td>
-          <td><code>0xF012</code></td>
-          <td>60000</td>
-          <td>20</td>
-          <td>0</td>
-          <td>Storm Bolt (120 dmg)<br>Lightning Arc (150 dmg)<br>Vortex Shard (100 dmg)</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td>Celestial Phoenix <span class="badge badge-boss">Quest</span> <span class="badge badge-effect">Realm Event</span></td>
-          <td><code>0xF016</code></td>
-          <td>55000</td>
-          <td>15</td>
-          <td>0</td>
-          <td>Solar Flare (100 dmg)<br>Phoenix Fire (130 dmg)<br>Celestial Burst (160 dmg)</td>
-          <td><span class="badge badge-effect">Dazed (2s)</span></td>
-        </tr>
-        <tr>
-          <td>Thaleos the Stormcaller <span class="badge badge-boss">Quest</span> <span class="badge badge-boss">God</span></td>
-          <td><code>0xF003</code></td>
-          <td>50000</td>
-          <td>30</td>
-          <td>1.0</td>
-          <td>Storm Spiral (80 dmg)<br>Tempest Bolt (120 dmg)<br>Tempest Ring (100 dmg)<br>Fury Bolt (150 dmg)<br>Lightning Wave (90 dmg)</td>
-          <td><span class="badge badge-effect">Darkness (4s)</span> <span class="badge badge-effect">Armor Piercing</span> <span class="badge badge-effect">Multi-hit</span> <span class="badge badge-immune">Stasis</span> <span class="badge badge-immune">Paralyze</span> <span class="badge badge-immune">Dazed</span></td>
-        </tr>
-        <tr>
-          <td>Sparklehorn the Magnificent <span class="badge badge-boss">Quest</span></td>
-          <td><code>0xF011</code></td>
-          <td>50000</td>
-          <td>20</td>
-          <td>1.0</td>
-          <td>Rainbow Bolt (90 dmg)<br>Sparkle Shot (55 dmg)<br>Glitter Bomb (130 dmg)</td>
-          <td><span class="badge badge-effect">Multi-hit</span> <span class="badge badge-effect">Confused (2s)</span> <span class="badge badge-effect">ArmorBroken (3s)</span> <span class="badge badge-immune">Stasis</span> <span class="badge badge-immune">Stun</span></td>
-        </tr>
-        <tr>
-          <td>Crythalis the Frozen Warden <span class="badge badge-boss">Quest</span> <span class="badge badge-boss">God</span></td>
-          <td><code>0xF00C</code></td>
-          <td>45000</td>
-          <td>20</td>
-          <td>1.0</td>
-          <td>Ice Shard (90 dmg)<br>Frost Beam (130 dmg)<br>Cryo Blast (100 dmg)<br>Glacial Avalanche (180 dmg)</td>
-          <td><span class="badge badge-effect">Slowed (2s)</span> <span class="badge badge-effect">Paralyzed (1.5s)</span> <span class="badge badge-effect">Multi-hit</span> <span class="badge badge-effect">Slowed (3s)</span> <span class="badge badge-effect">Armor Broken (2s)</span> <span class="badge badge-immune">Stasis</span> <span class="badge badge-immune">Paralyze</span> <span class="badge badge-immune">Dazed</span></td>
-        </tr>
-        <tr>
-          <td>Pyraxis the Molten King <span class="badge badge-boss">Quest</span> <span class="badge badge-boss">God</span></td>
-          <td><code>0xF008</code></td>
-          <td>35000</td>
-          <td>18</td>
-          <td>1.0</td>
-          <td>Fire Bolt (80 dmg)<br>Ember Spray (50 dmg)<br>Molten Slam (150 dmg)<br>Pyraxis Flame (120 dmg)</td>
-          <td><span class="badge badge-effect">Sick (2s)</span> <span class="badge badge-effect">Multi-hit</span> <span class="badge badge-effect">Armor Broken (3s)</span> <span class="badge badge-effect">Multi-hit</span> <span class="badge badge-immune">Stasis</span> <span class="badge badge-immune">Paralyze</span> <span class="badge badge-immune">Dazed</span></td>
-        </tr>
-        <tr>
-          <td>Storm Herald <span class="badge badge-boss">God</span></td>
-          <td><code>0xF004</code></td>
-          <td>1800</td>
-          <td>15</td>
-          <td>0</td>
-          <td>Storm Bolt (130 dmg)<br>Spark Shot (80 dmg)</td>
-          <td><span class="badge badge-effect">Multi-hit</span> <span class="badge badge-effect">Slowed (1.5s)</span></td>
-        </tr>
-
-      </tbody>
-    </table>
-    </div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Enemies</span>
+    </h1>
+    <p class="text-slate-400">24 custom enemies parsed from game data.</p>
   </div>
 
-  <div class="section">
-    <h2>Regular Enemies (13)</h2>
-    <div style="overflow-x:auto;">
-    <table>
-      <thead><tr><th>Name</th><th>ID</th><th>HP</th><th>DEF</th><th>XP</th><th>Projectiles</th><th>Effects / Immunities</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>Infernal Crawler</td>
-          <td><code>0xF017</code></td>
-          <td>5000</td>
-          <td>10</td>
-          <td>0</td>
-          <td>Magma Spit (80 dmg)</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td>Glacial Sentinel</td>
-          <td><code>0xF00A</code></td>
-          <td>3000</td>
-          <td>25</td>
-          <td>0.7</td>
-          <td>Frost Beam (130 dmg)</td>
-          <td><span class="badge badge-effect">Paralyzed (1.5s)</span> <span class="badge badge-effect">Multi-hit</span> <span class="badge badge-immune">Stasis</span></td>
-        </tr>
-        <tr>
-          <td>Lava Golem</td>
-          <td><code>0xF007</code></td>
-          <td>2500</td>
-          <td>20</td>
-          <td>0.6</td>
-          <td>Molten Slam (150 dmg)</td>
-          <td><span class="badge badge-effect">Armor Broken (3s)</span> <span class="badge badge-effect">Multi-hit</span> <span class="badge badge-immune">Stasis</span></td>
-        </tr>
-        <tr>
-          <td>Glitter Golem</td>
-          <td><code>0xF010</code></td>
-          <td>2000</td>
-          <td>20</td>
-          <td>0.5</td>
-          <td>Glitter Bomb (100 dmg)</td>
-          <td><span class="badge badge-effect">ArmorBroken (2s)</span></td>
-        </tr>
-        <tr>
-          <td>Thunder Elemental</td>
-          <td><code>0xF001</code></td>
-          <td>1500</td>
-          <td>20</td>
-          <td>0.7</td>
-          <td>Thunder Slam (120 dmg)</td>
-          <td><span class="badge badge-effect">Multi-hit</span> <span class="badge badge-immune">Stasis</span></td>
-        </tr>
-        <tr>
-          <td>Frost Wraith</td>
-          <td><code>0xF009</code></td>
-          <td>1200</td>
-          <td>10</td>
-          <td>0.5</td>
-          <td>Ice Shard (90 dmg)</td>
-          <td><span class="badge badge-effect">Slowed (2s)</span></td>
-        </tr>
-        <tr>
-          <td>Blizzard Elemental</td>
-          <td><code>0xF00B</code></td>
-          <td>900</td>
-          <td>8</td>
-          <td>0.4</td>
-          <td>Ice Shard (70 dmg)<br>Frost Nova (100 dmg)</td>
-          <td><span class="badge badge-effect">Slowed (2s)</span> <span class="badge badge-effect">Slowed (3s)</span></td>
-        </tr>
-        <tr>
-          <td>Storm Acolyte</td>
-          <td><code>0xF000</code></td>
-          <td>800</td>
-          <td>10</td>
-          <td>0.5</td>
-          <td>Storm Bolt (60 dmg)</td>
-          <td><span class="badge badge-effect">Paralyzed (3s)</span></td>
-        </tr>
-        <tr>
-          <td>Magma Crawler</td>
-          <td><code>0xF005</code></td>
-          <td>800</td>
-          <td>8</td>
-          <td>0.4</td>
-          <td>Fire Bolt (80 dmg)</td>
-          <td><span class="badge badge-effect">Sick (2s)</span></td>
-        </tr>
-        <tr>
-          <td>Infernal Imp</td>
-          <td><code>0xF006</code></td>
-          <td>600</td>
-          <td>5</td>
-          <td>0.3</td>
-          <td>Ember Spray (50 dmg)</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td>Rainbow Imp</td>
-          <td><code>0xF00F</code></td>
-          <td>600</td>
-          <td>8</td>
-          <td>0.3</td>
-          <td>Rainbow Bolt (50 dmg)</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td>Sparkle Wisp</td>
-          <td><code>0xF00E</code></td>
-          <td>500</td>
-          <td>5</td>
-          <td>0.2</td>
-          <td>Sparkle Shot (40 dmg)<br>Sparkle Shot (60 dmg)</td>
-          <td><span class="badge badge-effect">Confused (1s)</span></td>
-        </tr>
-        <tr>
-          <td>Spark Wisp</td>
-          <td><code>0xF002</code></td>
-          <td>400</td>
-          <td>5</td>
-          <td>0.3</td>
-          <td>Spark Shot (30 dmg)<br>Spark Explosion (80 dmg)</td>
-          <td>-</td>
-        </tr>
+  <h2 class="text-xl font-bold text-red-400 mb-4 border-b border-slate-700 pb-2">Bosses &amp; Quest Enemies (11)</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+    
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">The Void Sentinel</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">90000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">30</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Shadow Pulse (160 dmg)<br>Void Bolt (200 dmg)<br>Dark Matter Shot (130 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Weak (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span></div>
+        
+      </div>
 
-      </tbody>
-    </table>
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">The Prismatic Unicorn</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">80000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">25</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">1.0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Rainbow Bolt (100 dmg)<br>Sparkle Shot (60 dmg)<br>Glitter Bomb (150 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (3s)</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stun</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Infernal Colossus</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">75000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">25</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Magma Blast (140 dmg)<br>Eruption Shard (180 dmg)</div>
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Frostbane the Eternal</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">70000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">22</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Frost Shard (110 dmg)<br>Blizzard Bolt (130 dmg)<br>Ice Prison Shot (90 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (2s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">The Stormweaver</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">60000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">20</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Bolt (120 dmg)<br>Lightning Arc (150 dmg)<br>Vortex Shard (100 dmg)</div>
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Celestial Phoenix</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">55000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">15</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Solar Flare (100 dmg)<br>Phoenix Fire (130 dmg)<br>Celestial Burst (160 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Dazed (2s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Thaleos the Stormcaller</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">50000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">30</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">1.0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Spiral (80 dmg)<br>Tempest Bolt (120 dmg)<br>Tempest Ring (100 dmg)<br>Fury Bolt (150 dmg)<br>Lightning Wave (90 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Darkness (4s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Piercing</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Sparklehorn the Magnificent</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">50000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">20</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">1.0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Rainbow Bolt (90 dmg)<br>Sparkle Shot (55 dmg)<br>Glitter Bomb (130 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (3s)</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stun</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Crythalis the Frozen Warden</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">45000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">20</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">1.0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ice Shard (90 dmg)<br>Frost Beam (130 dmg)<br>Cryo Blast (100 dmg)<br>Glacial Avalanche (180 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (2s)</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Pyraxis the Molten King</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">35000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">18</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">1.0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Fire Bolt (80 dmg)<br>Ember Spray (50 dmg)<br>Molten Slam (150 dmg)<br>Pyraxis Flame (120 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Storm Herald</h3>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">1800</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">15</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Bolt (130 dmg)<br>Spark Shot (80 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (1.5s)</span></div>
+        
+      </div>
+
+  </div>
+
+  <h2 class="text-xl font-bold text-slate-300 mb-4 border-b border-slate-700 pb-2">Regular Enemies (13)</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Infernal Crawler</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">5000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">10</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Magma Spit (80 dmg)</div>
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Glacial Sentinel</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">3000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">25</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.7</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Frost Beam (130 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Lava Golem</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">2500</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">20</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.6</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Molten Slam (150 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Glitter Golem</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">2000</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">20</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.5</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Glitter Bomb (100 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (2s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Thunder Elemental</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">1500</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">20</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.7</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Thunder Slam (120 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Frost Wraith</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">1200</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">10</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.5</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ice Shard (90 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Blizzard Elemental</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">900</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">8</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.4</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ice Shard (70 dmg)<br>Frost Nova (100 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Storm Acolyte</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">800</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">10</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.5</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Bolt (60 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (3s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Magma Crawler</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">800</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">8</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.4</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Fire Bolt (80 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Infernal Imp</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">600</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">5</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.3</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ember Spray (50 dmg)</div>
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Rainbow Imp</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">600</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">8</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.3</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Rainbow Bolt (50 dmg)</div>
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Sparkle Wisp</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">500</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">5</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.2</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Sparkle Shot (40 dmg)<br>Sparkle Shot (60 dmg)</div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (1s)</span></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="font-semibold text-red-400">Spark Wisp</h3>
+          <div class="flex gap-1 flex-wrap"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">HP</div>
+            <div class="text-sm font-bold text-red-400">400</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">DEF</div>
+            <div class="text-sm font-bold text-green-400">5</div>
+          </div>
+          <div class="bg-slate-800/50 rounded-lg p-2">
+            <div class="text-xs text-slate-500">XP</div>
+            <div class="text-sm font-bold text-cyan-400">0.3</div>
+          </div>
+        </div>
+        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Spark Shot (30 dmg)<br>Spark Explosion (80 dmg)</div>
+        
+        
+      </div>
+
+  </div>
+</section>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="../index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
     </div>
   </div>
-</div>
-<footer>
-  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
-  <p><a href="#">Join our Discord</a></p>
 </footer>
 </body>
 </html>

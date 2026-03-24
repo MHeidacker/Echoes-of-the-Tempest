@@ -4,95 +4,306 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dungeons - Echoes of the Tempest</title>
-<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff4444',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+table tbody tr { transition: background-color 0.15s ease; }
+</style>
 
 </head>
-<body>
-<nav>
-  <span class="brand">EotT</span>
-  <div class="links">
-    <a href="/index.html">Home</a>
-    <a href="/wiki/index.html">Wiki</a>
-    <a href="/wiki/items.html">Items</a>
-    <a href="/wiki/enemies.html">Enemies</a>
-    <a href="/wiki/dungeons.html">Dungeons</a>
-    <a href="/wiki/classes.html">Classes</a>
-    <a href="/wiki/mechanics.html">Mechanics</a>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
+      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+        <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
+        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
+        <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
+        <a href="enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Enemies</a>
+        <a href="dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Dungeons</a>
+        <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
+        <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
+      </div>
+    </div>
   </div>
 </nav>
-<div class="container">
-  <h1>Dungeons</h1>
-  <p>Guide to all 5 custom dungeons with boss phases, enemies, and loot tables.</p>
-  <div class="card" style="margin-bottom:1.5rem;">
-    <h3>Temple of Storms</h3>
-    <p style="margin:0.3rem 0;">
-      <strong>Difficulty:</strong> <div class="difficulty"><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div></div>
-      <span style="margin-left:1rem;"><strong>Theme:</strong> Lightning / Storm</span>
-    </p>
-    <p class="item-desc">A floating temple crackling with perpetual lightning. Navigate electrified corridors while dodging storm-powered enemies, then face Thaleos in a 4-phase battle.</p>
-    <p><strong>Boss:</strong> <span class="rarity-AR">Thaleos the Stormcaller</span> &mdash; 50,000 (ScaleHP: 25,000)</p>
-    <h4>Boss Phases</h4><ol style="margin-left:1.5rem;"><li>Phase1_Awakening</li><li>Phase2_Tempest</li><li>Phase3_Summon</li><li>Phase4_Fury</li></ol>
-    <p style="margin-top:0.5rem;"><strong>Enemies:</strong> Storm Acolyte, Thunder Elemental, Spark Wisp</p>
-    <h4>Loot Drops</h4>
-    <ul style="margin-left:1.5rem;"><li class="rarity-UT">Stormcaller&#39;s Wand (UT)</li><li class="rarity-UT">Tempest Robe (UT)</li><li class="rarity-UT">Ring of the Eye (UT)</li><li class="rarity-LG">Tempest of Thaleos (LG)</li><li class="rarity-AR">Eye of the Primordial Storm (AR)</li></ul>
+
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Dungeons</span>
+    </h1>
+    <p class="text-slate-400">Guide to all 5 custom dungeons with boss phases, enemies, and loot tables.</p>
   </div>
-  <div class="card" style="margin-bottom:1.5rem;">
-    <h3>Inferno Depths</h3>
-    <p style="margin:0.3rem 0;">
-      <strong>Difficulty:</strong> <div class="difficulty"><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div><div class="diff-pip"></div><div class="diff-pip"></div></div>
-      <span style="margin-left:1rem;"><strong>Theme:</strong> Fire / Volcanic</span>
-    </p>
-    <p class="item-desc">Descend into volcanic caverns filled with lava flows and fire enemies. Pyraxis cycles through 4 phases of increasing intensity.</p>
-    <p><strong>Boss:</strong> <span class="rarity-AR">Pyraxis the Molten King</span> &mdash; 35,000 (ScaleHP: 17,500)</p>
-    <h4>Boss Phases</h4><ol style="margin-left:1.5rem;"><li>Phase1_Ignite</li><li>Phase2_Eruption</li><li>Phase3_Summon</li><li>Phase4_Enrage</li></ol>
-    <p style="margin-top:0.5rem;"><strong>Enemies:</strong> Magma Crawler, Infernal Imp, Lava Golem</p>
-    <h4>Loot Drops</h4>
-    <ul style="margin-left:1.5rem;"><li class="rarity-UT">Flamecaster&#39;s Staff (UT)</li><li class="rarity-UT">Magma Hide Armor (UT)</li><li class="rarity-UT">Cinderstone Ring (UT)</li><li class="rarity-LG">Pyraxis&#39;s Molten Core (LG)</li><li class="rarity-AR">Heart of the Volcano (AR)</li></ul>
-  </div>
-  <div class="card" style="margin-bottom:1.5rem;">
-    <h3>Glacial Sanctum</h3>
-    <p style="margin:0.3rem 0;">
-      <strong>Difficulty:</strong> <div class="difficulty"><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div><div class="diff-pip"></div></div>
-      <span style="margin-left:1rem;"><strong>Theme:</strong> Ice / Frost</span>
-    </p>
-    <p class="item-desc">An ancient frozen fortress guarding relics of absolute zero. Ice-themed enemies slow and paralyze. Crythalis commands blizzards across 4 phases.</p>
-    <p><strong>Boss:</strong> <span class="rarity-AR">Crythalis the Frozen Warden</span> &mdash; 45,000 (ScaleHP: 22,500)</p>
-    <h4>Boss Phases</h4><ol style="margin-left:1.5rem;"><li>Phase1_Freeze</li><li>Phase2_Blizzard</li><li>Phase3_Summon</li><li>Phase4_Enrage</li></ol>
-    <p style="margin-top:0.5rem;"><strong>Enemies:</strong> Frost Wraith, Glacial Sentinel, Blizzard Elemental</p>
-    <h4>Loot Drops</h4>
-    <ul style="margin-left:1.5rem;"><li class="rarity-UT">Frostbite Dagger (UT)</li><li class="rarity-UT">Crystalline Plate (UT)</li><li class="rarity-UT">Permafrost Ring (UT)</li><li class="rarity-LG">Scepter of Eternal Winter (LG)</li><li class="rarity-AR">Glacial Heart of Crythalis (AR)</li></ul>
-  </div>
-  <div class="card" style="margin-bottom:1.5rem;">
-    <h3>Prismatic Paradise</h3>
-    <p style="margin:0.3rem 0;">
-      <strong>Difficulty:</strong> <div class="difficulty"><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div></div>
-      <span style="margin-left:1rem;"><strong>Theme:</strong> Rainbow / Prismatic</span>
-    </p>
-    <p class="item-desc">A dazzling realm of rainbow colors reached through the Prismatic Unicorn event. Sparklehorn cycles through 3 phases of increasingly chaotic sparkle attacks.</p>
-    <p><strong>Boss:</strong> <span class="rarity-AR">Sparklehorn the Magnificent</span> &mdash; 50,000 (ScaleHP: 50,000)</p>
-    <h4>Boss Phases</h4><ol style="margin-left:1.5rem;"><li>Frolic</li><li>TransDazzle</li><li>Dazzle</li><li>TransFury</li><li>PrismaticFury</li><li>Welcome</li><li>Phase1</li><li>TransPhase2</li><li>Phase2</li><li>TransPhase3</li><li>Phase3</li></ol>
-    <p style="margin-top:0.5rem;"><strong>Enemies:</strong> Rainbow Imp, Glitter Golem, Sparkle Wisp</p>
-    <h4>Loot Drops</h4>
-    <ul style="margin-left:1.5rem;"><li class="rarity-LG">Rainbow Wand (LG)</li><li class="rarity-AR">Prismatic Crown (AR)</li></ul>
-  </div>
-  <div class="card" style="margin-bottom:1.5rem;">
-    <h3>Void Abyss</h3>
-    <p style="margin:0.3rem 0;">
-      <strong>Difficulty:</strong> <div class="difficulty"><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div></div>
-      <span style="margin-left:1rem;"><strong>Theme:</strong> Shadow / Void</span>
-    </p>
-    <p class="item-desc">The deepest void dungeon, accessed through the Void Sentinel realm event. Archdemon Malphas shifts between size forms with devastating multi-phase attacks.</p>
-    <p><strong>Boss:</strong> <span class="rarity-AR">Archdemon Malphas</span> &mdash; ScaleHP: 30,000</p>
-    
-    <p style="margin-top:0.5rem;"><strong>Enemies:</strong> Malphas Missile</p>
-    <h4>Loot Drops</h4>
-    <ul style="margin-left:1.5rem;"><li class="rarity-UT">Demon Blade (UT)</li><li class="rarity-UT">Dagger of the Flaming Stinger (UT)</li><li class="rarity-UT">Armor from the Bowels of Hell (UT)</li><li class="rarity-UT">The Ring of Flaming Power (UT)</li></ul>
+  
+  <div class="glass rounded-xl overflow-hidden glass-hover transition-all duration-300 mb-6">
+    <div class="h-2 bg-gradient-to-r from-violet-500 to-blue-500"></div>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <h3 class="text-xl font-bold text-slate-100">Temple of Storms</h3>
+        <div class="flex items-center gap-3">
+          <span class="text-lg tracking-wide"><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
+          <span class="text-xs text-slate-500">Lightning / Storm</span>
+        </div>
+      </div>
+
+      <p class="text-slate-400 text-sm mb-4 leading-relaxed">A floating temple crackling with perpetual lightning. Navigate electrified corridors while dodging storm-powered enemies, then face Thaleos in a 4-phase battle.</p>
+
+      <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm font-semibold text-red-400 mb-1">Boss: Thaleos the Stormcaller</h4>
+        <p class="text-xs text-slate-400">50,000 (ScaleHP: 25,000)</p>
+      </div>
+
+      <div class="mt-3"><h4 class="text-sm font-semibold text-slate-400 mb-2">Boss Phases</h4><div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase1_Awakening</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase2_Tempest</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase3_Summon</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase4_Fury</span></div></div>
+
+      <div class="mt-3">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Enemies</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Storm Acolyte</span> <span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Thunder Elemental</span> <span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Spark Wisp</span></div>
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Loot Drops</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Stormcaller&#39;s Wand (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Tempest Robe (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Ring of the Eye (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)">Tempest of Thaleos (LG)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.3)">Eye of the Primordial Storm (AR)</span> </div>
+      </div>
+    </div>
   </div>
 
-</div>
-<footer>
-  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
-  <p><a href="#">Join our Discord</a></p>
+  <div class="glass rounded-xl overflow-hidden glass-hover transition-all duration-300 mb-6">
+    <div class="h-2 bg-gradient-to-r from-orange-500 to-red-500"></div>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <h3 class="text-xl font-bold text-slate-100">Inferno Depths</h3>
+        <div class="flex items-center gap-3">
+          <span class="text-lg tracking-wide"><span class="text-yellow-400">&#9733;</span><span class="text-yellow-400">&#9733;</span><span class="text-yellow-400">&#9733;</span><span class="text-slate-700">&#9733;</span><span class="text-slate-700">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
+          <span class="text-xs text-slate-500">Fire / Volcanic</span>
+        </div>
+      </div>
+
+      <p class="text-slate-400 text-sm mb-4 leading-relaxed">Descend into volcanic caverns filled with lava flows and fire enemies. Pyraxis cycles through 4 phases of increasing intensity.</p>
+
+      <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm font-semibold text-red-400 mb-1">Boss: Pyraxis the Molten King</h4>
+        <p class="text-xs text-slate-400">35,000 (ScaleHP: 17,500)</p>
+      </div>
+
+      <div class="mt-3"><h4 class="text-sm font-semibold text-slate-400 mb-2">Boss Phases</h4><div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase1_Ignite</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase2_Eruption</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase3_Summon</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase4_Enrage</span></div></div>
+
+      <div class="mt-3">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Enemies</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Magma Crawler</span> <span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Infernal Imp</span> <span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Lava Golem</span></div>
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Loot Drops</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Flamecaster&#39;s Staff (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Magma Hide Armor (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Cinderstone Ring (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)">Pyraxis&#39;s Molten Core (LG)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.3)">Heart of the Volcano (AR)</span> </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass rounded-xl overflow-hidden glass-hover transition-all duration-300 mb-6">
+    <div class="h-2 bg-gradient-to-r from-cyan-400 to-blue-400"></div>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <h3 class="text-xl font-bold text-slate-100">Glacial Sanctum</h3>
+        <div class="flex items-center gap-3">
+          <span class="text-lg tracking-wide"><span class="text-orange-400">&#9733;</span><span class="text-orange-400">&#9733;</span><span class="text-orange-400">&#9733;</span><span class="text-orange-400">&#9733;</span><span class="text-slate-700">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
+          <span class="text-xs text-slate-500">Ice / Frost</span>
+        </div>
+      </div>
+
+      <p class="text-slate-400 text-sm mb-4 leading-relaxed">An ancient frozen fortress guarding relics of absolute zero. Ice-themed enemies slow and paralyze. Crythalis commands blizzards across 4 phases.</p>
+
+      <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm font-semibold text-red-400 mb-1">Boss: Crythalis the Frozen Warden</h4>
+        <p class="text-xs text-slate-400">45,000 (ScaleHP: 22,500)</p>
+      </div>
+
+      <div class="mt-3"><h4 class="text-sm font-semibold text-slate-400 mb-2">Boss Phases</h4><div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase1_Freeze</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase2_Blizzard</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase3_Summon</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase4_Enrage</span></div></div>
+
+      <div class="mt-3">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Enemies</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Glacial Sentinel</span> <span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Frost Wraith</span> <span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Blizzard Elemental</span></div>
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Loot Drops</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Frostbite Dagger (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Crystalline Plate (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Permafrost Ring (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)">Scepter of Eternal Winter (LG)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.3)">Glacial Heart of Crythalis (AR)</span> </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass rounded-xl overflow-hidden glass-hover transition-all duration-300 mb-6">
+    <div class="h-2 bg-gradient-to-r from-pink-400 via-yellow-400 to-cyan-400"></div>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <h3 class="text-xl font-bold text-slate-100">Prismatic Paradise</h3>
+        <div class="flex items-center gap-3">
+          <span class="text-lg tracking-wide"><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
+          <span class="text-xs text-slate-500">Rainbow / Prismatic</span>
+        </div>
+      </div>
+
+      <p class="text-slate-400 text-sm mb-4 leading-relaxed">A dazzling realm of rainbow colors reached through the Prismatic Unicorn event. Sparklehorn cycles through 3 phases of increasingly chaotic sparkle attacks.</p>
+
+      <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm font-semibold text-red-400 mb-1">Boss: Sparklehorn the Magnificent</h4>
+        <p class="text-xs text-slate-400">50,000 (ScaleHP: 50,000)</p>
+      </div>
+
+      <div class="mt-3"><h4 class="text-sm font-semibold text-slate-400 mb-2">Boss Phases</h4><div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Frolic</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">TransDazzle</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Dazzle</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">TransFury</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">PrismaticFury</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Welcome</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase1</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">TransPhase2</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase2</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">TransPhase3</span><span class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-slate-300 border border-slate-700">Phase3</span></div></div>
+
+      <div class="mt-3">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Enemies</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Sparkle Wisp</span></div>
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Loot Drops</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)">Rainbow Wand (LG)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.3)">Prismatic Crown (AR)</span> </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass rounded-xl overflow-hidden glass-hover transition-all duration-300 mb-6">
+    <div class="h-2 bg-gradient-to-r from-red-500 to-purple-500"></div>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <h3 class="text-xl font-bold text-slate-100">Void Abyss</h3>
+        <div class="flex items-center gap-3">
+          <span class="text-lg tracking-wide"><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span></span>
+          <span class="text-xs text-slate-500">Shadow / Void</span>
+        </div>
+      </div>
+
+      <p class="text-slate-400 text-sm mb-4 leading-relaxed">The deepest void dungeon, accessed through the Void Sentinel realm event. Archdemon Malphas shifts between size forms with devastating multi-phase attacks.</p>
+
+      <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm font-semibold text-red-400 mb-1">Boss: Archdemon Malphas</h4>
+        <p class="text-xs text-slate-400">ScaleHP: 30,000</p>
+      </div>
+
+      
+
+      <div class="mt-3">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Enemies</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded-full text-xs bg-slate-800 text-slate-300 border border-slate-700">Malphas Missile</span></div>
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-sm font-semibold text-slate-400 mb-2">Loot Drops</h4>
+        <div class="flex flex-wrap gap-2"><span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Demon Blade (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Dagger of the Flaming Stinger (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">Armor from the Bowels of Hell (UT)</span> <span class="inline-block px-2 py-1 rounded text-xs font-medium" style="background:rgba(176,65,255,0.15);color:#b041ff;border:1px solid rgba(176,65,255,0.3)">The Ring of Flaming Power (UT)</span> </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="../index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
+    </div>
+  </div>
 </footer>
 </body>
 </html>
