@@ -111,7 +111,8 @@ table tbody tr { transition: background-color 0.15s ease; }
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
       <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
-      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-1 sm:gap-4">
         <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
         <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
         <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
@@ -120,7 +121,19 @@ table tbody tr { transition: background-color 0.15s ease; }
         <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
         <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
       </div>
+      <!-- Mobile hamburger -->
+      <button onclick="document.getElementById('mobile-nav').classList.toggle('hidden')" class="md:hidden text-slate-300 hover:text-violet-400 text-2xl px-2">&#9776;</button>
     </div>
+  </div>
+  <!-- Mobile dropdown -->
+  <div id="mobile-nav" class="hidden md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-700/50 px-4 pb-3">
+    <a href="../index.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Home</a>
+        <a href="index.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Wiki</a>
+        <a href="items.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Items</a>
+        <a href="enemies.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Enemies</a>
+        <a href="dungeons.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Dungeons</a>
+        <a href="classes.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Classes</a>
+        <a href="mechanics.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Mechanics</a>
   </div>
 </nav>
 
@@ -136,7 +149,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="h-2 bg-gradient-to-r from-violet-500 to-blue-500"></div>
     <div class="p-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <h3 class="text-xl font-bold text-slate-100">Temple of Storms</h3>
+        <div class="flex items-center gap-3">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABqklEQVR4nO1aMU7DMBSNERdgRQwdWVEYewMQygE6A8fgGAUx9gARght0pGLt2IG9RwgT/PclP9lOIoUn5U2W69h9ek/v205CNQT1fTfo+V/sXkLfR09G+QMTQp5AnnTMKmfP1l58pOc53Fj7+BAfU2gneQXkCZzSX9A2zCqP1mxW1m6X0L+F/g3Mv76zNlqrrmzdDDvJKyBPwEuUYRtnif1t7wLUXL7/rYWWo0lF7CSvgDwBnkIubUzW9jX0tg3C2W/TmXXXsO4xPY+8AvIEAkue5tukLE2brjNLhFBmOZdOF+lEkldAnoBPIUiedgH9+/REzjY70p9hJ1fUqnQiySsgT4AWMrfnIWOYbZ7OrV1qJ7fuMjbCQ16BmcDUmAlMDZpCLgFIIcMkoYWsjo/PWjcD8grIE/AWggO1205nTETtVLqdxkKG2+nqLTpeXgF5Avxe6Aqu/uBQX12Pc6h3+CSH+i+wzXwv9E/B74Xwig9kdYfusa4W0TaHdPIg5BWQJ8AtkPWCAwrfCgoffcERt2XpjTRCXgF5AvNr1qkhT2DYvmb+2GM45An8AAeDmr3LR5E+AAAAAElFTkSuQmCC" width="48" height="48" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <h3 class="text-xl font-bold text-slate-100">Temple of Storms</h3>
+        </div>
         <div class="flex items-center gap-3">
           <span class="text-lg tracking-wide"><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
           <span class="text-xs text-slate-500">Lightning / Storm</span>
@@ -168,7 +184,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="h-2 bg-gradient-to-r from-orange-500 to-red-500"></div>
     <div class="p-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <h3 class="text-xl font-bold text-slate-100">Inferno Depths</h3>
+        <div class="flex items-center gap-3">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABR0lEQVR4nO2a4Q2CMBSEW9ORHIFZdAVHcAWcxRF0pvpLck168p4PQi7p/QKkwOW+vL6COQV0SalGxn/1SCn/O/a0xQMcKXkDpugYKvMEO2z72d++4nGQFyf5BOQN0LgQmwgqEbQsOMknIG+g4I4Xm3w2VAxSbeqLVLZ27HIOw0k+AXkDhf4SwcYgvA7DieGHkk9A3kCxVJ6tsGFiOM3txNetSPIJyBtoqxDrVZyqtS5x55x9+LE+ijyPfALyBjhCN9+FEJv0zt3jJpwQlfv6feUTkDfQIhSoPLto9EICsrXThiixwoQmsmn9FJR8AvIGeBUyTCJMbmxQzslUPgF5A6V53wKrnhlwwlXSHquzZlHvfM0on4C8AT6RGV4JRnBi2Hj7MfkE5A00CNGKRAabMBgfOH5L3sD4zHq05A2E+prxZ48NJG/gA1cpaHbKeW5qAAAAAElFTkSuQmCC" width="48" height="48" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <h3 class="text-xl font-bold text-slate-100">Inferno Depths</h3>
+        </div>
         <div class="flex items-center gap-3">
           <span class="text-lg tracking-wide"><span class="text-yellow-400">&#9733;</span><span class="text-yellow-400">&#9733;</span><span class="text-yellow-400">&#9733;</span><span class="text-slate-700">&#9733;</span><span class="text-slate-700">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
           <span class="text-xs text-slate-500">Fire / Volcanic</span>
@@ -200,7 +219,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="h-2 bg-gradient-to-r from-cyan-400 to-blue-400"></div>
     <div class="p-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <h3 class="text-xl font-bold text-slate-100">Glacial Sanctum</h3>
+        <div class="flex items-center gap-3">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABk0lEQVR4nO1a200DMRA8o/unB0gHUMKVgCghpIO4hKOD5EpAlOASoAOgh1RgPnjsLLKVtXzhMpLna6Pz2R7NaG+9jutqcLWOP+Gw3h8dHqYH+fExuaq1v3ExxyRLgp6ATcaMVYZBhtytJL6+lPj9IPHzm8QhQFxhLXoF6An02ScG22xvJH58lRjtkRuvIfOHqftd12InegXoCWgLFdrGOXdUYnBT5yGOMca/Y79QZid6BegJKAvNZRsLcB6TnfyUHEGvAD2BXmWeE9smB4udAuwTMxK9AvQE3DCKZLuNPMDS198WWugFbFD47gjvYom+2UkcvGsWOhuoDxmepLAkNgGkj5jBCu2E6+bLbwG9Ao3A0mgElobKQtjDwbrIlJAgw5RmHgSui/vJgV4BegIOy+nxSU5A/1lOI7Ccxl6Tv0+3H+kVoCfQoxwh7JOnIZT1FHbK2UbVY60vdKZQHzJ10dCl77zmspPFNno/adArQE9Ad6cxI2Fn2GCn0gsOk23aBQcB2jXr0qAnUFfXtD971IOewCcTeLI4s5iinwAAAABJRU5ErkJggg==" width="48" height="48" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <h3 class="text-xl font-bold text-slate-100">Glacial Sanctum</h3>
+        </div>
         <div class="flex items-center gap-3">
           <span class="text-lg tracking-wide"><span class="text-orange-400">&#9733;</span><span class="text-orange-400">&#9733;</span><span class="text-orange-400">&#9733;</span><span class="text-orange-400">&#9733;</span><span class="text-slate-700">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
           <span class="text-xs text-slate-500">Ice / Frost</span>
@@ -232,7 +254,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="h-2 bg-gradient-to-r from-pink-400 via-yellow-400 to-cyan-400"></div>
     <div class="p-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <h3 class="text-xl font-bold text-slate-100">Prismatic Paradise</h3>
+        <div class="flex items-center gap-3">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABgUlEQVR4nO2ZUY6DMAxEPVXvTI4QTu39KhmvsOrQVjAS/ooISbDmETsO7APr5v5qt04dC7am84CV2m00YQY7aI+jA69i8g48Ky85kbASFBVsIhujp4en2DpmcZJXQN6BVC5P9AYDUtltlmSxdYxw7pncneQVkHcgSJRhk2KA4wHIfKz1SbCTV0DegRDIQpAKr4Gbx7GJU27zwJmifYqzDUleAXkHUEmJv4ZNxRgnCnadmG6G7XvkFZB3ANYHQmlKPImQ+5gTwORY49R6GOFk7UboOoZKToL2HqGADT/nxQo4eachhRxMXgF5B57ZAdz/v3mCpShSW14BeQfAfz0f2J2C2mmBLDn4864or4C8A0jLhn5+Ot3BMY0Qshuh61haF0LfLyH+BKfkFOZtHxs2eQXkHUgvODwhJdRwflFanJxSXgF5BwJC/Kd7yzJqrgLi7WmucsEReu4LDjEr/fJfu2ZNSoVZnlMxeQXkHSjd1EdZCZVsp1p2nxbnnzN5BeQd+AOme4bfuzYYEgAAAABJRU5ErkJggg==" width="48" height="48" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <h3 class="text-xl font-bold text-slate-100">Prismatic Paradise</h3>
+        </div>
         <div class="flex items-center gap-3">
           <span class="text-lg tracking-wide"><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-red-400">&#9733;</span><span class="text-slate-700">&#9733;</span></span>
           <span class="text-xs text-slate-500">Rainbow / Prismatic</span>
@@ -264,7 +289,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="h-2 bg-gradient-to-r from-red-500 to-purple-500"></div>
     <div class="p-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <h3 class="text-xl font-bold text-slate-100">Void Abyss</h3>
+        <div class="flex items-center gap-3">
+          
+          <h3 class="text-xl font-bold text-slate-100">Void Abyss</h3>
+        </div>
         <div class="flex items-center gap-3">
           <span class="text-lg tracking-wide"><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span><span class="text-red-500">&#9733;</span></span>
           <span class="text-xs text-slate-500">Shadow / Void</span>

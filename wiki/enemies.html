@@ -111,7 +111,8 @@ table tbody tr { transition: background-color 0.15s ease; }
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
       <a href="../index.html" class="text-violet-400 font-bold text-lg tracking-wide hover:text-violet-300 transition-colors">EotT</a>
-      <div class="flex items-center gap-1 sm:gap-4 flex-wrap">
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-1 sm:gap-4">
         <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Home</a>
         <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Wiki</a>
         <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Items</a>
@@ -120,7 +121,19 @@ table tbody tr { transition: background-color 0.15s ease; }
         <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Classes</a>
         <a href="mechanics.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-2 py-1">Mechanics</a>
       </div>
+      <!-- Mobile hamburger -->
+      <button onclick="document.getElementById('mobile-nav').classList.toggle('hidden')" class="md:hidden text-slate-300 hover:text-violet-400 text-2xl px-2">&#9776;</button>
     </div>
+  </div>
+  <!-- Mobile dropdown -->
+  <div id="mobile-nav" class="hidden md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-700/50 px-4 pb-3">
+    <a href="../index.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Home</a>
+        <a href="index.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Wiki</a>
+        <a href="items.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Items</a>
+        <a href="enemies.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Enemies</a>
+        <a href="dungeons.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Dungeons</a>
+        <a href="classes.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Classes</a>
+        <a href="mechanics.html" class="block text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Mechanics</a>
   </div>
 </nav>
 
@@ -137,7 +150,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">The Void Sentinel</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">The Void Sentinel</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -161,7 +177,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">The Prismatic Unicorn</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">The Prismatic Unicorn</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -185,7 +204,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Infernal Colossus</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Infernal Colossus</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -209,7 +231,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Frostbane the Eternal</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Frostbane the Eternal</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -233,7 +258,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">The Stormweaver</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">The Stormweaver</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -257,7 +285,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Celestial Phoenix</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Celestial Phoenix</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -281,7 +312,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Thaleos the Stormcaller</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Thaleos the Stormcaller</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -305,7 +339,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Sparklehorn the Magnificent</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Sparklehorn the Magnificent</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -329,7 +366,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Crythalis the Frozen Warden</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Crythalis the Frozen Warden</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -353,7 +393,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Pyraxis the Molten King</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Pyraxis the Molten King</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -377,7 +420,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Storm Herald</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Storm Herald</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -406,7 +452,10 @@ table tbody tr { transition: background-color 0.15s ease; }
     
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Infernal Crawler</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Infernal Crawler</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -430,7 +479,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Glacial Sentinel</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Glacial Sentinel</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -454,7 +506,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Lava Golem</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Lava Golem</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -478,7 +533,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Glitter Golem</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Glitter Golem</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -502,7 +560,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Thunder Elemental</h3>
+          <div class="flex items-center gap-2">
+            
+            <h3 class="font-semibold text-red-400">Thunder Elemental</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -526,7 +587,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Frost Wraith</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAApElEQVR4nO2X0Q2AIAxEi3ESZ8FVcAQdQUeQVWQWV8FfWxIvjTFI0vsDCnlpm546QhpChjF3ndFpwjvV4x/IAPpiR9Tch50de8/DUxLrSLxnQE9Uz4ABlD0gdMx8PW7P5y7qAKpnwADg3PZrVnlBWpx5QVsA0AukkBcU980L/g4AvUCqqPlLVc+AAeC5Db4RU5x4vP0XtAagqhcRqWc9UvUMGMAFskgkqcSTxVwAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Frost Wraith</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -550,7 +614,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Blizzard Elemental</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoUlEQVR4nGNkIBH8////PzKfkZGRkVQzkAETJZqpAUYdwEJIgUsHapyjg44zqPIVJqSliQEPgVEHYKQB9DhXcPiIpoIfhXfnD6o8qWliwENg1AEEy4HZ5vwkybt2kuaAAQ+BUQdglgMuqPzUk6j5HD3O0eXRywlCYMBDYNQBGGkAvexGL9vRwYMDqHG+p2K0PTDEHEBym360XzDsHDAKRgEAcvEpKWBRa+sAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Blizzard Elemental</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -574,7 +641,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Storm Acolyte</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAjElEQVR4nGNkIASM0/4TVIMMzs5iJEU5E0mG0wCMOoAFQwQ9zgVnosp3oKmvQNfPgKqfQJoY8BAYdQBmGiAA/huj8knK9FjAgIfAqAMIR6HLf9Lqgj2Mo3XB0HIA4boAHRCsC9JG64Kh5QCS6wKMOKcQDHgIjDqAcLlNKF+TmO/RwYCHwKgDRh0w6gAAnA8ZZYgv2GwAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Storm Acolyte</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -598,7 +668,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Magma Crawler</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAgklEQVR4nO2WQQ6AMAgE0fg036Jvqm/xb3p2OGyammDizo2W0A3Q0gjzdyblsEVcIwcc4ox5JPgbWMDCBda8rXCgTc5kP+KxJ8ozYAFLd81VD4DGBfREeQYsIL0DEt7zQcozYAFpVst3oZMdPeNZ8DkBaRakP5yY50TF4355BizAmBvCGxlk/3TT1gAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Magma Crawler</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -622,7 +695,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Infernal Imp</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAlUlEQVR4nO2X0QnAIAxEY3E0Z2lX6AhdoZ3F3dpvT/AILUTK5U+M8ZELJyZzxmp2j/Yvs+Spt3gBvg4BZJaAmp+FHKhtPpuJ8A4IoNOHan6Qinu73Gq7xpkI74AAqG/fZez99IIqH5gcoHsL0AdQQzYTmI/15APTAWSm0dvAenhfeAcE4NZb/4LfAVC9vD7hzQ/vgAAebXwf/RlYagcAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Infernal Imp</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -646,7 +722,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Rainbow Imp</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAp0lEQVR4nO2WSwqDMQiEx/LfuTmCPbVd+wUqQiFZ6C6JmMEZH6amuSJ+vS+ZdeK9ugD+bQOg5IucLy/8Vz5XmjiegQGw8RNS4tw8l328q4A5JJuGweF4BgbAwwuDLkIWdEhHkvyB+5o+cDmAug9QE47SRl9gnStEDU0fuAvAw3lvzZ2uNGrC83/HMzAA2nxvO2JwOPRiHs/AACj5qmbDZqhzzT5wO4AvssEoVYAb6XIAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Rainbow Imp</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -670,7 +749,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Sparkle Wisp</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAWElEQVR4nO2WwQkAIAzETqfR/YfRbepbhJaC4MPk7xF6hSrB75TsAxsyN7DnMmtW4DYIhH0dnTd3BaS5R0Y78XwCCBz9pDuPCHbi+QQQQAABbgEC/AkRAFghSxUsQPjdzwAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Sparkle Wisp</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
@@ -694,7 +776,10 @@ table tbody tr { transition: background-color 0.15s ease; }
 
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <h3 class="font-semibold text-red-400">Spark Wisp</h3>
+          <div class="flex items-center gap-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAWUlEQVR4nO2WwQkAIAzEqivp/hPoTPWv4FEQ+jB5KtbQK6gZ/E4Jnxju1/1eQjVrWOAxCOi8tsy9iYJzWxAzkd4BBM58gpnLC8RMpHcAAQQQ4C1AgD8hAgALFmsVLDA5M5wAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Spark Wisp</h3>
+          </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
         <div class="grid grid-cols-3 gap-3 mb-3 text-center">
