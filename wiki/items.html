@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Items - Echoes of the Tempest</title>
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<nav>
+  <span class="brand">EotT</span>
+  <div class="links">
+    <a href="/index.html">Home</a>
+    <a href="/wiki/index.html">Wiki</a>
+    <a href="/wiki/items.html">Items</a>
+    <a href="/wiki/enemies.html">Enemies</a>
+    <a href="/wiki/dungeons.html">Dungeons</a>
+    <a href="/wiki/classes.html">Classes</a>
+    <a href="/wiki/mechanics.html">Mechanics</a>
+  </div>
+</nav>
+<div class="container">
+  <h1>Items</h1>
+  <p>All custom equipment parsed from game data. 24 items total.</p>
+  <div class="section">
+    <h2>Weapons</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Item</th><th>ID</th><th>Damage</th><th>RoF</th><th>Stat Bonuses</th><th>Effects</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="rarity-LG">Phoenix Feather Bow</span><br>
+            <span class="badge badge-lg">Legendary</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Bow</span>
+          </td>
+          <td><code>0xF1F1</code></td>
+          <td>80-130</td>
+          <td>1.2</td>
+          <td>-</td>
+          <td><span class="badge badge-effect">Multi-hit</span></td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Phoenix Rise</strong>: Gain Healing for 3 seconds when HP drops below 30%</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-LG">Rainbow Wand</span><br>
+            <span class="badge badge-lg">Legendary</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Wand</span>
+          </td>
+          <td><code>0xF10F</code></td>
+          <td>70-130</td>
+          <td>1.1</td>
+          <td>+4 ATT, +4 SPD, +3 DEX</td>
+          <td><span class="badge badge-effect">Slowed (1.5s)</span></td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Prismatic Speed</strong>: Gain Swiftness when above 75% HP</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-LG">Tempest of Thaleos</span><br>
+            <span class="badge badge-lg">Legendary</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Staff</span>
+          </td>
+          <td><code>0xF103</code></td>
+          <td>85-155</td>
+          <td>1.3</td>
+          <td>+5 ATT, +5 DEX</td>
+          <td><span class="badge badge-effect">Paralyzed (1.5s)</span> <span class="badge badge-effect">Multi-hit</span></td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Stormrush</strong>: Gain Swiftness when Surge exceeds threshold</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Flamecaster&#39;s Staff</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Staff</span>
+          </td>
+          <td><code>0xF105</code></td>
+          <td>70-110</td>
+          <td>1.1</td>
+          <td>+3 ATT, +2 DEX</td>
+          <td><span class="badge badge-effect">Sick (2s)</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Frostbite Dagger</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Sword</span>
+          </td>
+          <td><code>0xF10A</code></td>
+          <td>80-120</td>
+          <td>1.15</td>
+          <td>+2 SPD, +3 DEX</td>
+          <td><span class="badge badge-effect">Slowed (2s)</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Stormcaller&#39;s Wand</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Staff</span>
+          </td>
+          <td><code>0xF100</code></td>
+          <td>65-110</td>
+          <td>1.2</td>
+          <td>+3 ATT, +3 DEX</td>
+          <td><span class="badge badge-effect">Paralyzed (2s)</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-T">Evoker&#39;s Summoning Staff</span><br>
+            <span class="badge badge-tiered">T5</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Summoning Staff</span>
+          </td>
+          <td><code>0xF111</code></td>
+          <td>50-100</td>
+          <td>1.1</td>
+          <td>-</td>
+          <td><span class="badge badge-effect">Multi-hit</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-T">Novice Summoning Staff</span><br>
+            <span class="badge badge-tiered">T0</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Summoning Staff</span>
+          </td>
+          <td><code>0xF110</code></td>
+          <td>25-55</td>
+          <td>1.0</td>
+          <td>-</td>
+          <td><span class="badge badge-effect">Multi-hit</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Armor</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Item</th><th>ID</th><th>Damage</th><th>RoF</th><th>Stat Bonuses</th><th>Effects</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="rarity-AR">Heart of the Volcano</span><br>
+            <span class="badge badge-ar">Ancient Relic</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Heavy Armor</span>
+          </td>
+          <td><code>0xF109</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+22 DEF, +100 HP, +50 MP, +6 ATT, +6 VIT</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Volcanic Shield</strong>: Gain Armored when standing still for 2 seconds.</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Crystalline Plate</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Heavy Armor</span>
+          </td>
+          <td><code>0xF10B</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+18 DEF, +80 HP, -2 SPD</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Magma Hide Armor</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Leather Armor</span>
+          </td>
+          <td><code>0xF106</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+15 DEF, +4 ATT, +3 SPD</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Tempest Robe</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Robe</span>
+          </td>
+          <td><code>0xF101</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+14 DEF, +3 SPD, +5 VIT, +40 MP</td>
+          <td>-</td>
+        </tr>
+
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Rings</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Item</th><th>ID</th><th>Damage</th><th>RoF</th><th>Stat Bonuses</th><th>Effects</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="rarity-AR">Eye of the Primordial Storm</span><br>
+            <span class="badge badge-ar">Ancient Relic</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF104</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+120 HP, +80 MP, +8 SPD, +10 VIT, +12 WIS</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Primordial Resilience</strong>: When HP drops below 40%, gain Armored and Healing for 3 seconds. 30 second cooldown.</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-AR">Glacial Heart of Crythalis</span><br>
+            <span class="badge badge-ar">Ancient Relic</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF10E</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+150 HP, +60 MP, +10 DEF, +8 WIS, +6 VIT</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Absolute Zero</strong>: Enemies near you have 20% reduced attack speed.</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-AR">Prismatic Crown</span><br>
+            <span class="badge badge-ar">Ancient Relic</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF1F0</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+100 HP, +100 MP, +5 ATT, +5 DEF, +5 SPD, +5 DEX, +5 VIT, +5 WIS</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Prismatic Radiance</strong>: All nearby allies gain +5 ATT and +5 DEF while you wear this crown. Enemies within range are Dazed for 1 second every 5 seconds.</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-AR">Void Sentinel&#39;s Core</span><br>
+            <span class="badge badge-ar">Ancient Relic</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF1F3</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+150 HP, +10 DEF, -5 ???</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><div class="legend-box"><strong>Void Shield</strong>: 20% chance to nullify incoming damage</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Cinderstone Ring</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF107</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+80 HP, +5 ATT, +5 DEX</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Permafrost Ring</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF10C</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+100 HP, +40 MP, +4 WIS, +4 VIT</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Ring of the Eye</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Ring</span>
+          </td>
+          <td><code>0xF102</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+60 HP, +6 VIT, +6 WIS</td>
+          <td>-</td>
+        </tr>
+
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Abilities</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Item</th><th>ID</th><th>Damage</th><th>RoF</th><th>Stat Bonuses</th><th>Effects</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="rarity-LG">Pyraxis&#39;s Molten Core</span><br>
+            <span class="badge badge-lg">Legendary</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Spell</span>
+          </td>
+          <td><code>0xF108</code></td>
+          <td>150-250</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><span style="font-size:0.8rem;color:var(--text-dim)">MP Cost: 90 | CD: 1.5s</span><div class="legend-box"><strong>Infernal Fury</strong>: Gain Berserk when below 30% HP.</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-LG">Scepter of Eternal Winter</span><br>
+            <span class="badge badge-lg">Legendary</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Scepter</span>
+          </td>
+          <td><code>0xF10D</code></td>
+          <td>130-220</td>
+          <td>-</td>
+          <td>+5 WIS, +3 VIT</td>
+          <td><span class="badge badge-effect">Slowed (2s)</span></td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><span style="font-size:0.8rem;color:var(--text-dim)">MP Cost: 85 | CD: 1.5s</span><div class="legend-box"><strong>Frostborn</strong>: Immune to Slowed when HP is above 60%.</div></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-UT">Void Scepter</span><br>
+            <span class="badge badge-ut">Untiered</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Spell</span>
+          </td>
+          <td><code>0xF1F2</code></td>
+          <td></td>
+          <td>-</td>
+          <td>+50 MP</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><span style="font-size:0.8rem;color:var(--text-dim)">MP Cost: 80</span></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-T">Elemental Summoning Orb</span><br>
+            <span class="badge badge-tiered">T5</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Summoning Orb</span>
+          </td>
+          <td><code>0xF121</code></td>
+          <td>120-200</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><span style="font-size:0.8rem;color:var(--text-dim)">MP Cost: 80 | CD: 1.0s</span></td></tr>
+        <tr>
+          <td>
+            <span class="rarity-T">Minor Summoning Orb</span><br>
+            <span class="badge badge-tiered">T0</span>
+            <span style="color:var(--text-dim);font-size:0.75rem;">Summoning Orb</span>
+          </td>
+          <td><code>0xF120</code></td>
+          <td>80-140</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr><td colspan="6" style="padding-top:0;border-bottom:2px solid var(--border);"><span style="font-size:0.8rem;color:var(--text-dim)">MP Cost: 65 | CD: 1.0s</span></td></tr>
+
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
+  <p><a href="#">Join our Discord</a></p>
+</footer>
+</body>
+</html>

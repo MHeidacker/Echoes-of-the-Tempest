@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanics - Echoes of the Tempest</title>
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<nav>
+  <span class="brand">EotT</span>
+  <div class="links">
+    <a href="/index.html">Home</a>
+    <a href="/wiki/index.html">Wiki</a>
+    <a href="/wiki/items.html">Items</a>
+    <a href="/wiki/enemies.html">Enemies</a>
+    <a href="/wiki/dungeons.html">Dungeons</a>
+    <a href="/wiki/classes.html">Classes</a>
+    <a href="/wiki/mechanics.html">Mechanics</a>
+  </div>
+</nav>
+<div class="container">
+  <h1>Combat Mechanics</h1>
+  <p>Reference for damage formulas, fire rate calculations, and status effects.</p>
+
+  <div class="section">
+    <h2>Damage Formula</h2>
+    <div class="card">
+      <p>Base damage for each projectile hit:</p>
+      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
+damage = avg(MinDamage, MaxDamage) * (0.5 + ATT / 50) - DEF
+      </pre>
+      <p style="margin-top:0.5rem;">Minimum damage is <strong>25%</strong> of the pre-DEF value (damage can never go below this floor).</p>
+      <p style="margin-top:0.5rem;">For example, a weapon with 80-120 damage (avg 100) used by a character with 60 ATT against an enemy with 20 DEF:</p>
+      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
+avg    = (80 + 120) / 2 = 100
+scaled = 100 * (0.5 + 60/50) = 100 * 1.7 = 170
+final  = 170 - 20 = 150
+floor  = 170 * 0.25 = 42.5
+result = max(150, 42.5) = 150
+      </pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Fire Rate Formula</h2>
+    <div class="card">
+      <p>Attacks per second are determined by DEX and the weapon's Rate of Fire multiplier:</p>
+      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
+frequency = 0.0015 + (DEX / 75) * 0.0065
+period    = 1 / frequency / RateOfFire
+      </pre>
+      <p style="margin-top:0.5rem;">At 75 DEX with a 1.0x RoF weapon: frequency = 0.008, period = 125ms (8 shots/sec).</p>
+      <p>At 75 DEX with a 1.2x RoF weapon: period = ~104ms (9.6 shots/sec).</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>ScaleHP</h2>
+    <div class="card">
+      <p>Boss HP scales with the number of players in the dungeon:</p>
+      <pre style="background:var(--bg-card-alt);padding:1rem;border-radius:4px;overflow-x:auto;margin:0.5rem 0;">
+effective_hp = base_hp + (player_count - 1) * ScaleHP_value
+      </pre>
+      <p style="margin-top:0.5rem;">Example: Thaleos has 50,000 base HP and ScaleHP of 25,000. With 4 players: 50,000 + 3 * 25,000 = <strong>125,000 HP</strong>.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Status Effects</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Effect</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-effect">Slowed</span></td><td>Movement speed reduced by 50%</td></tr>
+        <tr><td><span class="badge badge-effect">Paralyzed</span></td><td>Cannot move (can still shoot and use abilities)</td></tr>
+        <tr><td><span class="badge badge-effect">Sick</span></td><td>Cannot heal from any source (HP pots, abilities, VIT regen)</td></tr>
+        <tr><td><span class="badge badge-effect">Armor Broken</span></td><td>DEF reduced to 0</td></tr>
+        <tr><td><span class="badge badge-effect">Stunned</span></td><td>Cannot shoot or use abilities</td></tr>
+        <tr><td><span class="badge badge-effect">Confused</span></td><td>Movement controls are scrambled (WASD swapped)</td></tr>
+        <tr><td><span class="badge badge-effect">Dazed</span></td><td>All attacks deal 50% reduced damage</td></tr>
+        <tr><td><span class="badge badge-effect">Quiet</span></td><td>Cannot use abilities (MP locked)</td></tr>
+        <tr><td><span class="badge badge-effect">Weak</span></td><td>Attack damage reduced by 50%</td></tr>
+        <tr><td><span class="badge badge-effect">Darkness</span></td><td>Vision radius significantly reduced</td></tr>
+        <tr><td><span class="badge badge-effect">Armored</span></td><td>DEF doubled (buff, used by bosses)</td></tr>
+        <tr><td><span class="badge badge-effect">Invulnerable</span></td><td>Immune to all damage (used by bosses during phase transitions)</td></tr>
+        <tr><td><span class="badge badge-effect">Healing</span></td><td>Rapidly regenerate HP over time</td></tr>
+        <tr><td><span class="badge badge-effect">Berserk</span></td><td>Attack speed increased by 50%</td></tr>
+        <tr><td><span class="badge badge-effect">Swiftness</span></td><td>Movement speed increased</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Loot Bag Types</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Bag Type</th><th>Color</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>Brown</td><td>Basic drops (T0 starter gear)</td></tr>
+        <tr><td>1</td><td>Pink</td><td>Low-tier loot</td></tr>
+        <tr><td>2</td><td>Purple</td><td>Mid-tier loot (T5 gear)</td></tr>
+        <tr><td>3-5</td><td>Cyan/Blue</td><td>Higher-tier drops</td></tr>
+        <tr><td>6</td><td>White</td><td>UT and Legendary items (Soulbound)</td></tr>
+        <tr><td>8</td><td>Gold</td><td>Ancient Relic items (Soulbound)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</p>
+  <p><a href="#">Join our Discord</a></p>
+</footer>
+</body>
+</html>
