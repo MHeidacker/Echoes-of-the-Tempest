@@ -103,7 +103,24 @@ tailwind.config = {
 .stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
 .stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
 table tbody tr { transition: background-color 0.15s ease; }
+.ar-sprite .ar-frame:first-child { opacity: 1 !important; }
 </style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.ar-sprite').forEach(function(sprite) {
+    var frames = sprite.querySelectorAll('.ar-frame');
+    if (frames.length < 2) return;
+    var current = 0;
+    setInterval(function() {
+      frames[current].style.opacity = '0';
+      current = (current + 1) % frames.length;
+      frames[current].style.opacity = '1';
+    }, 200);
+  });
+});
+</script>
 
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
@@ -237,7 +254,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA3klEQVR4nGNkIAAWTXH7T0gNMojL2cVIinomUhTTAow6gAVdAD3OQ/1USTUTRT96mpg7dy6K/ICHwKgDMNIAepxzyk1F4X9/lE2SfFzOLrwOGPAQGHUARrl9m0WMpLKfEFD982q0HBjcDmDUKLbAG+ebJ94jyUDffCW88lWKfCj8AQ+BUQcwotf/bfc/oSjgURRE4S8vOIvCj5xgjML/cv89Cv9G7wmUciDfRXy0HBhcDsCoCwiVC6QC9DSADgY8BEYdgNEmdL94H4U/cc9Lkvp66Pn8BgH1Ax4Cow4AANk4OxT90STcAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA00lEQVR4nGPM6ZT6z4AHmLvy4pNmOLn7Mwp/SvkzRmT+khQlFPNj5txDkWfCazodwKgDGNEF0NMEqWkAHRBKEwMeAqMOYCGkIETEBYXPKTcVhf/9UTZeeUJgwENg1AEYacCMWwevBvQ4JyRPKE0MeAiMOoCR0vYAOiBUN3RHBqLwBzwERh3Agh4nFUlrUPiMt3/jNeCnZTUKn3l3FQp/4p6XKO0Bi9vbR9sDg8sBBNuElILRNuGgdwBGGsh3EUeJI/R8TAig6zdV4EaRH+0bDjoHAADATT9nR+Ho5AAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Archer</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Bow</span>
@@ -324,7 +341,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAxUlEQVR4nGNkIBEsmuL2nxT1cTm7GPHJM5HqAGqDUQewzJ07FyVOk5OTUeIMPc5D/VRJtQNFP3qaGPAQGHUACyEFZMQ5Xv1xObtQ+AMeAqMOIJgGniitpqkDBjwERh3AiF7Wt93/hFcDj6IgSRZ8uf8er/yAh8CoA1jObriIInBjz0uU+lqj2IKkNiAhUKXIh8If8BAYdQDeNjsDA/XTwI3eE6NtwsHlAILtAfeL91H4E9HKCUIg30UcJQ3dQJMf8BAYdQAACx0svFZM8e0AAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4nGOMj+76z4AHONrF4ZNm2H9oEQp/4dIyRnzq813EUexjwms6HcCoA1jQ44xQmiAE0PUTShMDHgKjDmAhpCDcsxmFzyk3FYX//VE2XnlCYMBDYNQBGGnA2XIPmogqCg89ztEBqWliwENg1AGMlLYH0AF6+wAdzGh/iMIf8BAYdQALepxUJK1BVXB6Bl4DflpWo/AFXvai8CfuecmIKj/aJhxkDsBor1HaJkQH6G3C0X7BoHMAC3qco+fjD+LFJBmIrp8QGPAQGHUAAMuoPMw76szjAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Wizard</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
@@ -411,7 +428,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA00lEQVR4nGPM6ZT6z4AHmLvy4pNmOLn7Mwp/SvkzRmT+khQlFPNj5txDkWfCazodwKgDGNEF0NMEqWkAHRBKEwMeAqMOYCGkIETEBYXPKTcVhf/9UTZeeUJgwENg1AEYacCMWwevBvQ4JyRPKE0MeAiMOoCR0vYAOiBUN3RHBqLwBzwERh3Agh4nFUlrUPiMt3/jNeCnZTUKn3l3FQp/4p6XKO0Bi9vbR9sDg8sBBNuElILRNuGgdwBGGsh3EUeJI/R8TAig6zdV4EaRH+0bDjoHAADATT9nR+Ho5AAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAqklEQVR4nGNkIAC+P8r+T0gNMuCUm8pIinomUhTTAow6ACO+5s6dS1KcEwLJyckoduS7iKOYP+AhMOoAFnSBKNdzeDVwyk1F4X9/lI1XnhAY8BAYdQBGGiAE0OOckDyhNDHgITDqAMb///9TtewnBH48zkHhD3gIjDqABT1Oviw/RlULRMvPj7YHBrcDMNqE1C4XGBkZ8fYTBjwERh1A97oAPU0MeAiMOgAALE4qiDy/vHIAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Priest</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Wand</span>
@@ -498,7 +515,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA2UlEQVR4nGNkIAAWn1P/T0gNMog1usmIzF+SooSiP2bOPRR5JlIMpwUYdQALukBOpxRJcU5If0z5PbxpYsBDYNQBjOgC3x9lo8QRp9xUdHkGEuVH08DgdgBGOYAO0OOUVHlCYMBDYNQBjITKfnNXXpIMPLn7M1757shAFP6Ah8CoA1jQ46QiaQ0Kn/H2bxT+T8tqFD778VYUPvODvyj8iXteotQFFre3j9YFg8sBGO0BStuE6GBK+bPR9sDgdgBGGsh3EUeJI/R8TAig6zdV4EaRH+0bDjoHAACKwEPI/ZmyjwAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzklEQVR4nGNkIADmzp37H5/8jRs3UPjd3d2MpJjHRMgBtAajDmBBFygtLcUb54QAun5CaWLAQ2DUARhpAB1EuZ5D4XPKTUXhf3+UjVeeEBjwEBh1AEYa0JW/iCaiisJDj3N0QGqaGPAQGHUAI6GyX0NDgyQD0dsH6KAp9xsKf8BDYNQBjN8fZaOkgYqkNSgKTBW48Rrw07IahX9peRUKf+Kel6PtgcHtAIz4obRNiA5G24SD3gEY7YFf5xeh8AnlY3SQ7yJOUhoa8BAYdQAAXVs41pEXtqYAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Warrior</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
@@ -585,7 +602,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA5klEQVR4nGNkQANLUpT+I/Nj5txjROYvPqf+n4EEEGt0kxGfPBMphtECjDqAhVCc53RKkRTn6ABd/5TyZyjmD3gIjDqAhVQNJ3d/pqoDBjwERh1AMA2Yceug8EP9VEmyYPWm22giz1B4Ax4Cow5g/P4oG6WsLl2+Hq8Gc1dekiwgVG4MeAiMOoBlbdN2FIEpc1Dr63wXcZQ0wnj7N0kWMD/4i8LvmBeCwh/wEBh1AMG64K8rMwr/BMMP0mxQRdXPKTd1tE04uByA0W9D7yecfvAVRX7inpd4+3roAL0cQdc/4CEw6gAAmVY7D5cwA3sAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoUlEQVR4nO2XwQ2AIAxFrXEWWAJ3EToXg8EGsoSeKQkEi+ml/4aoffl+2wAbUYzxodc4QkTovX9fWeyLFOAY3RBCYBVAxO6+uAMKMMwAlbV2KYC4AwownYGUUrWmmaD7ANUoaCTugALA6dzU/L+8ZxWks0XcAQWYzsBdSrUe9YWcc7cRiDugAL/3AXouoBJ3QAGa72OMqTIx+o+5z4s7oAAvyjcpZtXhNJ4AAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Knight</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
@@ -672,7 +689,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4nGOMj+76z4AHONrF4ZNm2H9oEQp/4dIyRnzq813EUexjwms6HcCoA1jQ44xQmiAE0PUTShMDHgKjDmAhpCDcsxmFzyk3FYX//VE2XnlCYMBDYNQBGGnA2XIPmogqCg89ztEBqWliwENg1AGMlLYH0AF6+wAdzGh/iMIf8BAYdQALepxUJK1BVXB6Bl4DflpWo/AFXvai8CfuecmIKj/aJhxkDsBor1HaJkQH6G3C0X7BoHMAC3qco+fjD+LFJBmIrp8QGPAQGHUAAMuoPMw76szjAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA80lEQVR4nGP8////fwYkwMjIyIjM//PfAkUeHVy9+h2Fr69zEUU/uvnz5s1DUc+Ez3B6gFEHsKDH+cUr+njjnBBA149u/ty5c1HkBzwERh3AQkjB78fGKHxOuako/O+PsvHKEwIDHgKjDsBIAxcPiKPw1fxQ5dHjHB0smuKGwo/L2YVX/YCHwKgDGAmV/dranCQZiN4+QAdqfDYo/AEPgVEHsKDHSUXSGhS+qQI3XgN+Wlaj8C8tr0LhT9zzEqU9kO/yYrQ9MLgcwIguQGmbEB2g9xPQwYCHwKgDMNoD8wpeoPDR8zEhkO8iTlIaGvAQGHUAAD0sQc+nw7vWAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Paladin</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
@@ -759,7 +776,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA1ElEQVR4nGNkIAAWzHzxn5AaZJCQLsGITz7fRRzFPCZSDKcFGHUAC7pAfHQXSXFOSP/CpWV408SAh8CoAzDSwIz2hyh8TjkJFP73R9lo8lPxyi9cit8BAx4Cow7ASAPoAD1OSZUnBAY8BEYdwEio7He0iyPJwP2HFuGVRy9nBjwERh3Agh4nFUlrUBWcnoHC/2lZjcJnP96Kwhd4+RWFP3HPS0ZU+dE24SBzAEZ7jdI2ITpAbxOO9gsGnQMw6gKBl70oCj6IF5NkICH96PIDHgKjDgAASek+mHQ0KfgAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA1klEQVR4nGNkIABCgzb/J6QGGaxe58tIinomUhTTAow6ACO+0ONcUkqEJAOfP3uDwieUJgY8BEYdwIIugB7nnWVLUPicclNR+N8fZeOVRwdz585FSWMDHgKjDsBIA+jgidJqFP5tFjGS5FX/vMJr/oCHwKgDGAnV9+jlQu4Mf5IsqPKbi8JfNGEHCn/AQ2DUAYzfH2WjpIGKpDUkGZBzADUJTXFArf4n7nmJIpDvIj5aFwwuBxBsE1IKRtuEg94BGO0BqU8pKHz0fEwIoOdzQmDAQ2DUAQDrajeRer8x1gAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Assassin</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Dagger</span>
@@ -846,7 +863,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA20lEQVR4nGPMdxH/z4AEJu55yciAByyY+eI/Pnl0kJAugdc8JlIMowUYdQALIQXx0V0kxTkh/QuXlqGkiQEPgVEHEEwD6GD/oUUofEe7OLzyhMCAh8CoAwimAWfLPSj8UD9VNBXNKLxwT1TZ1Ztuo/AXLkWVH/AQGHUA4/dH2ShldUalPF4N6PmeECBULgx4CIw6gJFQmxBd3lSBmyQLTj/4isLvmBeCwh/wEBh1AMG64IN4MQp/93cSbRBH5XLKjbYJB5kDMMoB9DgXeNnLgE+eECCkf8BDYNQBADiQOPbn4vTyAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA4klEQVR4nGMMUQ75z4AH6Avr45NmuPj2Igp/zd01jPjUP33hi2IfE17T6QBGHYARX+hpgtQ0gA7Q00S+i/hoGhhcDmAhpEAr5xEK38LtBQr/xC4JvPJrUKUxwICHwKgDMNKAUxYzXg3ocU6qPDoY8BAYdQAjpe0BdECoboisF0ThD3gIjDqABT1ODi3ahMJXVDiH14CfltUo/DfLp6DwJ+55idIekF402h4YZA5gCY6bjRJH6OWCyCcC5cClZyjcp29t0RSswat9wENg1AEspPYDCAEs+tHqmsMovAEPgVEHAAD4ZTx7zo0srAAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Necromancer</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
@@ -933,7 +950,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAqklEQVR4nGNkIAC+P8r+T0gNMuCUm8pIinomUhTTAow6ACO+5s6dS1KcEwLJyckoduS7iKOYP+AhMOoAFnSBKNdzKHxOuako/O+PskmSTybggAEPgVEHYKQBdIAep6TKEwIDHgKjDmD8//8/Vct+QuDH4xwU/oCHwKgDWNDj5MvyY1S1QLT8/Gh7YHA7AKNNSO1ygZGREW8/YcBDYNQBdK8L0NPEgIfAqAMAyLMsc1A2pvMAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA20lEQVR4nGNkIADu/Pf/T0gNMlBh3MhIinomUhTTAow6ACO+SI1zQgA9TVy62YZi/oCHwKgDGNHj/NKp9ygKPCV1UficclNR+N8fZeOVZ0BLZ/ku4qNpYHA5AKMcWDTFDSWOQv1UKbKAU27qaBoY3A5gjI/uwlv2O9rFofDDPZtR+Cu316Lw9x9ahNfCGe0PUfgDHgKjDmD8/igbJQ2g59sFM1+Q1D5ISJfA2yYcLQcGnQMw4otQuUAqWLi0bLQuGNwOYEGPc4GXvSgKPogXk2Qgun5CYMBDYNQBABdHPZwHUBfHAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Mystic</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
@@ -1020,7 +1037,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA0UlEQVR4nGOcO3fufwYkkJyczMiAB6CrJwQImcdEimG0AKMOYCGkoLS0lKQ4J6S/u7sbJU0MeAiMOoBgGkAHN27coKoDBjwERh1AMA3oyl9E4Yf6qZJkwepNt/HKD3gIjDqA8fujbJSyum4yF14NGhoaJFlAqNwY8BAYdQDe9hoDAwNDvos4ShoxVeAmyYLTD76i8DvmhaDwBzwERh1AsC5gM4xD4V/EoQ6nfkFUPqfcaJtwkDmAYBr4dX4RCn/inpcEyw5kgF6OoIMBD4FRBwAAdvkrhx32M0EAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABC0lEQVR4nGNkIAD+////H5l/X04Or3rFR49Q+PPmzUPhJycnMyLzmQg5gNZg1AGM6AL3ZGVR4vza48co8t6oSYIgQE8z+xsaUPgDHgKjDmCpYGDAG+fogJERNdks6nND4ccV7ULhV6DpV0XjD3gIjDqApQOtLFjU54aSJkK9UGPtO4kWxBXtQjF/LlqaG/AQGHUA410ZGdRy4MkTvBo0paXxyt94+hSvvOO1TBT+gIfAqAMY355LREkD73134VLLwMDAwDCJQBxjqEcrZ9Ks+EbLgcHlAIw24Wa0shodkFoO+GCxAxkMeAiMOoAFXWCZLmqULb/8H1WAQDkQqcuImoYu4+9HDHgIjDoAAFQVQ/tBcdEzAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Samurai</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Katana</span>
@@ -1107,7 +1124,7 @@ table tbody tr { transition: background-color 0.15s ease; }
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAx0lEQVR4nGNkIABCgzb/J6QGGaxe58tIinomUhTTAow6ACO+0ONcUkqEJAOfP3uDwieUJgY8BEYdgBE/3x9lo6QBTrmp6PIMJMqj2DF37lwU8wc8BEYdgJEGbrOIkVT2EwKqf16NpoHB7QBGQvV926Zkkgys8puLV37RhB0o/AEPgVEHMKKX/RVJa/BqyDmAmmSmOOBvAk7c8xJFQb6L+Gg5MLgcQLBNSCkYbRMOegewoAtIfUpB4aPnY0IAPZ8TAgMeAqMOAACJLjtkXBh4nQAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          
           <h3 class="font-bold text-violet-300">Summoner</h3>
         </div>
         <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Summoning Staff</span>
