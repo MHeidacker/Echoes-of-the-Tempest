@@ -126,35 +126,64 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+<script>
+function filterByAttr(containerSelector, cardSelector, attrName, value, buttonGroup) {
+  // Toggle button styles
+  document.querySelectorAll(buttonGroup).forEach(function(btn) {
+    btn.classList.remove('bg-violet-600', 'text-white');
+    btn.classList.add('bg-slate-800', 'text-slate-300');
+  });
+  event.currentTarget.classList.remove('bg-slate-800', 'text-slate-300');
+  event.currentTarget.classList.add('bg-violet-600', 'text-white');
+
+  document.querySelectorAll(cardSelector).forEach(function(card) {
+    if (value === 'all' || card.getAttribute(attrName) === value) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function filterRarity(value) {
+  filterByAttr('#items-grid', '.item-card', 'data-rarity', value, '.rarity-tab');
+}
+
+function filterLocation(value) {
+  filterByAttr('#enemies-grid', '.enemy-card', 'data-location', value, '.location-tab');
+}
+</script>
+
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
 <nav class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-xl border-b border-slate-700/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <a href="../index.html" class="text-violet-400 font-bold text-xl tracking-wide hover:text-violet-300 transition-colors">EoT</a>
+    <div class="flex items-center justify-between h-20">
+      <a href="../index.html" class="text-violet-400 font-bold text-2xl tracking-wide hover:text-violet-300 transition-colors">EoT</a>
       <!-- Desktop links -->
       <div class="hidden md:flex items-center gap-1 sm:gap-4">
-        <a href="../index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Home</a>
-        <a href="index.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Wiki</a>
-        <a href="items.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Items</a>
-        <a href="enemies.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Enemies</a>
-        <a href="dungeons.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Dungeons</a>
-        <a href="classes.html" class="text-sm text-slate-300 hover:text-violet-400 transition-colors px-3 py-2">Classes</a>
+        <a href="../index.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Home</a>
+        <a href="index.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Wiki</a>
+        <a href="items.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Items</a>
+        <a href="enemies.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Enemies</a>
+        <a href="dungeons.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Dungeons</a>
+        <a href="classes.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Classes</a>
       </div>
       <!-- Mobile hamburger -->
-      <button onclick="document.getElementById('mobile-nav').classList.toggle('hidden')" class="md:hidden text-slate-200 hover:text-violet-400 p-3 -mr-2 rounded-lg active:bg-slate-800/60" aria-label="Menu">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <button onclick="document.getElementById('mobile-nav').classList.toggle('hidden')" class="md:hidden text-slate-200 hover:text-violet-400 p-4 -mr-2 rounded-lg active:bg-slate-800/60" aria-label="Menu">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
   </div>
   <!-- Mobile dropdown -->
   <div id="mobile-nav" class="hidden md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-700/50 px-3 py-2 space-y-1">
-    <a href="../index.html" class="block text-base text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-4 py-3 rounded-lg">Home</a>
-        <a href="index.html" class="block text-base text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-4 py-3 rounded-lg">Wiki</a>
-        <a href="items.html" class="block text-base text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-4 py-3 rounded-lg">Items</a>
-        <a href="enemies.html" class="block text-base text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-4 py-3 rounded-lg">Enemies</a>
-        <a href="dungeons.html" class="block text-base text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-4 py-3 rounded-lg">Dungeons</a>
-        <a href="classes.html" class="block text-base text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-4 py-3 rounded-lg">Classes</a>
+    <a href="../index.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Home</a>
+        <a href="index.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Wiki</a>
+        <a href="items.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Items</a>
+        <a href="enemies.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Enemies</a>
+        <a href="dungeons.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Dungeons</a>
+        <a href="classes.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Classes</a>
   </div>
 </nav>
 
@@ -166,592 +195,452 @@ document.addEventListener('DOMContentLoaded', function() {
     <p class="text-slate-400">24 custom enemies parsed from game data.</p>
   </div>
 
-  <h2 class="text-xl font-bold text-red-400 mb-4 border-b border-slate-700 pb-2">Bosses &amp; Quest Enemies (11)</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-    
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACl0lEQVR4nO3WX2iWdRQH8M/7Kkuck5ZY6grnNlu+uqayLkScQjeFM7BdLKG69CKREsIlFUPKav4BI6mLCBLBWO0PqeDFrlyK2lb0TsVNX7CMllYmytzI6X5dPLp6SPYHhL2h38vnfM95zvd7zvNwuI97HYmxJnz88qkAF3rPxAoU5D8B1n42b0w1k2Nt4G5j4kiEHat/CPB0TSn46NOdoD+vCyQTkYaLPRnQsbc/wDfNkUMbGsuHdSR7Hdi6Kh1gwZLHQPNXB0HflSie+fEaSCYmgMK8AdB26DBIVVSAncmTAV77csEdncheBzp/PQr6jv0G2k4dAK+/uBVkOqti/McXzQT1n28EvZcjwd2ZM8M2MO4O/GcuH9ZEM/t5IA2Ono5m2nf9IiictBC8WfsGSCYjDR9s2wHO9h4Hk3MeARXFS0FRbpT3akN8F8bdgaEdqF/ZHmDuk7NAR8sRcOT0J7GOB+cMBKjb/h7++QrOX/0WpM/tj/GLJi8K8Ex1AXjnz0MB3m5dniCbHAgTboDmpiYwtXgwCnTEE6ZNeRT09H4PBkPEy8uZeccXPFQS1W1qbAQlMxbG4uPuwNC8GurOBSgqiXbgqZceiM3yufJ3A8zOTYH071/figRQPu158FP/SbAv/VYsv33PXwHOd/0BqrcUZNkO1Gyek4BdtQfCvwnL528IMD+3EnRfOwbazu6OKZw+pSxAWd4K0F+2KUDrifcT0N7dCl7ZUpVd/4FRY1lqXViWWhdG4lWm1ofK1PoRebcx7g6MeBHdRs+lw6Pi/XKpbUwNZL8D1YvrAmQuf3frSXpY/tTc2WBNxQsBvujY9D+9CZ8tjTb5ZogoD+fMGFXBByfmg+s3I+Gry2oDtJyoz86b8D7+BkFrwGe4ceMhAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">The Void Sentinel</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">30</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Shadow Pulse (160 dmg)<br>Void Bolt (200 dmg)<br>Dark Matter Shot (130 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Weak (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span></div>
-        
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACsElEQVR4nO3XX2jVZRzH8dfvtEgqbTtrDRVdTmw4M4OyJaTEvAiiAkOzi/7CIG+aGkJGGZFEhNawi0joQhE2B6XhRSLUMCdTWHVhRK2LajtLORyOUhFKnv2eLp7OxUlnJpE/qc/Vj9/z/T4Pn/fv+3x/z8N/XUn1oWvpYwEqzoIdg/3JJDn/qHL/xiIX0jkuu+6bFiCtTIBy6R5w49QGUJe7BrTdNA/0HO4BhWL5kohlj0BVg69NCfD2/ilg3W29IM1dDXo//QbUr1kGRt55A+z5qvdvkcgugVnNTQF27e6OgT80grrhm0HHjMVgxdcFkJ++C+zc2nNlEaibbKCzdXkMSKKhdHwaODx6FNzV0QrGtsRv/8HBONXAzoYAhdKpiyKRXQLt+TYw0Xc7eHTP0+Dld18BScNP4PGl7WDTt3eD+vQkKNgPpjfFWjpRKp2XyGUncNEVO7+pM8Cxsa6YeGRuHDg6B7z1xXaQ/hY7aF0uenu2O9bS7FUPgGK5tjauHAKdmw8FOLBhHITh2XGCxWN/RNR6SY/fAJ555EPQdv/P4IXNfdkiMOku+LPSkSL48kgFLFxSdX4VeH9VrAUtv4CVW2P8/IfPgL4t51/qshP4yxq4Jb88QJJEJxPJabBv7zrw2aF4gtr25kEwnnwEXn1+DaicjYSG+svg4x93g2I5nh+yS6C5Mfb0Bev3goGX7q2JfWrF6gC33jkVbHjxvQRaG+8IcDp3HPR3R+eDw/Gver2FYO2+J7NBYNJdUO1YzdteD5zb0z8ZGgDtM56oyasPC8B3pc8TWLYpvh/cKMDK7c/VxGeXQFXHSgcSaGteEgkogUoax9PRa8HcfEeAX8OJmvyWmTMDDI3EuOKpcrY64SXffh5a9GCA/HVxF+wYuvBpeE7LrADfjxayReB//Q6fesl1CHzL/wAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">The Prismatic Unicorn</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">25</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">1.0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Rainbow Bolt (100 dmg)<br>Sparkle Shot (60 dmg)<br>Glitter Bomb (150 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (3s)</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stun</span></div>
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADCUlEQVR4nNWWW0iUURDHf7tu4QUtCfES6rJqGiEYIUKGJquVWihRvgSBhA9GQSU9bVJBIQQSPfRQ0os9VZSZqVmYpQSRmdCNyEsqWKbiVmqtuu7Xw3wrHdNFJdjtvHycc2bmm/nPzH+OgRWuy7E5GoBD35f1PzKsxI5xpQ78q7Vkr8sj0zWAgshAAELzxPeItBAAus58A6BmSDA5O9i2JNv/DwLuZT99RAMYMZgAMAZoAESFmAEILD2+LJteR8C0XIWAgkQABkvuAmDUQ4i6GLciB7yOwKL5upGUrQEkJq8CIC5Lzl80ydda26jo1uUJL2QUCqi9TU4Aet7NArDvw+MF/+V1BBatAaOf+PZpwgVAyuEmj9W9p0FnwgbZ1+Tu1AD8DJ6bwncRiAmS3CWlCPPRuDzD2+PFdN/wL49yvofAJX3KOcNlv6aizgDQccKqAcR89wcg7Fq9ktyRQ/kawJjZD4DQ8nsGgPa9eRpA5ajol/U3K3q+h0CEWfo+va5B8dT+Wnw1xzkXNORGpDlnh/bneeodsXMzQ5ClX9XzQQSi1X1zqXge/kMCWHfFMx9EhQlvNJcID1irRH69RZClVZX3OgJz0VTq1T8T+hOAhIIUAOLHewGwJK8GILi41gDQmCzy3Q6J4WiXRDpeJd3QMyjd0GMyA9B7uwOA6THpIpveDV5HYK4G3K/aq7NpGoB/y3sAWgYkp5ZNarnEp0mEFpf+Lu7SL/QHQmv1JAAJ5rcABH2R7jk55Os8sKVoLQBfO6cAyDuWBMD0wIAiNzU4A8Abu0M5n+4VxLIPSq67n0wAkHlA7FKp/s/7CFREZ2oAxSXBAARFSr9v3L8bAM0pU7HrQreiWNtuB2BUcynnfZ2CyAZbIQAxuXLv7KwH4LNtlwZwvVqmpNcRmKvIW9vFs/wsCwDGcPliFJHJV/IYdG3dDMCzU88VQ9vOpQGgtb0EIDg1Xy70l5Vr+CMA9x/0AFD09KFv8MBfvH4+1qpMM5Puo7tdHEhObfPmuptJ589KJ2qNzNfzOgK/ASlk5FWmRD7hAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Infernal Colossus</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">25</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Magma Blast (140 dmg)<br>Eruption Shard (180 dmg)</div>
-        
-        
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADOklEQVR4nO3WX2jXVRjH8ddvc3P/woz8s63pnEU40wvLZLnmpEwoiGJYIWyF7U5amghSLKZGhZR10T+DMDOiIDGLWLOU6bQym4qmo4vcmjoq5/y3MWFt3y7Oz9HmGhbCfhc9NwfOc77nPJ/39zzPc/jf/qXNqa6N5lTXRtdqv6RrtdF/tdjgieLNxyLYU14YGzj/UwSxi5dA28bPQc5Ti0BDxYwYFK3ZGUFST4C0d+09V5zxdxtxAqMGT3S8/Rm4+4OgOP+HI6C1IBs82n0OvFmcAx6fmw/K3tsVwSenesHZ+v1XFUDiETj27bMxmFEwMYLZS0rBL/WHwR1L54LOl74HRzsfA+MvtoKK+8L696NAQsPwASQegct2rnE7aF5ZBh6ZeAIcPBCUfryuBry14QtQd+gkqCz4GfzZ13NVAYw4gStydFrR2gg62upBxi35IPXmkAXTrwvQchc/A8rzUsDMsamguqkLvDF7Auju7k7sOtAfXdHqUN/vfOgu0Hu8DXxZsx6cb9sD0rOmgFFTg8KyV14D38XvQNvmV0Fm1iRw47JlYPf8sUOSSBwCxR+Gytdz/HfwRHEeqFo4DfT09MYgd8r9EaRlTQYTHg5Z0n5oFzhRtw7cVlMHyscng02tF0Dj6gcGkBhxAv11oK8lKE+OhS7WsC/U8oJZNaC95dMIciqWg87twT99TFB4ZFYJOHtwNzhcsxDsLX8eVBaXgsZBAYw4gf7/kTdlfgQLq9aA8407QP2ObeCm514G7ywuBZUvbAQpZzJBx4Gg/MGPQtbUrQ/7/LFtK8gYMzV+Uh841fx1jEQicNluyC6MIDmWBi6cOQoq97WHBcmhy21d8SQ43/AVSI3nfW7hElCy9F6wZXlV8KdmgBPNdYmVBcPWaUhPT4/g1kXvgvaT34CTOzcN+HZc9u0RpKSNB33x98BvLdsTuxf843tg9OjREUxesBK01r4IOk43DakoJW0ciMWhJk0Kd0jL8AEkLoFo3tNgxeurwKqKX4PjdNOQ6y91Bv/12fPCmB/ejrnTFkWwf0N5gnfDwZYysyyCBSWFoGH/j+Divtphb3VmemYEffGKlxTX2NXdlZgE/gJID/cWk6BFVgAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Frostbane the Eternal</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">22</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Frost Shard (110 dmg)<br>Blizzard Bolt (130 dmg)<br>Ice Prison Shot (90 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (2s)</span></div>
-        
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADtUlEQVR4nNXXf2jVVRjH8dd18w6buh+m3m2yLCtTyq1pmraJJJGZZD/+qBCdZKQWFJGpUNkfQVlUkAn+UZSCYoVIZRETKUytTJ2/M+bS+esqujmnTXdn7vbHuQbDX2XBXeefL4fzPc95zvt8nuc8J5IVjSZdRSscdCeIb/vpaqb/1Tr9q9n/Qcv8pxMenv0xmDTpIfD29PFg7erVoLyiIvTXrPlb9v4/BAZWzgDV31WB4SOGgbqWQlBYMgKMn/4CqGlMgKM7fr6s3bQTiFwpCvpVfgRKCs+AH6u+B021G0C0xxDw/GfzwfrfWsCsilwwelAY/6Oh5qL2007gihoYdutQsHz+HHD7zPdB47IPQPm0Z8CKpcvBnh3dwIRPDoNIRufL2u/4BE7trwZZiXC243tuA73mTQc1q1aC6gVvgLYzdeD6FwOR+upA5Owl7KedwCWjoGDkRNB4+Dho2f01KJ32Idj1behLBoh9i3JB3eZ1oFvXm0D51Cng8zkPXNSBtBO4QAPDR44CyXtngsZFL4WBSPA1MxKAZXaJgZsH54BDm0LuTzT9AnKLQ/RMfORusGnts+DAynnt1ks7gQs0cMuEWWDvhpC5Eru/AH1GPQEObQ1nfMfMZeDkzkUg2ikCti16M2U57K3PgwtBbNhdYOPsfu0cSDuBCzTQuyxUOvtXh7OUbANjH70fLDseyNQsCXFf9tyrYEzeXvDaD3FQEtsHnp4atFK1sxlsTK0Tjd2GjkAgu/Rx0Lz1U1A9L+R4J+tAj4GVID91J7Qc6wlOxxeD/tmvgAEDArnEvpAh19WHve2aEeqH3J7H2i2cVVSCjkAgq7AMNG9ZChKtB0HryaCB/K6h8omv2hVmNKW+KZWvWPAWqMoaB4rHhCiq/fIp0ND4TvimFuw1+StwdGH4P+0EIvlDK5MQLSgFyeT5tBDUf7Y23H45uV1AVkaI573rnwQZkTyQe22ofKL5QSsNBwPR1uY94LzWril5rJ0DaSeQmV06AeTEQk5vOnIi1c8F8SM7QOuRQKbh1Lsg7765oHnzEnDm9H7Q3djwf2rnvSavSM3fDvoOvhHUbapFRyBQXNoX5BTkg+3fhAqo35CQs0+sDPd6Zl4GSBxcCIpLykH/ceFl9Ov8oIn4gQWg94Bwm+YVBbvnYiNBsi2QvK4skEg/gbzC4GH3gqDmiimjwZa5r4Nz8ZAPIrF6cM97oRLKLLoBZKd2GKl8GdQtDu+GZFt4GRUV/B7Gew8CnTsFAuc1lnYCfwIDaxQmxHyH6wAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">The Stormweaver</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">20</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Bolt (120 dmg)<br>Lightning Arc (150 dmg)<br>Vortex Shard (100 dmg)</div>
-        
-        
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACQElEQVR4nO2XzWsTQRiHn02TaEolNFUi9KJojT0EXUOIQXJQvHjwqHgV8aYH6cH/wrNevVkvfoCCoUUSpGlTSUrQEpNaq6hp1KRo8aPZ7Hh4GyFbae1KzQb8XWZnZpl33mff3wwL/7UqlYsplYupLY8zoys1o/+K49rqgBvJ3XowM5//SUDjUXucjhPQrANm/pQCUPVpAHqOf1jzzmbUTA8qAK13HwCuSKptPecQeBjdqwDC8R8ABBKHAfD27wTAffJm287N6dMKoDEmpLZdfd8+n7miAL6/mwPgS6oAQPmZF4BjyaIGTiLQUv16SAEsZw0ABs/slxcj56TddV4DaI4eEC+HdQB6hm9pAKpyQ2po9i4AtdEiAJ4jsr7/4pyzasBtHVh6I+3usExV75UA6G/cB6D5OCgZhkYAUMZXGb+dVgDG1BgAnx7MAuAPyXrLlTWhACcSqI2vALDnmkwtTEnryeUAUFU/AAMjQsb0BACoj/dJPzgBwMe6D4DgUSmVzCXztxtwHoHIxLxUaVz66Zi4wufzALBUEncMFO4A4FJCbH7V333fegFoVCRjLV5a9yR1HgGrEpNyYhW8QuJQ+qUGUN5xUAGsNCWHaOqFBpBrDisA/Unxj+6QjhOwfdOlokKggtTE2WzZ1lrdR2AyIXfA20AYAKOSB2DxleRyeXH9qreq4wQ2dIFVtaqcbM8XsgAEjO0AGC575dRxArZdkD8hfn/6Wlxwoby5b99Sxwn8tZL6kErqQ7b/qLqfQNfrJ2Fpuh2mm6FGAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Celestial Phoenix</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">15</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Solar Flare (100 dmg)<br>Phoenix Fire (130 dmg)<br>Celestial Burst (160 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Dazed (2s)</span></div>
-        
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADpklEQVR4nOXXe2hXZRgH8M9+m5dtrqGmQ9REFq7EoWS21DTLwokyK6RsIhqkiSFdyKQLJGYllqF0E9MSbSqVmEZNQdIyUGc0KjWRzCDnzGGIabu5nf54pjC0Agk26Pnn8J7zPc953u/7fS6H/7ulXe2L82rqE2hINYPl3TOvylfqagP4ryzj3wATD1xIoPTYd2DLgAJwYsFa0Jw0gHuPNibw4OHAlfUYHPhbOvwjM23OwGXRPVd9PgGnGsGfG/aBqrPXgIpj68Fdvb8A6enpoPy3cWBEn/tB98xT4OTDo8GmgpwrMtH+GLhoj27ensCxj86BIxUfgCFjHgN7Pp8PUhkdwYiJr4LKHXHNH1IKhk29FqxuvBlUTc5u9c02Z+BSFmT+EHldW9gpDfJqe4IN22aC+rrTIO/oraCo+CUw4HwXsPvwl+D4r5+BmprQzqj7toGqKdntXAMlP4X67/z9AlgyaTyoazgBpq+NvP9w1tMglQr1J0lUQkmsS1YuBBunPQT6XDcWlK5aBr7vEZpZ369zGu2AgUsa6FGTBbYvKQO53fqCSa+9HM8HFrV6MSszNHKhKRirra0GDYNvBzPK3gPlT64Gu5eGRuoWjWnlp+0ZKKmKGr5v71ege4vaRz5QCN4ZPyYNnli2NYHC2+aAb3YsaHERZ180YTHosvlT8Prce9Jg1sJFCRzZ+zPomlPcKoC2Z2Br7+hW85fHDlftWwaKVx0Gc6fNT6Bi5pugW88bwaCb8kEiWkfjmfNg/8cnwczqPxLo3xx73LRsEJi9sT/Y3BJA2zPQqzw0kJ51FGTnRoS7VkbtHzV7CuhYmw1+ORCx1z/+COjUVBue3giVd8uNmp+figTbuTrwOV1jjqgdOKBVAG3OwGX1+fltuxI4eMNwcHrFUpDsD7UfrHwLFH1yCHTIi0r49fA444LCYCY1IrTRe050z/xDleCVcaPbaTe8aIuKI++7Tng3galFTeD9PVERS599BqzJjY00FlyTBpMXvJhA+ZLATR8buLf7XnkSumjtj4GLdveKGaB87OSWO3Gm9UNDG83ROqT/GF206dj+FlxUxO3rYl1SHXPG1l6d2uc8cImB/luaEjieH3N+v/VrwLchAZ2z8sAdI0eBxVkRe0VdMLOz97DAZQYurTk2fH3ZOtCx8lwCSXNL5Rya0z7mgb9V6LzGYGRiy/psy/WFM5H3jfHbIJUKFxkdYi9PZQVlXTJivasu8EtzrvyH1OYM/AU2lCBM03+RPgAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Thaleos the Stormcaller</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">30</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">1.0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Spiral (80 dmg)<br>Tempest Bolt (120 dmg)<br>Tempest Ring (100 dmg)<br>Fury Bolt (150 dmg)<br>Lightning Wave (90 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Darkness (4s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Piercing</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADJklEQVR4nO2XWUgVYRTHf6PdNtNsUVptkR40NR8yKqiwyDCpCGmBSEmIogyCiOpJCnoIacWHaIMSCVopkLptppFFpFlaWqF1Ayu9apaaWTjTw/8aTHjbCJyg8/LxzZxz5vz/Z/m+gf/yE8n1Wlau17J+1+5Mg2Wdafi5XcCfhfX3pJe/Fy9aFP3tVtP2PDarxQIoL3qiB+YnACZMiQbgeXaYAdBlVdkmP1FBhtHdd3qcgW6jAiCx0ALI3BEPQPTIEADyj78CYG5yGACWKazX8usAmL9qPACV9e0A5GwvkT/3DGcy4LcGKJhlADy79cICSFgtBurN3gB0NHUCEBAYCIA3sC8AAwfJ/FaumPKHvEt6nIFv0W06r2otqqgBIORLHwBcEUEAPH3YBMDgcCFNSxkBgKlUk3ddNVDnaQUgbnooAPWeFum5hDUmWnbHU10GOImBLpmX06G+jVeuqx8LWfzEYADiXKr6UyW+GvDZLUtQLVR80b64XMijY4YDUFr8EYCbm4Ns33QeA8x7YAFERgrxxnXq67eNLT4LmcwdE2wzK/C0ARBgioLBYQMB2HfoJQDVVY1SdCc4nIH8JnWDu1A5O3C4CoBJU1W9ixI1D8YF9bfZeVpV/ecu1gLwqESIMzfEAZA8cwAAKUMNhzKQcUXII5Ryap9rPZxsj3jbVXVJa4f2LvMzAP00HtiZFGzT3+yW3wFjtfd4tB5LMpwxB76dBaMitKbokCNhfZlNMeOCaQFcueMFYMbkUABMUxhu3FeXrDgrxHmpQpi9R35KTscDcOG7qnMOA+/faS39oGvcmi2xALxc+sYCWK7DkaeVmoD79j6zOZqZOBSA9DnaN5xstADGDNPxWPxEfptNOwXOYWD/NOUs7bRyeGJJLwNg1m6vBXD9rvSavZoPXI21QWmM072h6J72r8uaAXDvGmIArL0ovwcXOnUO+JOjdYq8qkGnYPbEwB/abK1Qt0SFSy09vPvbcJf0OAN+74RZBUIeqWs/d2p+zWF7rap9tG8gbr8hP1mz/7X/gku+/8Ejl5X7syt/nPvvZXFepwWQkSSMC8IcysBXaoYN/ssecFQAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Sparklehorn the Magnificent</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">20</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">1.0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Rainbow Bolt (90 dmg)<br>Sparkle Shot (55 dmg)<br>Glitter Bomb (130 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (3s)</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stun</span></div>
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADjElEQVR4nM3Xe2iXdRTH8dd+WaHTlEYRLS9Z6bLUiMjUJAsSnZHdldlFaGV0sZtLDQspUyyDVVMzLTVW2GzmJZRMTdumWGjams4kN53WNLXmpTTd7+mP72/IT2agBPudfx54nud8v+fz/p5znvOkOUvrmT0kgowOWeDLqePSzmad2NkG8H9ZszN1eGrq0giGDOwL0mJBQ4uMThEUvZ5zRiRSn0Cr9PQI+j4yEozMuR2U7DwGNlbsAp06dk56v8EOHTnyn0RSl0CP7JwIRkyaAaoX5YO2F4SYK9d+C+Z/MAtkXJUNFlXsAzV19aBgTG4E3y2Z2yiJ1CPQa+DQCAoLZ4NYIu7qxPOX3p4LMv6pApd36wUGZ3cHfdqdn7Ter2NngpptNRH8tq0siUTqEchofyXYfSic4TvTPwcbvvoJ9LvnRrB8yWzQtX8uWLGxAmTdEKrh61VbwCdTJoP64383GkDqEVg1J0Sc2e5aUC8c2crlH4MnR48HCxcvBrsPh7J/d/o8MOz+R3FSWe+77wPby4rB3uoNSfulHoEBLyay9s9WYMfqQGRvzq1g2qRXQBQF5TUHj4Py9dvA4T0hFy7qHPrCgDv7gw4P3wGef/xEBN8vLUojlQiMf2N8BB0HDQKFc1aDfbV/gJnF5SD33q6gqCJk9c4V4ezVBxLHDvwC6nYE/1g0FtyUeS64uH1WUgBNTiCtdavWEeyvC0oHvbwcVP1QCvZXhmwfNSYPtMjoAq6/5hJQMCP0idLSNSCeyI3ftywA7Xq/AKbPfBVsXhf6Q96w3kgBAs3i8RNgxPvLQOU3haC2PNTttDV7wKzJE8BHBQ+Aooq/QGlJCXjivQ/BeQcPgMKCC8HWlflh3fXBb0bxpqQAmp5Aw8TSLC0ewd6KL0Dm1beBnG4twabu14GykjAHLJn/I4hHoVP2vPSccO1xGajcHqpp68owL5RWhaqp3RBINezb5AROO68NzxsXwUPPjAYTC1aBLQlFRw/WJi1QtCLkUGl1UHpzh+agX1YbEEtoPXVGTF0C6enNI7jl6QXhRjwO2rYJzfPTCXfhpKIu/cZGkPvaKFC2eCFYlj886b1TrckJnHYqfu7NMPs9NjRUw2ebj4J5E4PCUxV1vCJo2b/5Z/DWyMFgV/lasG7RlEb3aXICp82Bhj+cWKxxSHWH6pJ8G74pfR58FmS2DNpqEhNTWWF+o35NTuBfLyU50hiOE9UAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Crythalis the Frozen Warden</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">20</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">1.0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ice Shard (90 dmg)<br>Frost Beam (130 dmg)<br>Cryo Blast (100 dmg)<br>Glacial Avalanche (180 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (2s)</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADV0lEQVR4nO3XX2iWZRgG8N83tW1Ok7nNNf87s2Uss5SIiIZZ4TTYInHkSVAERXSQC9EwO+rELPrDTiqiA5cHKpYGZnXSgUpLi4mWFXPNnLqNOW3p/u/t4J7FcFpZ8C3oOXm/9/me+3me63qu676fl//bP2wDG8qTgQ3lybXGZ/ybm7mWlvq7AV17H0ugbksv2N/eChZXLo73lz8BLzXV/6W5087A2D8b0Lt9dQIX+wpAw5428Pq3B8Glw8/YeREUz8kB599fk8CkJa9dlYm0M3DF3b1SUpLAw/feCA6e6ARHfuwHS564Ifo/bgSrbp0FNu+J96cfKARHe3pAVe0XI66VdgauqIH+0utB5dYfhvVXL5wBZuwLRspuD6Rvf90OGnqCodXbfgI/93ZcdQOjl4H547LjRyoQ3FEc6q45fBKcL5oWEzQFho9aY1x+9nWgpXsArF0eWlm/s23EdUYfA3nZhQnkt04Gvw42gXeenQ0eeeM78G7jyWFxJXPGgS2lReCW3cdAWctckJt5JoGOnrZhbhh9DLxw/1Sw98g5sLAwzvTQ513gRBAiJyP6M4ZSSWNTqH//im5QUpwV8zRfAGsfmg7W7xiuhbQzcFl2KsgpSuDOCflg+4ul4K2aBnC8cxBsaz81LK6qKJibNTaqQ/XjkR8qN4dWDlxoAe1dLaNLA5cxkJtZkMDyvNmgc2YgmtYbvt527Az48LkSkKQCQ+Wrofqq0kB+qjnuC3kmgl0dUSPaRhsDl7ngkk8zZ01JYEF/DNnTGIieXzQF3N07HiTzA8OljLf7s7gXlK+cCRrqwzZtp1r+Y9XwzepF8dzdDJadDZ+n/II/kP/ejoZGVg254UJHaKVm4z3gvYrvR1wn/QzU37Y0gem1dw11hc+zvzwMzreMAbWnA0HDpkDUPXkCGMiKjFe9MWpB8ZOHwKO5kUf68jNBz9L4dkjW5IKsFR+kGAUMpNY9uCSBrJsD0TPL8kDDVzFgwdxAtuObyOEVK+Pu1zcxXGAgzn7MQGjk040HQFnFAnC6N25O81J9seCkuGnt2hV5If0M5GVPHfG7bt2ceeC+vPB9XetZ8NRNYefBkqiGqSTCU+eCia11gXTq+Pi/bEows6+ja+gZ1XHT8WA07Qz8BiCoCvpUF9gbAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Pyraxis the Molten King</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">18</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">1.0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Fire Bolt (80 dmg)<br>Ember Spray (50 dmg)<br>Molten Slam (150 dmg)<br>Pyraxis Flame (120 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
-      </div>
-
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 sm:col-span-2 lg:col-span-3">
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABZ0lEQVR4nO2Wv0tCURTHP68kkgpEBIeICpLIIip50FBDQ6M4NvQHRDgFrYLg2hLV2hYkZAgtQfgXCEJUOIlu/Q4ERcLqNFwNepb4C57C+yyPe3jve+793nPPu2BhYWHAFxPxxUQ6ravHRfR4rW5fpxM1i80YWPaqZ/ngXgBszhEAUpvDWjPCSycFASi/FQBYmFbxpOE90x34d1XzhxUHXE4AVtcGANh3a7++2bgqCUB03a4B7D6ofU4k3gH4eHoF4GZn9M9c3etAlUherSiZVuNc6hEAPeAGwDGo4pfRFwDG5lwABPQvALbt/XVzdL8DVWYjWQG4C01qAFuVvc6rIud0StXGTDgnAOnwREPaveOAkUjpUwCO91Rzy4ZsLWmZ7kBNJ2yU8zN1zle8zwBkW9TpPQcWjzICULzOAHA77mhrAqY70Dj+ouAv/vzPPcGkeILJtu8NpjvQeA1cDLXcM+phugMWFhbfRLdgYy5q2DoAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
-            <h3 class="font-semibold text-red-400">Storm Herald</h3>
-          </div>
-          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3 mb-3 text-center">
-          
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">15</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
-        </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Bolt (130 dmg)<br>Spark Shot (80 dmg)</div>
-        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (1.5s)</span></div>
-        
-      </div>
+  <!-- Location Filter Tabs -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <button onclick="filterLocation('all')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-violet-600 text-white transition-all">All</button>
+<button onclick="filterLocation('realm-events')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Realm Events</button>
+<button onclick="filterLocation('temple-of-storms')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Temple of Storms</button>
+<button onclick="filterLocation('inferno-depths')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Inferno Depths</button>
+<button onclick="filterLocation('glacial-sanctum')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Glacial Sanctum</button>
+<button onclick="filterLocation('prismatic-paradise')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Prismatic Paradise</button>
+<button onclick="filterLocation('void-abyss')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Void Abyss</button>
+<button onclick="filterLocation('bosses')" class="location-tab px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Bosses</button>
 
   </div>
 
-  <h2 class="text-xl font-bold text-slate-300 mb-4 border-b border-slate-700 pb-2">Regular Enemies (13)</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div id="enemies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-the-void-sentinel" data-location="realm-events" data-boss="true">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACxUlEQVR4nO3WTWicVRTG8d87X2HapkpTTWopxWqIQ5WqKKlgtWrBVUFEXIipRRQUQa2rIIjahRVBxA+oRRftwkUK3RSs2pVKRGPBKlprSKYflBY1gZCkZDqTdm4Xd1IYHep0IZmgZ/e+nHPvOf97znMv/3VLmnX8tnBXgFtWlcGSgz/UxR7v7Q1w/dBQ02tC6kqc/w27omxhf2ck8cDDMffFO79J4KNs/L/17TUg+/wnTa298AjM2eEnHwtw65Y8GH5vFCw+OwO6+q4B2b4Dl91j4RD4rmd9gGuvjt+/HQtg0yMdILOhCsLqzaC8Zy9o23YvSBe2N9xr4RCYs09XRBLr1i0BI6MT4EQm6sPW3RtAqN4Ezg98CdKbY63pTfvq9px3Apl/chheHxUuV8v1yIlYwOs/j4HB8XPgifQqsKv/EHj6qWnw62QWrD3VGPa8E2i6Bx7P3xbgpwtnwe2WgVJqFvxYnQI91agL9/feCPo2Lgf9uwfBx6ePtlYPNE2gPbs6wBupHvDMm9eBPf2/gx2hCK4K8cx7kjgl1SgXBma/b3EdeLbt7gCvvrAWdL21qy7jpTUC+5dFAqXlMfcPi5HAPZkcSNdK+uDcOBitHGvtu+CSDsyEC6D7nc8vG3B0Khb01WTUgTOpP8C2/EowkiqBgXIarMnfGeBg6VBr9sAlAoPimW3PFMBr1di/hUx7XcBYUgEHzkf/l3NxzrdUjoMVqUXgSDXW9kqyFBTyUVHfLQ21uA5057oDdCRxnsdCVLrOJHb5+w/Gs77vs+G6uEcXxf97Z06DqdmTCWzMFQI81BlfSC+e+rq1CPztNhypjCQw3nZDgIlKMYGxmg689MUZUBM407VKh0sd4a9rwWHxtmz/c7phAq1HYM4mysWGc1sW335dmdjt07FF/JJMgufyd4AdkyfBzUn0K6bKDfeZdwL/20XKS8rwlGNDtAAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADD0lEQVR4nO2aXUhTYRjHtykrnJNMKsvCr5U1XdNYFxFp0E2RBbaLFVSXXRRRQrSkYkRZzRIM+7iIoAgKayqV0MWunIrWVjS/zYFltLIyKeZGLrdu/W9wxuFsPMR5fnd/nvd93j/Peb/OdhQKhmEYhmHkijLVA9w+PBRdqL8G3gsayMteD/rIvQ0p9ahKZfL/AS4AtQFq0qUmaKx5B2t8h6UE4s13m0CHtKOgVUp8BlN+H2jPoxDk72rDPaTWYZS0R8h+BnABqA1QI3oPaNjjhTVZtmUNxNuevgQd/IX9fR9mQauUaaALtGHQrs5u0HqTCXSTahD8nHxSJmpPkP0M4AJQG6BG9B7Q/6UXdLDvG2jXUAfoUwcbQPv6qwXzr6tYCdp+/zTowAwu8TEf3gvEIvsZwAWgNkBNwjPzhgXP2U9hL8R7R/CcDs5NgS5YXA76rPUMaJUKn8HVa42gxwOvQGeoV4A2FW8FXaTB8U60CN8LZD8DuADUBqiJuwfYd7thza/duArinvYe0D0jdwTXWKQwDPls1y9DPPZdYPL3a9DeiReC+YsyKiD/TnMexC/+7IT4eWcV5JP9DOACUBugJm4PiKb9Bd3W2go6qziCHTzCA+RkrgbtD7wFHYliPq0a3wUSsVSHflsdDtC63HLB/rKfAVwAagPUxJ2xLbYJODeLdHgP2HxokeC5vNd4Cfrna/QQ935/FtMDmiuMOftAfwwNgn7uPSc4vvvhH0g4OfoD4ub6PL4HLIQLQG2Amrh7gOVCIayRm9aOaGybhVSV1kK8VFMJ8bHZPtCu8QeCa3hZpgHyGbTbIR4y1EHcOXAF8rnHnND+aH01/x4gBBeA2gA1Sf/+Zpv+GP6fP3xL0hiV+uOQzzXcnFTPsp8BXABqA9RI/kYoFv90d+JGIvg87UpqvlhkPwO4ANQGqJG8B5g32eCc9s28iWnhVUghS5MP+oBpP4z32FPH3wlKgQtAbYAa0XvArhK8m89HMcVyda5ES8iS9GzQc/O45GsMVvDTPmDn7wTFwAWgNsAwDEPJP6h8wVKnNx5eAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">The Void Sentinel</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Realm Events</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">90000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Weak (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span></div>
+        
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-void-scepter" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Void Scepter <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-void-sentinels-core" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Void Sentinel&#39;s Core <span class="text-slate-500">(0.03%)</span></a></div></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-the-prismatic-unicorn" data-location="prismatic-paradise" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADLUlEQVR4nO2bX0hTcRTH712LpNLczIaKmpMazqygbAkpMR+CqMDQ6qG/IORLy0KoKCOSiNAa9hAJPSiCf6A0fEiEGuZkCqsejKj1UO1PyrgsqQgjt7te/S644zL1EPd83z77/X7nnp2dc/a7v90JAovF0rLExBfqK4/HF3JUmIfxTnf/P2v+Z+moHaAWB4DaAWolref6fRnQE+RoDMYj0h7g9ekGYL1uFbBlwyZg57gTOBiOLGuP0XwGcACoHaCW6npz30qDnnB/OA3GG7f2AMu6lcA9Lz8AZzZUAfse3AEeeNezpD1B8xnAAaB2gFqq6yvflA09oLvPgQa/ZAHrvRuBbbnlwDXvg8DGnG7grjYn94ClFAeA2gFq6dUusJur0YCIJSqHMoDH/ZPAu2xm4EArfu8/GUWXXF0G6DlBaXZRe4LmM4ADQO0AtVT3AKvRAhzr3Q58bOAM8PWHN4BFw3fgE5VW4OaPu4Ez5W/AQWEYOCcb9yUzkqSqR2g+AzgA1A5Qa9H32SXZdqjJqUA9XnCiGBdMFgHee9MBLP/BM0i9Dj+zcw7clxTUHQAOR5T3DZrPAA4AtQPUWvQeYG8Zgx4w0hSC8bi3AB0oDyRYUP5M5Ol1wGePPAW27P8BfKWll3uAkjgA1A5QS/W9QDLJvjDw24kocFlFYs2vAHpch/sCofAnYG0b2i85/Bu4t1XdW9J8BnAAqB2gVsr7gM3GavjeF0WsyZg4Bzw02Aj8agyfQWq/OwocEp8B37zUABydxx7i6Y8AP//aBxyO4PMHms8ADgC1A9RS3QNMWXhOX3phEMZd1/Yq2jxdcxTWb9mZDuNNVx/BenPWDpg/p5uG+f0OrHm3F3+rXCuUAZ8fOsU9YKE4ANQOUEv1vUDiGZup/TbUaLJz+hceF9iz5p5UvF5mvBT4k/Qa7FU143z3ZQGuX9txUdG+5jOAA0DtALVSPg+YkkagJi2mCuwBggTzozKul/2rgYuNNlj/Kz6jeP3CvDyY7/GhvfCs8rPHms8ADgC1A9Ra9v//HNp2EGrWuAbvBTo9qT0bXFSYD/Y/+4PcA5TEAaB2gMVisSj1F3h8ya1z1XyzAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">The Prismatic Unicorn</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Prismatic Paradise</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">80000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (3s)</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stun</span></div>
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-rainbow-wand" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Rainbow Wand <span class="text-slate-500">(0.12%)</span></a></div></div>
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Prismatic Paradise dungeon &rarr;</a></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-infernal-colossus" data-location="realm-events" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADoUlEQVR4nO1bW0iUQRSevRRe0FxCvIS6rJpGCBshCxleWK1cCyXKlyCQ8MEoqKQnkwoKIZDooYeSXuyposw2NYvNUoLQTOhGtO7mClum4lZqeVl3e+jFb8z5WVY9wT/f28eZf+b7z545M3PmXw1bY1xNKwku5jOcvdbzRLOGcph2LQf7HyEdQC2AGis+3+qT8mCOlydFgd1gQ58nWmKBO899B94yglnivLdnRTWrPgKkA6gFUGPV11zf2WOQE8Y0erBrI8HMkmONwKNqTq6qRtVHgHQAtQBq6JWbhIfI8izg3ur7wLXcT5B8OX2VFSFUHwHSAdQCqBHyGnsruxgW7qycdWBPL8L2vZ3Ira0dwjHtNqwX5FdgmnJ3+oG73i8AP/DxaUjvpPoIkA6gFkCNkPcBWh367PNUALj5aGdYe/d97VxNsB3tLaW7IUfoNOEdFVQfAdIB1AKoEXIOSI3GdTfbjDU/1hGWHkUUZqDkodHfYfWn+giQDqAWQA3FHHCFu8vzJ6B9Q4MdFuL+U1Zon/ojAtrH32gTLtxjR8rg+QmjDuyG+gfwfN9+G7RvHMfxaz0O4XiqjwDpAGoB1FDMAYlGPO/n2duFc8r3Bn1qTPcv0/Lf4HOEo2RXcLm2jDGWew/13M7HnMU84vFUHwHSAdQCqKGcA1LEdkcNzrmEnzgFN14Lrz6QHI/1Bkc11gOsTdj/JhPmLNYt7l/1ESAdQC2AGkvmZyO39583/AJ7ZrkZeMakG7gpZz3wmKpWGKMjB/sfnMHf4LgT5/RkE54NXF48G7j0RuDuu/3A5ybwLFLHnQ1UHwHSAdQCqLFkH8B/q3t9wQJzMKLrA7TvGsZ12rRVvLXIsOAcNgW4r4Wd3APcBwTdzdPAM43vgEd/xbPH6RFZDxBCOoBaADUUzwLbK+OAfxuYBW47kQ18bnhY2N+sdx74Wx//jwHEnBtzTPFhXNcHn00BLzgUhx00CruXESAdQC2AGvqGlAJY56uqY6BBdBKe77cc3As86Me7QuelQeGArX0+4OPBwDIt/2JoAHPE5roK4Kml+Lx/oA34l7o98AI3m/EuUfURIB1ALYAaS/bJdwpxzpQVmcCuTUDOtNjF9Gv8MDCwYxvwF2deCgXtvGABHux5BTwmtwwf4L5ZCox+Av7wkQt45fPHsh6wGNIB1AKooVizv5hmFd7N6Tkf8oeLGYbrNF+T48HXJJVuFv1MvI9QGk/1ESAdQC2AGn8Ag07klacSEwMAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Infernal Colossus</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Realm Events</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">75000</div></div>
+        </div>
+        
+        
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-frostbane-the-eternal" data-location="realm-events" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADwUlEQVR4nO2aW0hUURSGZ7RRRw0rSlPzWhFa+WA3zEmNMqkgCrEiGIvyLTJNgiiKKaNCynroZhBmRhQUZhE2VmJNNzMrKpMeSvMydFHLVEaYHHvtm4kZD0Psh7P/t4919j6/y73WnL3P0WikpKTULO3/vsGCvTUjf3ND8fL/fk8l8hFtQLRkAkQbEC2P9WiofI8afmRMdDvGUPkO12v7hxC3lt8ER2zLAVtyZ2P+lAN1mM/HDtQ8Ll7iVU9R/QqQCRBtQLTGeLqg98wN8KKLrPHY528Rb48PB6+z/QSfMkSAN6bGgrPPP8D8V7uGEf9R3+jesEKpfgXIBIg2IFoee8D7J7vxOzs7fjJqdN7mDFz/sf4NeO7WVPDA4Wfg5oH14ND+dnDuMs5/YYQ9QWP5h2kFUv0KkAkQbUC0PPYAZ/1sqgW37swGr53cAX71kjV9pcQEPl12C2x+3QnOi/8A/u2wj9rraKT6FSATINqAaHncSyekFON3v9daj3jg9Fiw3zTuBWaOZZuJ3LADbIzSgZPG+4H3tgyCT84LA9tsNnke4I1kAkQbEC2X+knZz3P8+asXIj78yQq+bSoF91kfgfXBceAxU1nD2UePg586PQdYK4+Bg4KjwRMLCsAPF49X1BNUvwJkAkQbEC2XejFc4pmf/dNXxDcZosD5WQlgu30Yc0bGrcB8AcExuD5sDfcS3a8fgDvMJeBZJjPYGOoLrmj/BW7av9JtT1D9CpAJEG1AtFzOAxxtrHlfLd/FWRp4Lh+fbAJ3t13DgIjcQsQHajl+Zghr+G1yGvjHq4fgN6Ys8GPjPnCeIQPcpHEv1a8AmQDRBkTL5TcyKm4xajgr/wDifU33wfX3q8FT9hwBn92QAc47WA7W9QSBe1+y5ldd5l7DXEo/36qrwIEhUzWUA9TVehd/s+pXgEyAaAOi5XHvPCE8ET3BVxuA+K+eZnBeQzcn8OW7vKqiLeA+yx2wn9N+PzJxMzht61Lw9cJ8jvcLBHe0muVewJ1kAkQbEC2vv9vV6/XoETNyziHe3XkP3FlX4faek8LnYD5dQCjiDqfvA7601cr3At5IJkC0AdFS/H2Av78/ajQmcyfi7TWHwL3fWxTVqC5gEljr1KZ8ovkcomlTMrurVL8CZAJEGxAtxT1gJH07uOjELvCu3M8c8L1F0fxDAxw/LjydHMvvDiMTctCTGsuM8t2gEskEiDYgWoqfo3VJ2ai5zLRExC2NL8D9DTVePasH6YNwP4fTGZ+P0/9w0DYoe4ASyQSINiBafwDnX/Z/N536xwAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Frostbane the Eternal</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Realm Events</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">70000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (2s)</span></div>
+        
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-the-stormweaver" data-location="realm-events" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEO0lEQVR4nO3bf0yUdRzA8eeBx7sZInenwP1wRJIprrgTDcKAuZzLXwurP9QxOZctpLZcy5Ctoj/azFq1RWz8USvYdJZjzsLWYE5HaqXAKYjikOQEPJmCJ9gJB8n1V3+8H9pRYn7bnu/nv9dz99zz2ec+z/e+z/d5TjWbTBHlAYYz4yk40Pbrgzz8pIgRevT/QcgCiE5AdGj/9QFeKPsaLip6Hv64pAA+0dgI5+bl8fXjx+9jdrIDZAEMX4D7PgYs9u6Efcfq4Zzl2bB/1Ak73cvhgpI34c5gGL7efvqe8vwrDN8BsgCiExAd6nSvBdK8X8Fu5wj8S/1P8FBXE2yaswx+40AlfOq3UXhXngVemcH9/xjsjJ6wLgzfAbIAohMQHdOeB2Q/ngUfrCyHl5R+Dgdrv4Bzt78G1+0/CF9uj4cLv7kGq7Ez/nmyfxOG7wBZANEJiI5pjwG3e3ywOczf7YLENjipogTuPNIA+6o+gCdG/PAjb3GMGPBxjBiPnu6kMHwHyAKITkB0/OtrAUf+Fjh47SY8eukH2LP9S7jjKF9XIhyGUl0W2H/mJBw/awGcW7wNPlT+3OSko4ThO0AWQHQComPKeUBO/go48mwpHKx5mzuorKmmcojRZtrhx5YmwFdbuO4fHroAW1J47bHlxWfglhOvw70NFUq0MHwHyAKITkB0TDkPWFS4C+5u4ppb+NJ38LwVL8FXW/k7/mRpLTx8vgY2xahwW82Huoz5nc3bUA3bs5+Gm8vSlGhh+A6QBRCdgOiYch6QnMlnenoa+busRCbAtRvXwbU3OWZ07uP1fuaO9+DV1m74/Z8DsNt+BX61mPOK+vMhuJnZKib7E7DhO0AWQHQCokOL82zGhlDrt7Cvguv4yrAfnLPYC9t09wlGbyTCdwJ74YVx78Lp6Rxzwle4hnhygN9Zx04+f2BJvKFEC7PLDRu+A2QBRCcgOjSzMxMbQmf3w+GxPnhsmPMA2yw+8xM40sEjDOmsm8vXVX0E15vXwymreS3S9f0r8GDwE5pHU5K2HoavV/PzDd8BsgCiExAdqi3Li/UAk8ODN0Qi+uUCzv3Hu3jvL8EyEzbH8vq8+9TLcKxqhS1z+cyPycZ5xWAfx6ix0GVYP695yL1JiRaG7wBZANEJiA4tzlOIDQl2rtMP9d/SvW6BA/3t8Fg/x4zB25/C1jV74NCZffDInR54trKWn68755O21umOfw5OXfoo7G/pgg3fAbIAohMQHVqKJxUbEhw2+NyPfAYobRnX2W818H69Zo2Fw33VcIo7F164nv8ZuljJeUKgtwpOTue9SauL+d6158ORCY5JD2dyTDB8B8gCiE5AdGhWJ8+h2Q7OzfO2rYTP7tkN3w1wfUC1D8CrPuMzQZprPhynO4dV7zuwfy//bxCZ4H+GXI7fuX9yBjwjhmOAfh5j+A6QBRCdgOj4E/zhFGayEW+6AAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">The Stormweaver</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Realm Events</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">60000</div></div>
+        </div>
+        
+        
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-celestial-phoenix" data-location="realm-events" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACsklEQVR4nO2bS28SYRSGKS0oTQ0p1WDSjcYLdkEqElKJYaHRhQuXGrfGuNOF6cJ/4Vq33Vk3XhJNbNoYiCmUGjBEG4Raq1EpKjTaeCkD49YHDJMG4WjmPLt3zjfDO2fOd5sJDoeiKHamr/mAmZkw0SCUamnzP2E+C/F+xjO4H2dv7fx7aAKkDUgz0Hygkfwi4aNrGI/a34/tK0ATIG1AGss5vpE9jXnUrC4i3n/8o+g6oZ4Y5Tw/uA9xZzje1p/tK0ATIG1Ampb+8TCyF30qGP2JuC92GNo9vBN64ORU2z7XWDyD69dmOaZsu/ah/fnJqzj/x/tlxL/Gc9DF527oYzN53Qv8jiZA2oA0lnN49UYAfW4jbSA+enY/Lxg+T73rAn6jPn0Q13MEQ5D9Y7fQ3izd5Dpk6S7aV6bz0K4jkA7vpWVdB7RDEyBtQJqW9wHNrL+l3h3kKeV7Bejh2n3o+mM/+3BgEnHT+Mb2txNobyzMIv75wRK0N0B/GyXLWwK2rwBNgLQBaSw7TGVuE3rPdZ6yukDtymSgzbIXemSSY0bD5YOuzg0x7p+H/lT1QPuPclmRvNxwbAXbV4AmQNqANJZjQHh+hWvpKOOJCe4VPB4X4usF7h1GcnegnSbHmJWm/fvQ90HoWol9vC9a6OidpO0rQBMgbUCarS2c/0AsxXdsOTfHhPHEK8SLOw4hvlnnM4jEX6J9pj6G9qEn+b/6HcL2FaAJkDYgTc+/68UjHANKDq4TzqWLPfVk+wrQBEgbkKbr/S0V43eAd74g4kYpC732ms/kylpna30rbF8BmgBpA9J0vBewolLmO7sXq2lon7Ed2nD2dmli+wrQBEgbkKbne4HsCe7vn77hXuBisbvzfjO2rwBNgLQBacT/DzQTOoAx4VRGx4CeogmQNqAoiiLJL8PWti9XKEvZAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Celestial Phoenix</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Realm Events</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">55000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Dazed (2s)</span></div>
+        
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-phoenix-feather-bow" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Phoenix Feather Bow <span class="text-slate-500">(0.12%)</span></a></div></div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-thaleos-the-stormcaller" data-location="temple-of-storms" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEOElEQVR4nO2bf0jUZxzHv37v/HGnl6gzEWshN3SJYqzVlc7mspGS2DakTAkdzBaNaBtrsh8wMdvCzTC2ftC0hU6TbWIa2ylI2hr4a0y2WZOYc1D+KHFE5e70vLv96+srnByBz+D7vP973fN8P9/Pfe75PN/P83yfUxQpKSk9K2Clb3h0es67mOdVD9pPRZlW1Cd1JW/2f5QMgGgHRMv4uAZyhxeQ04Vjv6K9LSERPFFeD/Z458Evj7pgb98I7TVGp9L+5sDHmjN0PwJkAEQ7IFrL5s8Hk7PISeWeC/jvpX7w+INV4IGxJvCOuKtgg8EAtt/dCU5bswccZboHnnptG7gl0eLXnKD7ESADINoB0fL7GfpGayfmhLFvH6H91sDX4A2ZR8C9P5SBVWMQOC33U/BQF9m6oRC8qegJcJ3rWfB4fqjP76j7ESADINoB0VqyFjD9zvW6IyUYORTjWI3+lzpKwXPOGXDM6BawLfs4OGE2DHx95Br4zu3vwdPTrDsyXukAjxf4znmtdD8CZABEOyBaS/Il70/W/tv/WUB71e4csHN+Alxcz/X+NwfeBasqa3+vl3uCipfteecrwM37XwWveTILXFhbA/4tmnVG07oQfGfdjwAZANEOiNaSOiB62gzurGoEh0euBe/+7GNen2TzeUOziXXEgptzjMMxCZ5PfR5c0ngBbH+7Dny9mnWEszLTpz+6HwEyAKIdEC1j3jj34fv7fkSHKE1tn743BXw2JxPP1bdq2mEv5blD6P9zV7nGBT73bbtOgMNar4BPHn4J9ztQUYn73er7C/0jLNmKL+l+BMgAiHZAtIztcXy3VnaKOVzbX4MLsmtHwIf3l6H/QOkXaI9cvR6c/IwV7FX42sF1fxY8+N0UuHTyIS6I9/A3bKlJBh9sjge3KpTuR4AMgGgHRMsYa2cdYDCPokNoOHOo5zz3/TMOFoCDHKHgv4eZdXNvvg4Odjvo0ees5SPDuc9vVbl86a6jfUsEzyM4khIUX9L9CJABEO2AaC27h/5hRw/miBtPb0X7zLlqsHeQtf2NodNg2+Wb4MAY7gn+tJXP8cQUzhlqGuuGuEN892i9OQT+ZOc2+W7Ql2QARDsgWsueE6zM5no/YteXSMIimxv9v+rlHmHh+++BL4YzJV2Jq/BBfvkx2LdX0V5xFu2dWevfmSCtdD8CZABEOyBafp8VfvFcCdiela/pwef03EbWDR6+dlAMf/BdpHtsUGOPe4SdDWzPm+R5hvbYYHk+wB/JAIh2QLSWzAHxbW7k1B0rz/Ova7oI/oVlgBJijgG/kJ4BPmFmzAecnDO64zbRnon2AjxM8acaG8BBQ49g0OvR7DlutMjzAYslAyDaAdHyu44+6uIckatpf6Dhj+5zve/i3w0UVaULxkD+Ju+YOcmEGdne46T9aot//yHS/QiQARDtgGj9B65UIIjH7iswAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Thaleos the Stormcaller</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Temple of Storms</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">50000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Darkness (4s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Piercing</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-stormcallers-staff" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Stormcaller&#39;s Staff <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-tempest-robe" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Tempest Robe <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-ring-of-the-eye" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Ring of the Eye <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-gale-piercer" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Gale Piercer <span class="text-slate-500">(4%)</span></a> <a href="items.html#item-stormward-band" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Stormward Band <span class="text-slate-500">(8%)</span></a> <a href="items.html#item-tempest-of-thaleos" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Tempest of Thaleos <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-eye-of-the-primordial-storm" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Eye of the Primordial Storm <span class="text-slate-500">(0.03%)</span></a></div></div>
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Temple of Storms dungeon &rarr;</a></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-sparklehorn-the-magnificent" data-location="prismatic-paradise" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADr0lEQVR4nO2bWUhUURzGr9q0jVum0qqV9NC4NA8ZFVhYaJhUhG0QKglRlEEQUT1JQQ8hrfgQWYGJBNmCgtRYaSppRJqluWI6gZWOY5bTYtG1134zcIfLfTjEPd/bx7lzzjf/e77/Wa+iSEhImBkBRisodU1O/suzowIM16mFOyNsb3uksfYCjcn5/yEDIFqAaEzR+4P+cXrwmUfVfD6xYBzPt9V38AH1J+jSlTbw3sIoeNy7tc5v1LPMqi8nmL4HyACIFiAa+sfQ1Dp4Lv+0HcW2+aHgVSXvwdMyosAnVbr6cdUQ+Ka9S8A7h3+AF51qpj5HiswBeiADIFqAaOieByi16+CxnoZ+5ITkfcwBw+pU8InRP+CBQUHgrqDp4GGz2HxDKXOKXs97w/Q9QAZAtADR8PHP0fucW9e3v0N56O9p4JYYK3j361HwiGh6OidzHrjKYV0pe8J5wJDTA560Jhx82DnO+ix8pwk2tleSZcF/Nn0PkAEQLUA0/I6hG4smuN62c1zve0vP2uNDwJMsnOvfbvaaB3i1tyuZ84L23yxvbKPnbQlzwVsav4M/PWbV/I+m7wEyAKIFiIb/efTGV8gBcXH0+JGDXK9/ctOjitcWXVosf++NWuc38ECVSSAiKgz84tUB8L4uNyt0JMscoAUZANECRMNvDqga5drAUcdx9nJxF/jyVZx7b03l/sBi60zN9pwezv3vVQ6Cv2mmx/MPJ4FnrA0Gz/Rzdmj6HiADIFqAaPj4I6+ano/hMK8M9pIXZ2h77OQjriU8Eyy3qL/AZ3D7QDmTHqJZ/zEH9QYvYrnTSX4jPUDuB/wLGQDRAkTD51xgQQx5Jo/ylORDrZoV5lWo8GR1kwvlKSvCwVWV76DmJdcSe+7S42VZ9HDheeppLreDV/iZ6Zi+B8gAiBYgGj454Mtn8pavsKCy/3gi+MDOj3hgN48Ole5O7gFevNCjKWhtaiR47gaWj9xyo73YOTw8bOyg3jFVOwmYvgfIAIgWIBo+OeDSao6zOeUch2/umILydedcKH/ynPWNubh/oDxK1DSlO4n3DepfsPxD6xi44+xs1HegknqvbJH7AZqQARAtQDQM3+2/PkTPdY3wLLAwPshQGyfaubZYFs3qcqPl9wKGIAMgWoBo6L4nWFBLz8fxur/SxCtFhvFjkHP7hV5bhKdqqKdgvfxeQBdkAEQLEA3dY+gDr+8Erz3kuH8329i47w/byv6g/bx0vsPNOr9bNH0PkAEQLUA0/gLKnwf30gsnlQAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Sparklehorn the Magnificent</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Prismatic Paradise</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">50000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (3s)</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stun</span></div>
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-prismatic-crown" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Prismatic Crown <span class="text-slate-500">(0.03%)</span></a></div></div>
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Prismatic Paradise dungeon &rarr;</a></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-crythalis-the-frozen-warden" data-location="glacial-sanctum" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEFElEQVR4nO2baWxMURiGZ0YRqogJEaWqttpFxFZiSTSUqJ2MNVFL7EtrS4lQxJYUo1RrzRCGWlqpoK3SGYKopaYtDS1jqVJMa6cz/nqu5E5uRI/k3vff0zNzz9vvft93z7k91esqWT3Dxnt+Z2NgMMbPxa3RV6YfQ2VO9j9KC4BoA6Ll868nmBN3HjU/fkg/jOsNvAc1ja3wees60z/tCarPAC0Aog2I1l/3AD9fX9RsvymRGI80DQRnPfsGvut4Dm4V1Fr2+lKVf/r0Vz1C9RmgBUC0AdFS3AO6h5lQk/M3JWC8KDkW3KQ2Y5x//Sr41N4DYGPLMHCy4y3Y6aoAm1dEwM/N1GOKeoLqM0ALgGgDouW1B/QaMgE1ZrEcxLhBUnFFku8v3XYMbPxeCG7WsRd4XFgncJ+A6rL+XkYngp0FTvh9VWCX7QmqzwAtAKINiJbXHmBs2gL8opzP4e3xJ8HZFx6AQ0d2A6elHgR3GBQBTr/rAAd35d7gUmYe+MiureCKH190SqT6DNACINqAaHntAZmHWGP+Ae3BFTo+ZjPSDoNnL48Bn01JAb/4yO3+jvgT4KljpoGldyxkxGjwE3sSuKQoWycn1WeAFgDRBkTLaw8YvESy1v7gB356hT2ixNQfvHvTKrDHw5p3lv0A59wuAH98zXVB/dZ8XzB42CBw4OSh4EUzfmLCW+etaFqqzwAtAKINiNYfPSBmfQxqJig8HOOWQ1fAb4vfgxOTcsARozqArQ6u1Z+l87mvq2BP+PbuMdj1lPMbPNHgHv5VwQ2a8vyBVKrPAC0Aog2Ilr6OXx3UfKmLNR2+Mg1ceMcGLs3n2n7ZiihwTWNbcJd2DcHmBL5PsNmugd2SdcObvDPggJDF4PjE1eDcG3x/EDU1BKz6DNACINqAaPm43T/xg/l7LoLzL1vAxTncb+++9hp8YOsG8H7zWLDV8Rlsy8oCz9q5D1yt7B3YYq4HfpgRS7+3OV9C0j2dnFSfAVoARBsQLR/pGRsfvRsP3hLHaXzBv80AsKljLfC9Tp3B9iyeB0g9dR/s9vCdYs9GVcjdG4Pzn3Bv8jCD5wtshdxrFGezp0h/X9VngBYA0QZES/EZu5lRa9AjJs1bjvGN5kxwnqRGv5YVyxqwpnMdYitiTfcOrAEODa4LNkjuqbdzhKrPAC0Aog2IluIe4OtbAz2g79wz/IDbDWxSl68dj24YDpbWaNvQaFw/Yu0yfN6echZ8MXam7PW8SfUZoAVAtAHRUnxWeOFmnvubPoF7g+O5X8EnNrKGvdVoUHPek9LcR+AtkePAz3Oug28k75K7/B9SfQZoARBtQLQUrwOk/8NjMChrI65yl+yc0r9T9Jm4AOP+tXjPnJIzRnZLrKL5VJ8BWgBEGxCtX4DQOhIIxez1AAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Crythalis the Frozen Warden</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Glacial Sanctum</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">45000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (2s)</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-frostbite-sword" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Frostbite Sword <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-crystalline-plate" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Crystalline Plate <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-permafrost-ring" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Permafrost Ring <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-blizzard-staff" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Blizzard Staff <span class="text-slate-500">(4%)</span></a> <a href="items.html#item-glacial-ward" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Glacial Ward <span class="text-slate-500">(8%)</span></a> <a href="items.html#item-scepter-of-eternal-winter" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Scepter of Eternal Winter <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-glacial-heart-of-crythalis" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Glacial Heart of Crythalis <span class="text-slate-500">(0.03%)</span></a></div></div>
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Glacial Sanctum dungeon &rarr;</a></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-pyraxis-the-molten-king" data-location="inferno-depths" data-boss="true">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAD2UlEQVR4nO2bWUhUYRTH73VJJyuxcUmt3KrJMFuJiEjMirRAI1HqJSiCInpIQzTKXuqljRZ8qYgetB4sLA1se+khJdNC0VZG03IZRUczlxkdp9d+N7jDUPkF9/u//fzucubc75x7zvddFUVKSsrIUkUb4DqZ7v6Vfc9UT6tNPtN5s/9R0gGiDRCtfx5vY0/2IcbrSp0Yr+nvBa/NWsvxs4/Bp9sb/6rNhp8B0gGiDRAtvz+9gPPeXsT46EQYxq3VfeDL7+rBOFlRFJ+KUXB8XBB46HYeTglOvfRHOcHwM0A6QLQBouV1/Jy3WBCDuzYtwnh9xzC4+fMkOPXAPB7/qA2cszwGfKGa44e3RoBbHA5wbtkLr36T4WeAdIBoA0TL6zpgMmkOOOvuJ93j81cuAC94yRyRsooxff1NP9jqYA7ZW/4F/NVp172/Jxl+BkgHiDZAtLzOAYn+Jv5BZQyujmftXtL0DTwUGU0D2vkMHvbyeqGmGWDbuAtckMG6oqiCvYcnGX4GSAeINkC0POYAsykCtX9o71yM/5hqB984GgvefeU9+GYbc4JWljh/cGlSJHhZ1Qdwii0BHBLQA3vtjj7d3sDwM0A6QLQBouUxB5zYEgV+0jwIXhnB93TD8zFwB1OEEuTD4300SxJt7az9a3aMgy3xgbSncwRcsHM+uOi+fl1g+BkgHSDaANHyuH4WFhSJ9+q6WaEYv3cqCXytxApuHZ4Cl/d36d4vN5I5J8aPOwf5+7l+kHWBdUXtiA3cP2aTdYCepANEGyBaHnNASEAYgjDDHIvx4YWM0Wgn+/XyDz3gB8csYLfKZ5B1kbV+bhJjvquT3xeYldngSjv3EfpkDtCXdIBoA0TLYy+g7acDYsIR9MmTvER1G2P0+Jpw8AbnTLA7kc9Au8ZX9YzfC6RnLwRbG9ls9HXpx7xWhp8B0gGiDRAtr/cFruavIVd1grcPsJ9Xle9gbcz/phbWETma3mDEzrqipHgj+FbmR/3ra2T4GSAdINoA0fJrXJGG9/r8svWaQ9jPm141gYdsvuCybsag9RxjdHzuLLArkGt8+cXcF4g/2ADeE8L1iInQALAjjf9/4M4LwXjgjjuoEww/A6QDRBsgWmrhtlTETOBSxuiR7Waw9TUvkJzAmL3/luvwmdn87m9iNnsBxcX3vq+LdcTT4lpwSmYyuNvJb44WqxNgNZjfNFVWcr3A8DNAOkC0AaKlmk1R2k/2dVUYtxi82cx+v653AHxoCdvzKQv3BlU3b68OMifcrWNMR83k+SnhzBkv7WMa5t7huVbmKMPPAOkA0QaI1k92bwm1hhBevAAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Pyraxis the Molten King</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Inferno Depths</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">35000</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Paralyze</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Dazed</span></div>
+        <div class="mt-3"><span class="text-xs text-slate-500 block mb-1">Drops:</span><div class="flex flex-wrap gap-1"><a href="items.html#item-flamecasters-staff" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Flamecaster&#39;s Staff <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-magma-hide-armor" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Magma Hide Armor <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-cinderstone-ring" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Cinderstone Ring <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-magma-fang" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Magma Fang <span class="text-slate-500">(4%)</span></a> <a href="items.html#item-emberheart-charm" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Emberheart Charm <span class="text-slate-500">(8%)</span></a> <a href="items.html#item-pyraxiss-molten-core" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Pyraxis&#39;s Molten Core <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-heart-of-the-volcano" class="inline-block px-2 py-1 rounded text-xs bg-slate-800 text-violet-400 border border-slate-700 hover:border-violet-500/50 hover:text-violet-300 transition-colors">Heart of the Volcano <span class="text-slate-500">(0.03%)</span></a></div></div>
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Inferno Depths dungeon &rarr;</a></div>
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-infernal-crawler" data-location="inferno-depths" data-boss="false">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADS0lEQVR4nO2aXUgUURTH78zOrqxfhVpqIZIl22JhRaFBlpXQkxARPUSaREERVPYkQVQ+ZAQRfUBJPehDDyv0ImTlU8VGmZBGmS3r+oEo1QqyrrjuqjO9+p+tkWF3OcSc/9uPc/fOmbP3nLlz5grBYrGsLCnZE35w79aW89aiKNgzuz8bXnOkogJ+v6GnJ+k+Lpecysn/B3EAqB2gVkrzSwghOvOxJhw8gjHPePQefHhix/ENd0pgvP3Cs6T6bPkVwAGgdoBaKa8BevWdOg45vq3eCXbf/SHgjNk54IK6NcD2uq6E7sHyK4ADQO0AtZJeAz66KiHH165G+49hMIuao7nASpUKrBXXAkfbO4DTGvcB29zNpu7J8iuAA0DtALVSvg94UYg1obw8E+z+oWngUQX7Bw1tVcCauhl40fMG2FaL/6mt5rnhPVp+BXAAqB2glpLoBL5K7OE5dDEdGMUUvPE1COydmgc+aSsCbm3qBT5zOgz8PWQHLhs3V9YsvwI4ANQOUCvp+4ATzu1QE74szYJ9h8gBjsgLwP3qDLBLxX7BgYpNwHXVecBNbV7gpxODvA8wEgeA2gFqJb0GZNmLoQbclF1gP3trHXB700/gFi0AvErD57xLwncJFdsLwrPwifsBZsQBoHaAWnH5ci5tD2TVtYtlYC+43WqYY9m6GtCZgzUgkocxfxzAGrBXcQDbdH/Rw/kp4KHYMH8XSEQcAGoHqBXXD5jTloBL775K6AKDM5iib0PYD5iUfwE3OtcD++UIsCdqAy5x7oKa0x3p5X2AGXEAqB2gVlwN8Ap8zjYrbuDrKu6+3UqW4QWCUgy4axHnv+LA9/n62AhwoZwOPKDif3ZVygZ2O7FHeS9ifM7Q8iuAA0DtALVWfGaWOkohp3IlfD8PatjTy5dwL//gED7X97/0GV7vWDqO75ibAJ5ZGAOfqx1u8O9wPp4hujT+jmuAkTgA1A5Qa8Vvg/6YH3JoKm0j5Nx0LAD2oK4fcPn1JMyna+GJsC6nfZFc/RBD9Qn8tpj1O/yPkX+X5VcAB4DaAWqZPh8wHQ2Yet+OCjz3V6Dg3j6M2wjxTQoBn3fuBG4JjQFvkXC+gIxnjFaS5VcAB4DaARaLxaLUHxhkyygm5rRuAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Infernal Crawler</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Inferno Depths</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">5000</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">10</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">5000</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Magma Spit (80 dmg)</div>
         
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Inferno Depths dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-glacial-sentinel" data-location="glacial-sanctum" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADO0lEQVR4nO3WX2jVZRgH8M85bg4q22YXI/ojkhuZ4k2FLXWFw8oR/VODhhTVRaBCUVZQEBlpNxXVzcZMkpRpUcu26ULddFOTWkpIq6kxjYy8SI+22LKz7e3iPefirGyCFzuBz83v9+P9Ps/7fr+/58/LJbtAq1heFyqW14WxcOUr6kP5ivoxcVlLXtyxLt4SYwEKJ80OsKV3N3jgxjvBQ/dXR0Aycmj6vB18caQD1FRUgXNnu/9zj3FXoGBMxEj8nU83fRO/i0vBhvWrcmBNUw+AZZ8cjG7JiRd0gHFX4Lz/p72zO8Dx62eCTavfASP9Z8C0J57MCXF03VpQVFIMFr/0LJjSdwgsmD/7X/cadwX+kQNFxbcG6O0fBp1f94Cugz+A0ukzwN433st4RGJXlF0N/ujO4L6MzCsn5cYdXRX5p8DIUDzg8xtjPScGBsDcsstBzZI7wLa6D+J6pg/ULJ0PWutOgOZNzaCldDII5ym4/FHg4drnAlxWswg0vl0Pwo9HI+DeyPDQqUHw2Np3wXDGf3dHN0hmGKdbdkb/qTeA2rq3wJ+tTQE+anwzQT4okM3Ou9a8Dhp6z8SV4hKQTAyBvQd6QVn5LWD7ura4npwQ8QO/g9+6D4MQQk6c70umgGVrXgNbtnYG8kGB7MvR/sj0WMcuMOGnY2AwU7eFoSDAyQ/XgepFC6NjYSFo/zhmvTMpkO7/KvqdKIsddVtUbHjmUpAsiLMiDxRIRhF29P4CBra2gMG+lpyOVXVfnP9d+74FEyddCRJhJAKG47NqYayW9sZ9IN3XnID+nUUBGqrmgKGhiB9/Bc6l9ieg58WVAeZU3w46ejaBV1c3BDhd8wjoKfsUtL3fmBNo8uIlYNbj8Tl3xrUBVr38VALm3R3j7l4Zp2T67P486QPZl3N9rQnYk0rl3Gi7vjsODqc+A6d3bAfpn9tyciTVURpgw19pMOvkkZyNujY2Rb9Te/JrGp73RlT76CsB9l41Dfy6KzKX6Q/p1L4c38LiygDhutjxrllwD6hMRfzm9av+JzeirN32YGRwc4jz7oWu2POHRzHPWjarC2+aEeCZeXEKjiQqwOZRt+isjbsCl+xv8U0R1RQPQp4AAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADvElEQVR4nO2aW0gUURjHZ7fdhMpW7WGJbkgmldFLhdnFIrHLEl0tSKKoHioLiq5QEBldXioqCkWTIkMraisvGZqbrlrUpkRkrRpWVNRDttaGZqs7vfobYZZF4RBz/m8/zsx3/vPt+c6ec2YURUpKysgyDXTA+B1Zam9uvrS9X31M2JmNeC0Xtw2oZ/NABvsfJRMg2oBo9buerJGJqNF73iq0r5g4H7xqeQoDmPkbOO9Xgh82u8CO+GRw109Pv57B8CNAJkC0AdGy9DtCEFOAssv5gu22aGD+1UzdcM7YenDG7QZ2Zx4cpkF9GX4EyASINiBaYf+HVlZ7UPQfxk5Be+GJc+Cgvx0ct3mLroWWvFxwRJQNnHZoD3hc6ytw6oLEsJ7J8CNAJkC0AdEKuQ6IsM1AzXv9PWivft4Idje8BUdPSgDXnrqg6YElO8w+Evzbo4n3hDWfFKnvN9RewfAjQCZAtAHRCjkHBLtZQvuvc39u6ugAz7EPBTvWzAM/yLrC+zXnAY71C8AlWZ/BRYVF4OLoGLAa5vbG8CNAJkC0AdHqUzBr0/fif3SIYzXaC85mg9V3LQywlDX8qq0TvDH3PJirCkWpcnnAZk2NB4ofsf/Y8eD0rDPgPyVOPM/NgtOY1Aw/AmQCRBsQLYt27bzw5HFckONt5x22KKDZ1A2urfeC7ROmg8vzyni/eRDjd/wCfvc0gVWVZ5BaP2+ixoEzTh4D3yutRgDDjwCZANEGRKvPOqDFz5p+73oMHvTxPbhTs9+2qhbU2Ldrebg+ZfUSdmi1Aitvca2vtPuAAf8z9vfZzjPKB5xjeqasB5stfK9g+BEgEyDagGhZFDOngQrvF3BHaTG4s7VY94wteRnf/7vrXoIHRw4Hm9QgA/SQk5dwb1FZUAcOtBbBj/9RBOaEnOTZuL67m/ENPwJkAkQbEC1Ll+8paqjx4D7U0OyUWbjB1VgIPnoiB9f/cKxDe6P9DrjscoGuoZi0NeCpm8hzEkajv8zDW+F/7iL6rdrHd4mBn0/leUBvyQSINiBaffYCXa0lqJEan0/VXtNb7tcfwE2+u+AfFeXgwKcy3XWEzxWN/vL/BtA+9Vuz3u2K+7qT/bXVyHeDepIJEG1AtML+Rih9wxHUaO2IOLR/fcyaVzTnBwFfnW6fVlsS4qtjeMY3KnUxOMnH+DeuZspvhMKRTIBoA6IV9rfCM1eyBqepfLt3wM1z/p4QNa+Vdq1unZyAOWH3XL4LDJriwTdCfIusleFHgEyAaANSUlJSIvUPTyMRcIcKr3cAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Glacial Sentinel</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Glacial Sanctum</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">3000</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">25</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.7</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">3000</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Frost Beam (130 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Glacial Sanctum dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-lava-golem" data-location="inferno-depths" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACrklEQVR4nO2Wz0sUYRjHPzOzw+Im9IswU/vhtujFjOgHBgVS0qFDhmUQRHXqFNLeOhR0NA8l+AcEgVbmpTIKkVIhow5qZCSZFrGJSyaVJO7szNvheQ0m1w5rsBP1Xmae5/k+zz7P93neZxb+9WNk6/il8bACiKSeAGBfmMwqlpltAn/qhLJ1zH8wCoARLdCayaziBJ8Bt6NGARjv5wAw473S69pCAD5OvwPg4baYAqg5sREAZ734h+u6fjsbwWXAaTWl8tgEACo1BsDM7gIF8OpaNwCWI/itRgSAdJHMhh0t98Wxj3sZmcg5A4v2Z7beUgAjbzwA8lOiX3t+CwCR7eW+CK+fvgRgWfMwAI7mtmSD1BhuDygDi86AfekYAEUNbQBMfVAA5E2/0AjNwMwtkb5JgQkdccVyke2LR0XRfjPj7+ScgQV9cQd2KQCv9TkAdpO/dyMVMtWlv3A3JqNC2ZAf78YNiXdyj8Sr7PXZc87Aghkw1DMATC+zw+bTMgsz90U2dT3RAxow5McrbbfcvozxgseAd0OeiUG/3qmVXrrjIk8MKp89ViGlpusEF+qQ2hOyHihuy5xA8BgIXZbM31YbvhKtxnoAvE659868VW9Ib53GnamTl47bAJjftb5J/WWbMPpIMk63yL3HkR2ffCz2iin/Dkn0C2OF+wXnXhHZOidxnJoq+Sp29QdrDyzoy1zDPgUQbu4WBuK2Akj2pAGY/Sy46Li/p6OlUnFkpchr9orZdEpEMbQKAKtvIKAMpKt3KACz1AVAhT4JIF4lAP3V866LGLrqZ8A5q3t+SivyDgm+pQcAa9NOAFL3vgIQ7pFZyDkDP2+BeVB6ZMTCohiW/4Dz0+92ip3VuqcM+gKZBWUCv5sEwD4yIvpivTAqZThCd5J+v6Xl//8s/fwAEQTLsr8ub5IAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADMklEQVR4nO1aS2tTURC+T0JjwRcSa1sfiaFuYkV8UEGhaHDhwkq0giDqypUUs3Oh4LJ2oYX+AEGoj5qNWlFK0bRgRRdNxIrB2ioSS4O1qMHS3Nwbt34n9FwvhYxw59tNZs6cj8mZxzmJojAYDD9DrfWGP7qPVf6Wg6UXoDcvz9aUk1bLzf5HcACoCVDDqPWG9U8mQVYjIcFitnZkFD4BHADfB2DZNcBOxaGvq58XQa8lR7CvdzSA+HX+E8hPd0bBX/z0ZtBbG3H/QGJoWXOD708AB4CaADU81wCrX8Ocj86AvlKaArm4LwT2724Og1630P8ONQhyuRHnBjOyTcrHPOV4qgm+PwEcAGoC1PDcQxc6dci53AcH9PUltF9/aTvIwV2YwyKD9y/fgryidwJkS6hazZvwOwwMcA3wBA4ANQFqeJ4DzKsnQW7sug3y3BcoEUrd/BvBg1ADivdQ+wtTOC8wXLUS9eaVE2gwcFfxAt+fAA4ANQFquPZMe3wvJLXT/xr0Zo+87+ZiOKuHXarOFI4VSktW7t9OqsjvzH7k1zoiXe/7E8ABoCZADdc5QK28AllzljBcAlvP4VxQfIx6TcjQyGHBQVbuvyKs1+3Rfyen8AngAPg+AK41wLmDcj4jt7c6sC/b06ifyWBNEBGNYVKXE+jPSGHW5/H5QGnCq4krfH8COADUBKjhWgOMa5hzH9tVaRLr3Z0gO4N437fE1cIborNB8Hc+gR+k7oOo/Rbse8TJQA7fnwAOADUBanh+E4w8wxwr9+F9X7HwHb/wHNfH5uRvEPkxrDENh9CffR31+kXkY8Xb8LfCoTF+D5CBA0BNgBquPXOx6yDkVKB3GGtA0gR9IV2G9Qvf0V9kWt6nJ8OY48HVqF93AJdrVjMaZNeAqI+Ocw2QgQNATYAaVflRbt8NOaiFbdBXjG/oINmGDoTf+pxbqDZuyGuAdUHo82cFg7qj6L8vDbK+ZQ/IpUc/QQ6kcS7w/QngAFAToEbVXUA7gn1UjQbQYAL/ByjO/vYgrlfWCn1ayUgJaaEWdP+wALJ5PIf2TcIDQysODsYDXF+1n1TrA3AAqAkwGAwGJf4AJNzL6ullfBMAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Lava Golem</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Inferno Depths</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">2500</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">20</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.6</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">2500</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Molten Slam (150 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Armor Broken (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Inferno Depths dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-glitter-golem" data-location="" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACiklEQVR4nOXWX2gVZBjH8c85bC6dpwlB2BjM3ZihkeFCUBSvJMG8MgQ786IUvMgUzYroIkQEzT8XB4wK6aJZemNduUGCgROMpIVzlk04DdT5J3WeuZx4PG8X725Gx53jUM7Bntv39zzvw/d53ud5+b9bYqKOQ7s/C1BITgMNm9dNKFZyogk8LqspV/jz4eEA81fVJ6A3twDcGBweq/tmKOraUmURqX4CD07nArS3XwUdC7sCzK7Lg2T9AOh545cAPd3XQf63wQA1c6eNS6L6CezcmwX3autAfmkKTG79HYSGqOtOTgZnzl8A2V3Pl5VAxQmU7NT+lvYAzdl0As7u6AzwzOU/QSEfQG76i6D109cTcLn5YIDG/requwcemt3xL28HeHZKbJN56fox2lsbt8VJWB9r/9yOrWPOT397J8CdUUJL1hSfCxUn8NBXMKn7EMhdqwUPvnszwImTr4LBOe+CkTgO/LThboBFC3pAR2cHaJo6Mm4C1Uugu+VtMDR4Bpx6rxd8uGk92JX5AUyvbQRtqzaBrrV7ov/SWeDivFmjEduK3lO9BF55uQBmZM6BCx9sA4UXboCrfbH7B5JxF6SbbsXz7e+DtbuPgL9fSo2bQMUJlP2LyX//dYCjnXEnrPhi9RjfH9NHAize+A+oey39lPwHvtpyL8DIsbjlcgPFa3rlbpwP9z+PP6QDG6LfO5m66t4FJQk0rY6v4eb5++Di/ttFdf034/mlj5tBY2F0RGbGj1/9BJI1kcC1bOyBj7pWFq3pJ8dnJmD5sfgaJs0YLib7b/yyVE/QShJo+eMv0HtpalkBz/0aa9/auqwsfcUJlLS+hkzoa8iER/XLpvaFbGpfSb+KE/gX4T7KWOhpZnwAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADDUlEQVR4nO1bS2hTQRR9PpLGmsYUBKkhkGbhDxWVRoSK4qooqCulUBMXWsGFsfUv4kKKFKxVFwFFRVwYf5vqygQsVDCCYjHSmmptIQbaxlbb5tPalKapW0/EJ+PEXOHdszvcN3cOlzt35t15T1EYDIaeMa/YE6ZbL839zHNqOditxw4WVZNazMn+R3AAqAVQw1Boh68fTcIa31hrhjUdSVXD86OJSW1/d9Poz2MpaI3QfQZwAKgFUEO6Bsx2pmCN+v3DYA9sCoF9lSkLdtUcB9698w083x3+CvbsuwTYDevKpWqC7jOAA0AtgBrSNeDilSjwaaMJeLbGArzU9QH4nBX9hdVS4F29/cCjLYv/RuZvofsM4ABQC6CG9Lk65vTDvuyIusHn++Yg2OcPfYLxuSyYlVTFcuCu89vA35DjHgywxfbyOUAGHABqAdQQXj8dN5OwBhcuwKNEldus6XO8oQl7gmbc9xc1n9Qc33l/AsZP5NWQrfvE+gW6zwAOALUAagi/C5SEHwJPjRiBzz7YA4vyxcv1YE+sPgw8g+0B5bl3CsZvru4GeyAYAG4vy/xJsiZ0nwEcAGoB1BCuAWHnfuDpRBfwV0ciwE83HgLe4nsCvMJoA+6pbQQeqr+M89esAD5QhVxRPPmSNaH7DOAAUAughnANWLsmB7zS1wO8/1QT8NySUeDDfXj2j6t4L+C2j+P4CyeA17e2Af+2EnuOotB9BnAAqAVQo+Df42Qf34Gz/NMg3hPsulGnOeczdxuM39LwHeymDW7+PqCQ4ABQC6CG9N3grePTsGYz7XiXl4qL7dNfprB/MHMdvyG67cX5DvhMfC8gAw4AtQBqSNcAex2+G4z1zgAfuJYU8hcbw/GDZx3Abbm8JqJPyP0v0H0GcACoBVBDugaoBqwBI1E8B5wJ7Rbap891LIPnd7Tju0FJpfa3xaLQfQZwAKgFUEO6Bjg/fgYeGSyTdQnoeYv7vsu1vaD+dZ8BHABqAdSQ7q/1WX2wTy9Nev/pf39Ry1WYz5k+yv0AGXAAqAVQ4wevxcipegzmyQAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Glitter Golem</h3>
           </div>
           <div class="flex gap-1 flex-wrap"></div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">2000</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">20</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.5</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">2000</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Glitter Bomb (100 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (2s)</span></div>
         
+        
+        
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-storm-herald" data-location="realm-events" data-boss="true">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADDElEQVR4nO3XbWjWVRgG8N+zjY3xyJKaUNYyM9bWmGQZibQKkaI3+7CiwAhJamQamlNaOk0qqSzrQ0pkLx+21USEGlT2ImjL2KQMWupWrplUoLUJ0rNNt3X6cDZI28sn2yN0ffnDuc85932u+5zrvv/8j7OM4uqOUFzdEUayZ/yXwQyHrLEmXLkuRt+2dmoCnmnuC/DagwvAXZvfBHk7XwIb11cn/rl+9twC0H/1yQA/luecZk9fBqZt6wlQNinG2DY43ljzItjTVAuWvbsbfLK3Ezz99akAob0JzLgkrv90+WPD+hl3BhIjGUrW7Q/wweNXgRX7BkDf9ltBMqMQ7GrJBks2bgD9MkFbewp8u2UbaP1s4bC+0peBIUxd1BBgVtF0kMpoB7OvyAEnuvpB3eBTT+aXxvFNq8GpP38Gx376+BxlIH/y9QGyi28EN1Q+B+YXxlzv//IIeL12M+g5sCeuW9UAXrjjAjBvSiI9GfiXDlxUXhVg0UMrQd3L9SB1+H1w6I0nwMqsmaD0/LhF98FGkJmdBy73PdjXGZm7b0N9gK0r7k9zJaxYHXPc3PgFODYQlS55cRGYMnceWDDzOrDk4SdB5s23g6O1axLQt2tGgOm33QQOXntv3Cd3YYBUTypBOjGQzE0G6GuJJ885EG931+76BCzeGzX+7adWgdaGaM8puwW8svROsFhGgNxLS8B3x6OCZrX8NmwA6cPAUE5q6z8M0Hso3uJp89cGaOmKStd7+CvQ9esmMHlifP91R6L9rxC/n7/6AOifFPWg6I+m0/wMYdwZGFMJh+7G8sYTYGvlFvBL8zIw4cIyMGfpW6C06Dyw4/l7QMfxWDU726K9u6fnnGMgN0Dx3evBQN8s8MNHc0Bq8EQFpY8EyCtfA3p31oD2xqpRfYw7A2N2xe9s3wEqq94DicF+IHVGLq8p6gY5JRPAyYlRKdsbR99/3BkYMT8FpY/GB50Z635v5zcgmR+r4O+t8X/gTCYqao4GuCzETunZisLBean07AfOGpK5yTCkIaNh3Bn4G/T0AYmP+9oUAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABwElEQVR4nO2avUvDUBTFUw1iUaGUQgcRFRSxivhBwEEHB0ep4ODgHyDiJLgWClldRLu6CRZUBBdB+hcUC6LSQUq7+S0UWopUrasnQ0Jpklt457cd7k1ycrnvvdtQTSOEEEIIIYSoSMApYe6s0fivb9YCjtdIYlyg3+yqvd8Ob+20PyyAtAFpdKeE+Rjq+sETrDE93Afx3Eavp3vE7HEFnl//rEB8egzzsw73U74DWABpA9I0vV6nDi17QCQM8cWlLtD7UftzeP26BvdLLwchf/cZz/VM5guu/379AH2309/UOynfASyAtAFpWj6zzbJl9s5jvJR7AW3Eo6BD3Zh/lX4HPTAZAR03fkFvBTtbegflO4AFkDYgjetz+4RZhD3hITEMz9i0nOtlHOW1kxGcG8aTJcjPJ4dc9ax8B7AA0gak8f37nln7gTV9tAdSKyZ0Xz0p3wEsgLQBaRy/CbrN+Sn+nl+IvYEu+mlGYwewAMoXwPM9YCZVgIO+eluA+P1gyGsLtijfASyAtAFp3J+7V6o43F/2wDNGt7MQf0wZov83UL4DWABpA9K4PwdY1ny7o3wHsADSBgghhBBCCCFEgj/VAlrV04aCwQAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+            <h3 class="font-semibold text-red-400">Storm Herald</h3>
+          </div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">God</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Realm Events</span> </div>
+        </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">1800</div></div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (1.5s)</span></div>
+        
+        
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-thunder-elemental" data-location="temple-of-storms" data-boss="false">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADmElEQVR4nO2ba0hTYRjHj5s4xsSkFMoyM8NmMskyEskKkaKbfVhRYIQkJZmG5oXMW2JJZVkfUiK7fHDWRIQSKrsI2jJUyqDlZeXSpAKtTZDmpputr/2PtXGY8CDn/X/78b7nnP95eJ/n7H3OGccxMTGJWV7UBjxVRPGQ82/uLw8VdE+SubUz/8QCQG2AWt6enmB1GeagoRRzsLzLDuPXD6fA8XtqbgH7tV4GrqoodpnTcYnBwI61U3C9T2qZy+NFvwJYAKgNUEtwDQhrtEKOxQdiDA28+bq6S8AdnRrg7HvtwE+7TcBn30zD9ZzGThiPXobXf5Zz4l+2/yvRrwAWAGoD1BK8F4gs64WcfHhyDYzn9cwA25u2Aysk4cBteh/gzKpKYAcnBTYYLcDvahuBB56nsr2AELEAUBuglsf9gND0ZqgJscooGLdIjMBxq2TAE2YHcD1uLThFgArnVxcBT//6Ajz2+QmrAULEAkBtgFoe14CAoI2QtD4Rm2F8U+554ORwfK73vhoBvqGpAbb2deD1CpuBL+5aBJwU4sVqgBCxAFAboJbbfsASdQHkePqRfBivv6IFtgw/AB68eQo43zsGWLUQLUz264ClPn7AK7kPwD0mrDkHKrXgtyHvIOsJuhILALUBarmtAWlF+Bzv0r0EHpvBnp5iqRI4JDEJOCVmA3Dm0dPA0q07gUc1JZDD9rZoyPGoHVtgfv/6/ehHngrzLVYLnE/0K4AFgNoAtWbVAIVcATlj12POy/rwt7u5XQs5ldGNffw7Zwph/kAzHi+L3wZ8NWs3cAYngfPJl0fC+Ptx7EF6679zQiT6FcACQG2AWrNqAP85qdE+ghy0DeJv8bDkUhjXm7GnZxt+DWz+Vg0c5I/7//oRPP63E/nFtUPAjkDsDyh/4rtD/v3wJfoVwAJAbYBaHvcE+b8bcnQTMN6QWwv8tSsb2HdxPHBC1m1glXIBcMuFfcBD4/iu0WTA4yetVlYDXIkFgNoAteagBsihBkTsrYDxGXss8MfHCcAWXo4Gq47B+fzUJTDf1loHbNQVeHQPol8BLADUBqjl8bfCd5tagHML7gN78b4P4Oc8X+uUk8CySF/gKX/sKRrxNYJgiX4FsABQG6CW4GdosOo4btCl+L7fZnoLrAjAd4E/BvD/Ae5qQlrdKFxvhRO/KTqXhnsBd/t/vkS/AlgAqA1Qa979b5DffxCa83yJfgWwAFAboNYf7fUCgzPalwwAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Thunder Elemental</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Temple of Storms</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">1500</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">20</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.7</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">1500</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Thunder Slam (120 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Multi-hit</span></div>
-        <div class='flex flex-wrap gap-1'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+        <div class='flex flex-wrap gap-1 mb-2'><span class='text-xs text-slate-500 mr-1'>Immune:</span><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30">Stasis</span></div>
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Temple of Storms dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-frost-wraith" data-location="glacial-sanctum" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC2klEQVR4nO3WX2jVZRzH8dfxz4xyY8KsdtD0Io3JdE6xrSRTQlPDPzN3YaBeSFkkka1C1KibLFB3USFsaARhh1zoxaxkaioWNWNaDdskbJrWcfaPzfWH5vx18WzJodgfCc6Rem5+P54/3+d53t/v8/18+a+32EAX5JeURVDx8LJgIBZMVKwqH7AtGHQti/7N1u9Tz1m9KYJnn3wMRN1LB3dbaL/QAhbPLB4Qicwn0OPzquoqML8wL2W88btfwe15N4DnX3sLVD6zol8k0k5gSF8TJhSXgLOt7aDmUgeYWzwKTIzfmDL/ofLFIPFOIJes39MricwnkBcfAwYPGQqeqlgLsjZtAEWFBWBsdwwcqnsPFBZNAcn6Pb3az1wC96zYGMHkoiJw5tskeG7DOrBm/Yvg0eVLwX2lE0Hljl1g4bzZ/TpA2gn8LUJnrXohgifWhIw39bYc8FLiKHhk0d3gXMtp8FHDSXBX8QQwMjvEyqn2YaDtx1awdun0f3wNmUdgx95PIlg5707w+tHz4OvzIQZmTB4H5hTk9mp4y94mUHpHPjh56ivw+KKSlD3TTuCvV7B558EI7p02CRxoDDdOJEJuL3uwHHzfcblXg7/9cQXUvV8LOtqng6eXlIJfEoeDqi6bGSMTCORPWxDBxa6Q03/vCgOvVL8Jmj87BtrufwDk5mSDA81tYPSILJB3U4B5+kLobzpRD7ouB2KdV8JdF5QW4qrKpp9A8tPaGHxQOz6CxmMfgn3b1sVg1uqXI2j94ScwJn4LuHipM+Xb2RV83/LNuZQNjmzfGHw9KFRU+98N2tCjkukn0PPTULO1XxVM/ech8315PPh4dP7NIIrC+PBbg3rGx4Z8kQzTHKpen5mZsM96oKfNnRJuJgrPZPcb20DzF6G7bGXQjtycoB2j4nHQ0IfdzCfQ0fYzqNz+Noi6nZ38uCbFp02TpkYwLCuo4b5XK66Pqvj/9ic1zNLFtoU/tQAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADX0lEQVR4nO2aXUhTYRjHj7o0KsVgfeyg6UUfKNM5xVxJpUSmhamlFwbphZRFEtkqRI26yYJqFxWCQyOIGmXkhVZiloVFzbCvYSphq7Sm9sXm+qA5163/Y22ts/UE5/3f/TjvOee/Z8/zvOe87+E4JiYmKSvA3zdQpOS5JrN2ayEaCEAL2pICv3uarMB/ebP/USwA1Aao5fN6yyitgZrfv3sHHHcJbhkkcGAbNgPnpqn92hMknwEsANQGqCW6voTzfJ2+Do6vU8rdnm969xV4oXw68MHTF4B1+4p82hMknwEsANQGqCUTe4FYdQrw6xEbcOOYHThTHQEcx89we/3NBbnAhsvYcyzGJlE9QfIZwAJAbYBaonuAnI8CDpJNA96jLQcOrqkCViljgKMFzwEdbdeAlapEYIux6c/N/kKSzwAWAGoD1PK6B6woqoZ5OEGlguOv3lqAD1RVAJdVHgbeviUfeLUmDljXcAl4Q9YaL9x6luQzgAWA2gC1PD5Hp5ccgprfVYZrfEkLwoCPGDqBt+UsBx40DwDf6+4BXqaOBZ4Tis8V/bYQYOvHEeDy/FSv3g0knwEsANQGqOWxXhpaHkAPKM5aCsfPdA4BvxzC54CVCYuAM2LCvTIo1PGWXmDNEgVwT/8L4J05KW5/o+QzgAWA2gC1prwLHDt/E2p+VXI8HG83YY0bDLhun7epAPi9fVyUwW8/JoDbrjcD222pwHs3aoC/GG7jXmVhGvQEyWcACwC1AWrJFMnZUCOjTlyn/+7EE07qzwH3PekCtq5dDxweFgrc3mcFjpwdDCyfiW1pYBjH9z42AjvHscc4JvA/zdYogYV7mZLPABYAagPUklkeNsO8eKt5MdSIqesunNBaWwHj00uPwviRD59gfBQ/D3h0zOGWHU6c981vBn/nneM4jrtTX43zeiB+o3TjKu4bCPcSJZ8BLADUBqg15V2gu/GET7/BMT7FNb/nj3Aej1TMBXZBBXPcrPm498hH4/qCBS/Hdegr2ZqgN2IBoDZALdHfBwiVmYg1y7nwZeLK2Vrgvmc4PK8Y9x3Cw3DfIYLngbv/wuNkST4DWACoDVBLdA+wWz8D6+ovArsEE7vlfqPbebo3PglOCAnGvcHWU1r2rbAvxQJAbYCJiYmJUj8BF3TS/YSftkEAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Frost Wraith</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Glacial Sanctum</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">1200</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">10</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.5</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">1200</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ice Shard (90 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span></div>
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Glacial Sanctum dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-blizzard-elemental" data-location="glacial-sanctum" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADIklEQVR4nO3WbWjXVRQH8M9/LNsclutBrKylxCrWA44I2cxqzUx90QOBMAitKAeWBWEQo3TSeqEYqZM0JUdpGyREL9pGqUObOKMxn6YS023OYcVM5zCRWbcXd3ONcikF+0edN5f74577O9/v+d5zDv91S1yuw4uvLgrQdj7uvyxfdNl3/N5S/o7zP2Gpl3owZ+bCAJMKHwT5faGnpCwOULvirQTkTC8J0FxTdknMJD8D5Ru2BFhb+QnYueNrkJKdDw5s2wleX7M5wMzHHwKfNcwO8N4T2UMykbwMLHi/NkBx0cNg97n4vXb5UpCoichHjLoRA8jzx/RhmjQBHJpf2qeRhX/KRPIy0Nn8LSivywarn41MrLh1PBiXFsCYCbeAtZXbwLqUiOm63mOgfv3SIQMYdgb+kJfx988KcP7sSXD2VAfY9M1e0LivDeTmZIFje6MWVqzZCFob60Ha1ePAlOcWgNTvo99HS14Y9M9hZ+CCBnKmvxGgelMZKCh8Bpw4vB0sf20e+HTDarCxJuZ8TVVcT3b9ClJS0+KFiQj0yb7XEEJct3wxNUBn81cJkomB4qICUN1wBNyZ9yjo+eEgSM+8CSzZ1wuOdkW/RCJiONUec9/VcSgB6elXBti1tx3cWzi57/zgAJKHgdbTscHvbtgK9levAj+27klAff01Aea+WQKyJkdEXUfaQMv2K0BGRnqAM2fOJqCi7KUAywqaQAhhUADDz0C/+u+bVgh6r9oBdlV8B1ZVbg3wU1+ozz9dDMbnxm54sK4KzC5ZCfbvj6+m7oOyAK8sKwd3nOsEdz8yBXQ2b0YSMHBBk7kzYgVs39MIxt4zC3xeVQpKK+IcULf2HdDd0QBGZ+VhoD60jIwVcO7E0WBk5s1gTknU1IdlL4MTRw8kRx34y7ntgTkxl8dbDoPjTZUYUHm/5RXFWXDiY1NBxbwZ8VzPzwnIGJURX0fPmeTqBRdlYP7blQGyrv0FvLtyHTjdGTXS090zyLcf4di7ngI33BbnhvqPF/9LZ8L1S4sH7Xu6u4dE0p/bzOtHBJh2e6yMTRfJfb8NOwP/228AuAfopGIhkwAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADo0lEQVR4nO2aa0iTURjHt2HmGl3sRndTwgq7kESElpXNLP3QhUAQwi6Ugt0gCkK6GK0PSlFeSFNSSpuQEH1IpdRhTbRILHMl4TUdXVjpGiZhtb72eweLseQE7/l/+/GcnfPsec/znPOe92g0UlJSapZ2rAc4dPy8+0/u/UH7w7zzY+6DN+lEDv4/SAZAtAOiFfCvO4xIPIecX2vcAHu0IuQ63QW0r8k5i5oQsS0Ddlu16Z/WDNXPABkA0Q6Ilt81IK+sDjlaZL4De1PjE7AuPBr8uqEJfKqwFv0lbt8I+73mFNiv7gj3qyaofgbIAIh2QLR8rgEnr9cgB9OSN8H+4jvb11zLBmurmfOBE+eAlTkfPVPxjNaGATuOZir2Eed8qgmqnwEyAKIdEC2fa4Dd9hycZwkHF+xjTchZGAqeF4SU1cwMWwAuMjeAi3V8RtNHB8DWEtYYX6X6GSADINoB0frrmhm6JglJ+2NkEPaRoX5w5bM2cMurXnBkRAh4oI37gpzCcnBPixUcNHkeOGb/SXDAB453K+ug1/+o+hkgAyDaAdHy2AdEbDuNnK+qNMEea9wD/tz1GHztRDr4blkBuLya63xhBXnQ8QusCwiig1qm9E7Fu4HbTa57EIf/Y7c9QgeqnwEyAKIdEC2PGpCWHAuuau4GL43aAnZ9fAPWB88FZ70aBb9zcDytls9gqI/rvqO/Azmr149HTj9t60P7lcZ1iv41XqX6GSADINoB0fKoAT1f+QH/RXM9uL0qH/yp5yWyzGqdihxNPZOB9iHrmKOO7l5w5+NxYINBj/6Gh0cwXqnpMOyXY1vxe7eb5w9KqX4GyACIdkC0ApR7/9XxRjQYndQIflr6FpxvrsfvvyhCemB3Gjg0kt8G31gqwCkZueD2dr5rWG6YMN6xy3mwL/luBy/fHAO222rBqp8BMgCiHRAtj51yZALPAPtetsA+a0US+H5FJjizlPcBLEWXwM7+ZvCUkCiw8vygcwLPAFNXTQFPCJ4P3pvBfcpN0xHw53ev5XnAn5IBEO2AaPl95279Xq7L7zu7YH/fagYr9/JKRSXzXuCqrXGwl6YnsD/XN/RnmGjgu4NrWH4X8CYZANEOiJbPNeDoRTNyLGTaT9iv5BaDv9q5j3A5XV7HVObwrGW7YJ+9iPcNrLcvyHuC/kgGQLQDouXzHaGS7DSvdpfT6VdOKtft4BmBqAnxi3lm2Orjuq+U6meADIBoB6SkpKRE6jcKjwgg2XnFbwAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Blizzard Elemental</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Glacial Sanctum</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">900</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">8</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.4</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">900</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ice Shard (70 dmg)<br>Frost Nova (100 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span></div>
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Glacial Sanctum dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-storm-acolyte" data-location="temple-of-storms" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACwElEQVR4nO3Xb2jVZRQH8M+9t7saOtJmmoFGmrAXhqE0HeZGmPivKWGWUQg1RPRFaQqK0JusyP6w7N+sF0lMKFRUgrBMkFk0+rOQ0Cki+mKJ+I/AGMv77/HFc684KJ0juBt23vw4nOd8n3O+v/M85zzc6pLot2OiLlyrh9DeL6xkfwP4r+Smo6569osAK1Y9BmbcXQkWrd0DMjufuynMsjNwW18XVix5N0BtUz2YXB0znzQ8fh+ZPwkcPL0uQK59U5+YGLgMjJn5YoALP24FhUQB5It5fdRxEXwy/Hbwa2YEGDruXnD5UFWAZO0LoLtt8z8yUnYG/vU/pUY3xgymNYIHe7rAvPHfg02JFaBwKQvWD2sFb/0WayFXPQEkf98L8qd2DTIGSlIxekaAfDr+25lLYmbG3FNEiBC5U2dB246jIHX5D5A5e/0bcuAyMH/hmgATX1kP3t/2C8ju3hIdxz9eRMiBcPLbqC6IVf/y0ung7ZUbQeGnwXYKVr+zL0BLJt502W1fgvSceCqy57pBKkSIUJ0Ghf3fgAeefBrMuysPmlc9OkgYmN7UHODwlEWgu3UzSB/6FEz94AB4eMr9oOPPv0Hm+Jmor26I+riloO61DSD/1XbQvnVNrz0HDgOlCWfWvh3gQNPyoqUHzHpmLeg6/xc4nrgT5FMxh3A+3pTJc0eiW9fhon8KzP74c/B148K4vjhBlZ2Bq92wFNF3r+8NMHRkrPLckQ5wqSrGerQzdsX0/lgjpQyyc5tB62evgucfGgWqa58CB9/b1WufkpSdgRv2gsrKIXHCmRtPQ+FYZCTf2dLLN1WzLPaMIWOjX+eboKene2D3ghvOhLmGdaCu/j5wZmINOLHx53AtxOTFT4D6mjvAhy0vRfMPb1wXv+wM9HmGv/oSSlaAkG/r5ZtINUR7IRPtfXwplZ2B/+UKDa/RUPCWEUMAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADNklEQVR4nO2bW0gUURjH3Z3WEpWy7WZgkRX4YBhKlphKmJSaSdjFKISSCHsoTUEJesmK7ILZzeohCYUiwyIIywTRIuliSHgJiXywELUIjGVzd2en598Ya8OunmDO/+3Hx8z57zfn+3ZmzpmgICkpKTPLMuMDWpI0X3FN65xRT9aZHOx/lEyAaAOiNe31Fr7vHmq+qHgz4ikLQ8B5ZY/Brof7p9Wj6WeATIBoA6I1K9AnDM6/hJpPLExFPN7Omo+LIG/MjgN3fCvH+TydVQHtCaafATIBog2IluEeEJV+FDX5/XUd4l6LF6zqKvZ61w/wrYjZ4PeuBeCw6KXgie5wjG9NPIi4o73GUI8w/QyQCRBtQLQM/6cqkTmswQ05iK9xDoGzVr4EV1mKwN5xN7hiXj34/AfeF3jsq8HWj81gdbBJ9gAjkgkQbUC0/L6vDo5MQU9QbfzfTs9nzQZFLdE5oAXP4Ai4vbEfrEx8BbtG/HuHaPoZIBMg2oBoGa6f7NxS1HzsyQrErzS8A7sf3eSAK7fpHHiA2pfnDG/nvf7xgmTwhSOVYO8b+SxgSDIBog2IluEeUHKxBT2g1sV3eu6G+2DbVj4ruEcdYEWjBc1uA3tbn4FX7dwDzpqvgquLN8keYEQyAaINiNaU9ZJcWI2a70nIQ9xRXwO2dd8Gr7/aBl6XsALc9fM32DUwzHhJGuPRBeCk0yfA6pMH4M66Up+/0fQzQCZAtAHRmlQf+j08GS2NiLcVHtYd4QRl7C0DD439Ag9Y5oJVhddAG+M7RetoL4cb6tGNr4C23LgLfpqTy/Pr9iCZfgbIBIg2IFqT1gb1NfLiTDN6Qtgi3st7ervA4+HMaX8f1wptrbyP0F8Bd2Y1uP7OKfCBtYvB9sTd4I7LTeCp9h2afgbIBIg2IFp+rwuEhIRyD08mnw28n9gj1L5an2MqMYe4zhC6jOP1nQM7nQ65LuCPZAJEGxAtv/cJetLKwUmpy8HDsTHgz5Vvdd8L0EL8rh3g1Jg54Gu1x3j4q7P/avWvMv0MkAkQbUC0Ar4Xf9I3QdZgoKa2+xzToqTxeK+Lxwf4myLTzwCZANEGpKSkpETqD4tE0YixhLQ4AAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Storm Acolyte</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Temple of Storms</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">800</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">10</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.5</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">800</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Storm Bolt (60 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (3s)</span></div>
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Temple of Storms dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-magma-crawler" data-location="inferno-depths" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACm0lEQVR4nO3XzWtUZxTH8U8m0WnT0dhEjUmsgSppYkCsCoqbFJpVQcWXjdKXhTuVCmK7Edo/wIULBTGFLKq4UtwFJNpCEUNpqQoK6jRaic1LrQYnncSY6O3ipEKgqaMgk1DP5rlcnvvcc77nd865l9f2f7eSQjd+01yfQENtKWjpvFUCXRuWJfDdzTw4cKOv4DMh9SKbX4WVFbqxIzcMVtRVgM8blySQeRpH/Dw8/lIOzBwCqVT4Or+mARxsrQc9P50Hlen0SzlQdALPVezJlsh1e/cI+KJuHphbFtWQG38Cjg0MgZEnT8GhNW+DxjM3/vMdRSfwXA3UvfUGGBzLgWsTBO5c7QW1jZXgXs8DcH3kMWg880dB/aDoBKb08srGpgRaL/SD/YvfBB1/PgIfV88F307kflk6NDFWFlBPZHtnBoEpNTCeiVzuqJ4N0qlY9+1sBp2nroPdn64Ei/tCI1933gJnP6xLYN3y0FDF4e5/JVJ0AlPmaX9T1P8v+dHYmIoct2YCWvOGJSDfHZG3dYVWVs8rBw+SmI7tV+/N0D6QHY3pVjsrArg8FNPws72rwOhwEMlsqwEP+4PEiWysyzOFzYbpR2Dz0lDv1jUR2b5zt0FTOnz9/uJ98MHaKpD7dRBc+j36QzaKRz4XF8e3vp/AJ6cvTc8qeEagZkFVAl/WZ8CeH34DJWK6lU90uJLSCKSypRbku6NKhpK4v2hCM71j8Vw+lcR5De8kcORmzyQSRSfwzJvqqooEtlTOAV1/RU4/WhQdcM+BTaDtqw6wMG67/SiqZfv6+EKa8258M245/CPoH4tXbKuKWXI0e3eaEvjHaqoXJNA3MLmD7WqIznh6MKZfKjW5gN6bFbGUl8bacaew/4OiE3htfwMeXLbHTqGtoQAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADC0lEQVR4nO2b30uTURjH56u2svmjLZvbTKFkTYXoh1B0Y5BXgUXqTdGPi+5KCsS6EeoP6KILg8jAi5KuEu8GYT8gIokiCwzUNU0sp1lKs01t/ujWz4TJ2BsP8T7fu897Xt73u2fnPOc552w2m0qlUqlUKqsqy+wH3q8uX13Lfm822mt7R/DOvvoK3P98OIb724YipntcK+NfPvx/kAZA2oC0csx+YDAaB+/1FYKvBMow5h0rtPAuvmS2pZSyfA/QAEgbkJbpOcAwGNPtHj/4Vl05ePztM7DTbjfbUkpZvgdoAKQNSCvjOvtRLef1zvA82q/5isAFOVwbRJeWwfem5sDzyyvg2zXbwIGeoYw+g+V7gAZA2oC0Mq4DfFs3g2cTUfCnpBwwNjAB9gac4OnxGfDg/B9woOe7qfsDlu8BGgBpA9JKezx9PFGJeb/u1STaW0u3gIM/FsBn3QXgB0nzfoWddUIih2mqKzShOcBMaQCkDUgr7TpgycF5+Yx7E9hukFsuVoN7Hw+CL5/fBy6NsI642TsCfnLMhxx0uIp1SGF7OK0cYfkeoAGQNiCttOfU1kqu/9/HFvlAg/N4nYNpprq+DBwLc8x39LGuOFiUB55Z5dlh58C07gdkIg2AtAFppV0HhBZ5dufN5RD8MMezwQtXD4AX48wRjiYP+Nckc0JXiFzlMPfcwPI9QAMgbUBaG+aAU7tZezfWcMy2PB0FV9oZ0xevf4KPHnKBo59nwf3fuH8Q4tLDFovywsPG/fB3rrtf1wLpSAMgbUBa63KAp9iFMXW93IH25pdfwFk2nt3lJe3hZWVzSDprveBYmGuJuVXeX5JUZ0wk+L6YAbu2Zv9OXLgzPJ4yJ1i+B2gApA1Ia934cLsKMYYanPlo7/vNefp4CfcAm9tOgjtuBME7eLttdIFri9NH+Bui/F38nWFD+xvwZIIfocnFc4m7oa+aA1JJAyBtQFob1s0edzFyQmQq9R7cJT/3DLtnefZnGKmXH3ty+Z3kZZODY+b+f8DyPUADIG1ApVKpJPUXpS22++Sx3HsAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Magma Crawler</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Inferno Depths</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">800</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">8</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.4</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">800</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Fire Bolt (80 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span></div>
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Inferno Depths dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-infernal-imp" data-location="inferno-depths" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB10lEQVR4nO3UP0jUcRgG8I+nnnKRWXJQXilCFk4ODi5KexC0BAVFQ1sQDc0STUFRQ9HQ2BDVGkHQ2GIgDZEVZWkpV/5Pz8wT834NXx2Mw7ukOK17li9f3vd9eJ+H930po4z/HRUbLew7UxlBY8c2kDqb2RBXbKMN/ClUFUp4fnFfBB2XRtYo3L47DhYHFvPWpW8mI0idm1jXmc3rwN3OmggmXk7mjVcPNoBcff54dnYeDF1ojqDl2qe8TpTcgYKTe/tofQRjwznQ3dQFng2nwdx4mIHRb2EmWg99BPsTteDYvfEtOgOrGF0Myj4nasBC9js40bgLZIyA6/Mh701/Anyozr8dv2LzO3D/VVCeXK4Gx88fAL13noBYRdBw8mor6OnJgOmqyhWGr+vyl9yBou/35c72CN6NzYHGeCgdz4Z4/9IySC4Fxx5Ovi2Ku+QOFJyBtuZwyZqmw39pb5B8unsnyA6Hi/cgvQAGX9SB1tSeCAbSX7b4HcjlwgW8NTcLTrWHnuOHU+FdyWu50Qce14YtiMUKUoe84nv9Oyh6C44kD0YwFf8BuppmAkFFcOjp0A7QEIVL+Gj09T+yBat4n8iu+V/pnVqjsK25LoIZ87/VQMkdKKOMn1i1folcYOOQAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACQUlEQVR4nO2YPUhjQRSFX6KJEllXDQFNNEEwK1YWFjaR7QXBRlBYsbATxGJrka0EZS1cLCy3WNRWBMHSRkG2EP/w341EY/xPNvpCNNp6xM36mEeu8s7XHSYzc7iZe9/c0TRCCCGEEEKIFbHlesOl7ryHp9rbUATjvp54Tj3Zc7nZW4QBkDYgTb7qAr8HqiCnG74dZs3hD+VO0KntlKH9Ij88sJ+v91SpZlj+BDAA0gakMVwDfjUWQA6erpwZmu/Yc4POlBibr18nQe9/DYCf6u9/DNUEy58ABkDagDTK9+7x1hLIwZNwBsab/CHQi+EI6EQM7wHRv3hPCH4+AF3jKgTdNhHjPUAFBkDagDTKvUA0hTl75CoAfavfgO7wloGOa4egR5K43saqC/Suw1jv8D8sfwIYAGkD0ijXgMk1zHnPvQN0e98n0As/50DbbfgffBkOgu7vj4O+yM975uDytVZfxPIngAGQNiCN6W/wg4310BtsnSRg3OvELWM6zl9N34P2pLHGTJ9tmurZ8ieAAZA2II3yPaAugG9y/gscT1diknc1lYLWw/jGNxW5Bb23XAw66KuA/bYjx3wPUIEBkDYgjXINyGTwDXAscQ26sx5j7Gz2oX62XvXoEujZQuwF7HZly7ieqau9QxgAaQPSmN4LtHhq4Tt97ryD8ZD/Cg3YsIbM738E7X7AN8GZ6Dp7ATNhAKQNSGPuR1XTtB2XnnV8aOE8aw7XBYqhhlxpyX/91BQsfwIYAGkDhBBCCCFSPALRkX61fDk6wQAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Infernal Imp</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Inferno Depths</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">600</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">5</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.3</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">600</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Ember Spray (50 dmg)</div>
         
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Inferno Depths dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-rainbow-imp" data-location="prismatic-paradise" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACcElEQVR4nO3WS2gUVhQG4G+SiNphDIKYiFVCxCxifVFIFCFaF4IGRawP6KIUXAQXClbE4KIglBZxLZZSLLQuKoKLFKyb+DYEErCJ+KhNayQ+ojbEmXGsWpvr4o5gIDGKQkb031w4h3PvOT//OffwHu86Eq8a8M2ilQG+7TwBstnsK9/xPIpeJ/hNYMTsy5NVAXJugMwXX0fHlJj7xoMHwf7zLQlYMGdTgNbOfS/FzKgzUDKcozRZGqBh7WHQ9vex6Aj/x6PyAVg4fSnom/h5gI9n1IFLVw8ESI+gkcJlIJ1LJ+C7Q6sDHGtsBKEmasGtmPs/4xaA8f3R/HNzQ4x/ye4oXAbqZq0IMLm8GlSvihoIMyeBlo3FoK+oA8wtqwVHOn4HlVMWB/gvE7XSk2sbkpHCZeBc90lQFcoG2c98Fc/6X78HiXwJu9YeBxOfzAZ1nw2Ajt8qQM/FtiHfGXUGhlVqKpkMsHN9rDT88Qso/nAT6EucA/Pzff/TqXYw/tMu8GhsJPfU9h9ANpcrTA2M2Kszpy4PsKx2HZhXGSdf65XroPPqj2DJlseg+XQW3Gw5D3q7/irsSTgiA8+0ULWuHhQXZwaF7vgydknT4cWgfV8TKHl4F9x9FEfkzdyFt1QDtR81BLg/pheUrZk2yN9/5RaY1791kL2peQMYIwV6/71cmAwMvw+kUgHqazaD1rMt4MyebeCDgXIwkN8P5n8SC6yYXAqSYTqortgFjl5eNuQ7hcvAs//8SPveuNk87gaZTLQnSksCCHHmT5s0Ady7cxs8KcqBP6/tfmECo87Aa+30zyOV10xRvqR0+i3ZiN7jKUDrvs7VmFvuAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC7UlEQVR4nO2aX0hTYRjGz/5I2VhDEDcpZSzcxfqjEjgjmNWFUKOI0oIuIvBieFGQEUkXgRBFdB1GREF1kQReLLBuZmU2BhvYJpWZpmHpysba1qk02+m252AnPs7kDc773P14v3O+h/d877vvnH2SxGKxWCwWy6gyrfQEF7bvVf7ki6nHEC8UCivuQUtmysn/B3ECqA1QS3f9uWxeqHFZ+gDx/LHzeEE15ryjrw/4xmgUPDVv6YT7x1K9Je0Zhl8BnABqA9Syil7gsDmgJkNt/RCPvx3EC5RfiJ5vwNtqdwFnKo7C/bduCED81dQdiOd07iMMvwI4AdQGqCXcA3JyDmru6r39UJOD3d0wXmnCfYE0hzn/vLoZuDyLw29HQjh/id8dDL8COAHUBqgl3AMCG/dAzVe5fBD37cN9gFJXCRztsABnzEngeqcfeCD5HNhT3QLz/8zjvmJGjgv1CMOvAE4AtQFqCfeAkeknwF7FqTl++Bxy8P41YJPqEfS0PQKuWNoMHDhSBE4+cAPPvIxr+lHL8CuAE0BtgFrC+2q7zQa/w2cPYU0rr+8CW9Z3AmdMI8CNqvf9W0MJ4PKDE8ALq7BtDZ2+DlyQZd4HiIgTQG2AWrrfrevW7Yae0Opvh3iDB7/5xcbfA6embgLvOLEIHHlaAJ6NjgKnJyb5m6AecQKoDVBLdw9Q7wu87UGIWyx5zSnPdOG7RLi/BTjRGwa2/pgHnl/Aj4iz8gveB4iIE0BtgFq6e4B/Uwh6wNeyNMSdB2o0r8+OzwE3ZE9qjg9HDgOXSXbg9Pcx7gEi4gRQG6CW+PkAux1qPth0HOKxZ1Hg4cungNcUXcBF1fmBxp1Ywu4qB7BNqQX2uXuAH461Luv7bzL8CuAEUBuglvj5ANX/8wOJK3hmZ3EaxufzON7ksMJ4ScHv/DWVa4G/fPoIvGSWgd+8u/RPz1oy/ArgBFAboBbpWf3lZFftM8yqR5TL8RmhkooTQG2AxWKxKPUbdoa/ApGfkeYAAAAASUVORK5CYII=" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Rainbow Imp</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Prismatic Paradise</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">600</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">8</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.3</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">600</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Rainbow Bolt (50 dmg)</div>
         
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Prismatic Paradise dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-sparkle-wisp" data-location="prismatic-paradise" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACYUlEQVR4nO3WS2hUZxQH8N+MyWjQMcZNlDhJoI60Ygcf6MKqC18LEcRCoaBiu4kURMEuqoIIKrjWrHwspGhLFEtBsIhVQaWLltZqorFJCmqNpKiMnUwgTaLXxZfNaJQEBK+Y/+aD8+Kc/zn33MMo3nckRupQu3JrBKlMLRhIBnn/vbug89zBEcVMjjSBN42y4Rp+duxSBF+sXgCWp1Ml+j0dRfDttkQE/5w7MCwm4s9A7YotEZTlciAzvlTfFQ2A7OQQqvqbnaB49XIE+Z5rr2Ui/gyU1deB9sJTsL+1F2Qn9pXI2wvPgkMyFFy1bgPIH7722vjxZ6BiVuh9/U+3wM1cDWivqQS99/Ig+1cn6Pgo6Ie7DOLLQFV6fgTJKTNAX/ONIe0SyVDDhsL/YEdnoUSfWbo5goWfrwFNDStKyIkvA/nu3xJQ9fPJCB6s3whSL9iNnRZmYfeYD0F6algU/fXVoKevCVTOnQeq0vPCfuj+PUEMGHhpWGtWhp5V79gFnpy/HwwfXwFH9jWATyaWgyuFsA+23+wBD09cBBUfzwYTcpNB/vhx8PfRbTGfgVRdPTg0K/R29c5GkNm/BVSkw+b7Iwrv+PQLAcZ+APpbzoJTm74Cy78bOoH4MZAYHIsvv78KJrWdAYUfFoLG/jDN0+vCDLQXI1BsLQ76h5p6W5rB3sF/x6sQPwYG7oTbruXI1wlYmw3fbXPFdPDL2S5w4dfTIDV1JhiXnQPKU6Gm/67/CX5cvAxULloyZAJvnYFhX7CZT49F0Nt8Hjztul2iL8+tCvJ/28CjjqZ34yYcxSieAwwmptPqYuRMAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC3ElEQVR4nO2aS2gTURSGJ2MyNdRpTDexxEkCdkSlBrXooj4W2nYhBVEQBC3qpiJIhbrQFkRQoWvtSuuiSFWiKIJQKfUBtrhQtGrSVpsIWo1EVEanCcQkNW79g8wYMuWAc/7dx33Mz5l7z5zcXEFgsVgsFotlVznm+wGB1qPFP1lSAtBeELF/fuY9cHL4/Lx6FM27/N/iAFAboJbT6gl3DzyEPX+gbQO0N8uS4fjTiTTw5S4HzPdh+JylOcH2K4ADQG2AWhXngEBLJ+xRZzgM7Uq18fhUsQCs1qIl3/Ee4PTYI3ielhmvKCfYfgVwAKgNUKviHOAMBYHj+hxw71QWWK3JGfaP67/wASJuce/edmDt4vg/e/2bbL8COADUBqhVcQ5wN+B3P3R3Engi7AeO+z3A2RkNWH2TBE6sxPFWHw7YfgVwAKgNUKvsHOCV10MtLi5ZDu256Kuy5nOI+A7a9Z/A3UndcLyy9Qj4adqzA9ojHS2GacP2K4ADQG2AWmXnAG32Kewp773rsAc/7dsP/Y1PAAWhainWBacWrACW6/BAIR/yAWdyEWDPukZgr9yI5wezz8C/7VcAB4DaALVMS2t/K35nfd0nof37yEec8NsocP/ZDuCNNS7gUR3PB05MZIC/XHkA7F69BnhRuBZYGxwEfnupi+sAI3EAqA1Qy7QOkIIh4AsN+N1u6+kDVno7gd0ynvk9LyJXyyYGqpYB5mNDwDcOHQZuvmoyX4lsvwI4ANQGqGWaAxwlpcLBa2PAi6fvAOu3moD78lib1wexDoinocwQ0lN4P8BR8o6ysSjwmZL/HcqV7VcAB4DaALVMc0DhHd7bi/Ufg6SwU8Xf21F3PfR/PJQCvv/kJrBUtwp4oboW2CXhO/rx8gXw7c3bgD2btgjlyPYrgANAbYBalt/DVXYNQE7IRkegfS712nC8K7wd+3+eBv6aiPA9QSvFAaA2wGKxWCwWi0Wl3zR9pwPnoZw1AAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Sparkle Wisp</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Prismatic Paradise</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">500</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">5</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.2</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">500</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Sparkle Shot (40 dmg)<br>Sparkle Shot (60 dmg)</div>
         <div class='flex flex-wrap gap-1 mb-2'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (1s)</span></div>
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Prismatic Paradise dungeon &rarr;</a></div>
       </div>
 
-      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 ">
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-spark-wisp" data-location="temple-of-storms" data-boss="false">
         <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzUlEQVR4nO2VP0gbcRTHP3e5mET8k9pAg3VISqFOBRUxYKUdqiHt0EXs4OxUaKHQwU2hiw6COEnB3dWpNUOrUhRBqqjgYCuh7VBoJTQE01zufh2eFM82IbGFs3jf5d393vs+3vv+3r0DDx4uOrRaCXcmlQIwg/L+9rFWc46T0P+G/C9g1EqwXn8CIDvbBkBXhyiy0Xc2Jc6/Aok5WwE07kiD6SnpNPGmpACuJ6UH4+F7BdAUuQbAj4jwl8crK3P+FdC3DwD4+FQ6622VO48nFQDdfrH7g+L/GhVe8OW3qgpwXYGqJzfx5EABZJ/FKsaFJzIArM3EqsrtugJV7wFDCwHwLloCYOTQ5/C/aLEASPmaayrAdQXK3tPAI5n2YuYLANnRKwDU7RYBaH/gB8A+zrC3YMpDvA6A+unPAARuXgUg/fzP+8B1BX6bgdtjRwrAPsoBoJsFADS5Yr7fkw7XzVPEu3LeIB8BvqLw9HzOkXdpLORQwnUFys5Af0p2e8m0AbAbLwFQGLoMQO6WxNniJrwq1j+7L/Y4s+GXgMVXN/6TGfjlaJL/fXo+4Ki858OmAgjpeTmwpAelBQBY2ep0xN8ftlSlAlxXwIMHDz8BN+lzGFwz0UIAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACKElEQVR4nO2ZP0gbYRjG7y6XxEiTphpQbActQjsJKsWAFh38g3VwKXbo7CRUEDq4pdBFB0GcpNDd1UnN4J8iiiBaquBgG4J2KNQSKiExfy6ufSI5OZP4Fr7ntz15777v4b33/e67L5pGCCGEEEIIURG92hP0zRYK/+psDca33+lV92CHITn5/wATIG1AGrPaE+TXz0EnFp+A7mzHNWL/5f2uCcpXABMgbUCasteA8GcLeth/hC0cncOeDm/k4PrWIXwG5pvvEA+EnkL8KoTzb30ob81QvgKYAGkD0pS9BhjfYqDPprBnu5vwPd8yBFJ74UZ9+hrv/92I89WsXNzJZymUrwAmQNqANBXfd4cnY9DUiffNZY0XnImD3l1orqhn5SuACZA2IE3FzwNM3Qf6oDEHevyPy/b+T3V50MOuh5UxVgLlK4AJkDYgjeN36uAE7u0z8V8QT0w3gPYcZ0A/H3WDtoocnCxn8YcWD8ja+Z+gvW2PQUc/OjsfUL4CmABpA9Lcug/ojaSg563UJcSNbBq0jq9x7e8r7OG9oha/QT9e/wA/BTRXBuczkuin2O9mxGe7JihfAUyAtAFpHO8DBobx3D6XtSBu+R+BTo/Vg77swfEsvF0L7qB2L56iLnJsunGAtdVn3Ac4gQmQNiCN4/MAM4D/70eXvLY91/XjENYMn5HEC/L4DAq6F/SXrx2244+8zRfs4rehfAUwAdIGCCGEEEIIIUSCa5dOc0CRQDmaAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
             <h3 class="font-semibold text-red-400">Spark Wisp</h3>
           </div>
-          <div class="flex gap-1 flex-wrap"></div>
+          <div class="flex gap-1 flex-wrap"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-slate-700/40 text-slate-400 border border-slate-600/30">Temple of Storms</span> </div>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
-          <div class="bg-slate-800/50 rounded-lg p-2"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">400</div></div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">DEF</div>
-            <div class="text-sm font-bold text-green-400">5</div>
-          </div>
-          <div class="bg-slate-800/50 rounded-lg p-2">
-            <div class="text-xs text-slate-500">XP</div>
-            <div class="text-sm font-bold text-cyan-400">0.3</div>
-          </div>
+        <div class="flex gap-3 mb-3">
+          <div class="bg-slate-800/50 rounded-lg p-2 inline-block"><div class="text-xs text-slate-500">HP</div><div class="text-sm font-bold text-red-400">400</div></div>
         </div>
-        <div class='text-xs text-slate-400 mb-2'><span class=&quot;text-slate-500&quot;>Projectiles:</span> Spark Shot (30 dmg)<br>Spark Explosion (80 dmg)</div>
         
         
+        
+        <div class='mt-2'><a href="dungeons.html" class="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">View Temple of Storms dungeon &rarr;</a></div>
       </div>
 
   </div>
 </section>
+
+<script>
+function filterLocation(value) {
+  document.querySelectorAll('.location-tab').forEach(function(btn) {
+    btn.classList.remove('bg-violet-600', 'text-white');
+    btn.classList.add('bg-slate-800', 'text-slate-300');
+  });
+  event.currentTarget.classList.remove('bg-slate-800', 'text-slate-300');
+  event.currentTarget.classList.add('bg-violet-600', 'text-white');
+
+  document.querySelectorAll('.enemy-card').forEach(function(card) {
+    if (value === 'all') {
+      card.style.display = '';
+    } else if (value === 'bosses') {
+      card.style.display = card.dataset.boss === 'true' ? '' : 'none';
+    } else {
+      card.style.display = card.dataset.location === value ? '' : 'none';
+    }
+  });
+}
+</script>
 
 <footer class="border-t border-slate-800 mt-16">
   <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
