@@ -102,6 +102,10 @@ tailwind.config = {
 .stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
 .stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
 .stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+.stat-gradient-mgt { background: linear-gradient(90deg, #f97316, #ef4444); }
+.stat-gradient-lck { background: linear-gradient(90deg, #eab308, #f59e0b); }
+.stat-gradient-rst { background: linear-gradient(90deg, #10b981, #34d399); }
+.stat-gradient-prt { background: linear-gradient(90deg, #6366f1, #818cf8); }
 table tbody tr { transition: background-color 0.15s ease; }
 .ar-sprite .ar-frame:first-child { opacity: 1 !important; }
 </style>
@@ -165,12 +169,14 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA2UlEQVR4nGNkIAAWTXH7T0gNMojL2cVIinomUhTTAow6ACO+0OM81E+VIgs45aai2DF37lwU8wc8BEYdwIIuQCjOOeWmovC/P8rGK08IDHgIjDoAoxy4zSJGUtlPCKj+eTVaDgxuB7BoFFugxIkvmgIeRUEU/vKCsyRZgG4+6/eVKPIDHgKjDmBEr//b7n9CUYCeBtABepqInGCMwj+Tsx2lHMh3ER8tBwaXAzDqAvR8Sym40XsCbz9hwENg1AEYbUL3i/dR+BP3vCSpr4eez28QUD/gITDqAABWezTCdlclrwAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Rogue</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Dagger</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Dagger</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Cloak</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Leather</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -252,12 +258,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA00lEQVR4nGPM6ZT6z4AHmLvy4pNmOLn7Mwp/SvkzRmT+khQlFPNj5txDkWfCazodwKgDGNEF0NMEqWkAHRBKEwMeAqMOYCGkIETEBYXPKTcVhf/9UTZeeUJgwENg1AEYacCMWwevBvQ4JyRPKE0MeAiMOoCR0vYAOiBUN3RHBqLwBzwERh3Agh4nFUlrUPiMt3/jNeCnZTUKn3l3FQp/4p6XKO0Bi9vbR9sDg8sBBNuElILRNuGgdwBGGsh3EUeJI/R8TAig6zdV4EaRH+0bDjoHAADATT9nR+Ho5AAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Archer</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Bow</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Bow</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Quiver</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Leather</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -339,12 +347,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4nGOMj+76z4AHONrF4ZNm2H9oEQp/4dIyRnzq813EUexjwms6HcCoA1jQ44xQmiAE0PUTShMDHgKjDmAhpCDcsxmFzyk3FYX//VE2XnlCYMBDYNQBGGnA2XIPmogqCg89ztEBqWliwENg1AGMlLYH0AF6+wAdzGh/iMIf8BAYdQALepxUJK1BVXB6Bl4DflpWo/AFXvai8CfuecmIKj/aJhxkDsBor1HaJkQH6G3C0X7BoHMAC3qco+fjD+LFJBmIrp8QGPAQGHUAAMuoPMw76szjAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Wizard</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Staff</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Spell</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Robe</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -426,12 +436,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAqklEQVR4nGNkIAC+P8r+T0gNMuCUm8pIinomUhTTAow6ACO+5s6dS1KcEwLJyckoduS7iKOYP+AhMOoAFnSBKNdzeDVwyk1F4X9/lI1XnhAY8BAYdQBGGiAE0OOckDyhNDHgITDqAMb///9TtewnBH48zkHhD3gIjDqABT1Oviw/RlULRMvPj7YHBrcDMNqE1C4XGBkZ8fYTBjwERh1A97oAPU0MeAiMOgAALE4qiDy/vHIAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Priest</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Wand</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Wand</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Tome</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Robe</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -513,12 +525,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzklEQVR4nGNkIADmzp37H5/8jRs3UPjd3d2MpJjHRMgBtAajDmBBFygtLcUb54QAun5CaWLAQ2DUARhpAB1EuZ5D4XPKTUXhf3+UjVeeEBjwEBh1AEYa0JW/iCaiisJDj3N0QGqaGPAQGHUAI6GyX0NDgyQD0dsH6KAp9xsKf8BDYNQBjN8fZaOkgYqkNSgKTBW48Rrw07IahX9peRUKf+Kel6PtgcHtAIz4obRNiA5G24SD3gEY7YFf5xeh8AnlY3SQ7yJOUhoa8BAYdQAAXVs41pEXtqYAAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Warrior</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Sword</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Helm</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Heavy</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -600,12 +614,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAoUlEQVR4nO2XwQ2AIAxFrXEWWAJ3EToXg8EGsoSeKQkEi+ml/4aoffl+2wAbUYzxodc4QkTovX9fWeyLFOAY3RBCYBVAxO6+uAMKMMwAlbV2KYC4AwownYGUUrWmmaD7ANUoaCTugALA6dzU/L+8ZxWks0XcAQWYzsBdSrUe9YWcc7cRiDugAL/3AXouoBJ3QAGa72OMqTIx+o+5z4s7oAAvyjcpZtXhNJ4AAAAASUVORK5CYII=" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Knight</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Sword</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Shield</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Heavy</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -687,12 +703,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA80lEQVR4nGP8////fwYkwMjIyIjM//PfAkUeHVy9+h2Fr69zEUU/uvnz5s1DUc+Ez3B6gFEHsKDH+cUr+njjnBBA149u/ty5c1HkBzwERh3AQkjB78fGKHxOuako/O+PsvHKEwIDHgKjDsBIAxcPiKPw1fxQ5dHjHB0smuKGwo/L2YVX/YCHwKgDGAmV/dranCQZiN4+QAdqfDYo/AEPgVEHsKDHSUXSGhS+qQI3XgN+Wlaj8C8tr0LhT9zzEqU9kO/yYrQ9MLgcwIguQGmbEB2g9xPQwYCHwKgDMNoD8wpeoPDR8zEhkO8iTlIaGvAQGHUAAD0sQc+nw7vWAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Paladin</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Sword</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Sword</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Seal</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Heavy</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -774,12 +792,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA1klEQVR4nGNkIABCgzb/J6QGGaxe58tIinomUhTTAow6ACO+0ONcUkqEJAOfP3uDwieUJgY8BEYdwIIugB7nnWVLUPicclNR+N8fZeOVRwdz585FSWMDHgKjDsBIA+jgidJqFP5tFjGS5FX/vMJr/oCHwKgDGAnV9+jlQu4Mf5IsqPKbi8JfNGEHCn/AQ2DUAYzfH2WjpIGKpDUkGZBzADUJTXFArf4n7nmJIpDvIj5aFwwuBxBsE1IKRtuEg94BGO0BqU8pKHz0fEwIoOdzQmDAQ2DUAQDrajeRer8x1gAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Assassin</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Dagger</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Dagger</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Poison</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Leather</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -861,12 +881,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA4klEQVR4nGMMUQ75z4AH6Avr45NmuPj2Igp/zd01jPjUP33hi2IfE17T6QBGHYARX+hpgtQ0gA7Q00S+i/hoGhhcDmAhpEAr5xEK38LtBQr/xC4JvPJrUKUxwICHwKgDMNKAUxYzXg3ocU6qPDoY8BAYdQAjpe0BdECoboisF0ThD3gIjDqABT1ODi3ahMJXVDiH14CfltUo/DfLp6DwJ+55idIekF402h4YZA5gCY6bjRJH6OWCyCcC5cClZyjcp29t0RSswat9wENg1AEspPYDCAEs+tHqmsMovAEPgVEHAAD4ZTx7zo0srAAAAABJRU5ErkJggg==" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Necromancer</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Staff</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Skull</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Robe</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -948,12 +970,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA20lEQVR4nGNkIADu/Pf/T0gNMlBh3MhIinomUhTTAow6ACO+SI1zQgA9TVy62YZi/oCHwKgDGNHj/NKp9ygKPCV1UficclNR+N8fZeOVZ0BLZ/ku4qNpYHA5AKMcWDTFDSWOQv1UKbKAU27qaBoY3A5gjI/uwlv2O9rFofDDPZtR+Cu316Lw9x9ahNfCGe0PUfgDHgKjDmD8/igbJQ2g59sFM1+Q1D5ISJfA2yYcLQcGnQMw4otQuUAqWLi0bLQuGNwOYEGPc4GXvSgKPogXk2Qgun5CYMBDYNQBABdHPZwHUBfHAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Mystic</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Staff</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Staff</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Orb</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Robe</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -1035,12 +1059,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABC0lEQVR4nGNkIAD+////H5l/X04Or3rFR49Q+PPmzUPhJycnMyLzmQg5gNZg1AGM6AL3ZGVR4vza48co8t6oSYIgQE8z+xsaUPgDHgKjDmCpYGDAG+fogJERNdks6nND4ccV7ULhV6DpV0XjD3gIjDqApQOtLFjU54aSJkK9UGPtO4kWxBXtQjF/LlqaG/AQGHUA410ZGdRy4MkTvBo0paXxyt94+hSvvOO1TBT+gIfAqAMY355LREkD73134VLLwMDAwDCJQBxjqEcrZ9Ks+EbLgcHlAIw24Wa0shodkFoO+GCxAxkMeAiMOoAFXWCZLmqULb/8H1WAQDkQqcuImoYu4+9HDHgIjDoAAFQVQ/tBcdEzAAAAAElFTkSuQmCC" width="32" height="32" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
           <h3 class="font-bold text-violet-300">Samurai</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Katana</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: Katana</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: Wakizashi</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Heavy</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -1122,12 +1148,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="glass rounded-xl p-5 glass-hover transition-all duration-300">
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           
           <h3 class="font-bold text-violet-300">Summoner</h3>
         </div>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Summoning Staff</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3">
+        <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Weapon: S. Staff</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ability: S. Orb</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Armor: Robe</span> <span class="text-xs px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">Ring: Ring</span>
       </div>
       <div class="flex gap-4 mb-3">
         <div class="text-center">
@@ -1205,6 +1233,38 @@ document.addEventListener('DOMContentLoaded', function() {
               <span class="w-8 text-xs text-slate-500">75</span>
             </div>
 
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">MGT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-mgt transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">30</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">LCK</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-lck transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">40</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">RST</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-rst transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">55</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-right text-xs font-bold text-slate-400">PRT</span>
+              <div class="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full rounded-full stat-gradient-prt transition-all duration-500" style="width:100%"></div>
+              </div>
+              <span class="w-8 text-xs text-slate-500">30</span>
+            </div>
+
       </div>
     </div>
 
@@ -1217,6 +1277,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <tr class="border-b border-slate-700">
           <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">Class</th>
           <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">Weapon</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">Ability</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">Armor</th>
           <th class="px-3 py-3 text-left text-xs font-bold text-red-400 uppercase tracking-wider">HP</th>
           <th class="px-3 py-3 text-left text-xs font-bold text-blue-400 uppercase tracking-wider">MP</th>
           <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">ATT</th>
@@ -1225,6 +1287,10 @@ document.addEventListener('DOMContentLoaded', function() {
           <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">DEX</th>
           <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">VIT</th>
           <th class="px-3 py-3 text-left text-xs font-bold text-violet-400 uppercase tracking-wider">WIS</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-emerald-400 uppercase tracking-wider">MGT</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-emerald-400 uppercase tracking-wider">LCK</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-emerald-400 uppercase tracking-wider">RST</th>
+          <th class="px-3 py-3 text-left text-xs font-bold text-emerald-400 uppercase tracking-wider">PRT</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-slate-800">
@@ -1232,6 +1298,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Rogue</td>
           <td class="px-3 py-2 text-xs text-slate-400">Dagger</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Cloak</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Leather</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">680</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
           <td class="px-3 py-2 text-sm">50</td>
@@ -1240,11 +1308,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">75</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Archer</td>
           <td class="px-3 py-2 text-xs text-slate-400">Bow</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Quiver</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Leather</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">680</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
           <td class="px-3 py-2 text-sm">75</td>
@@ -1253,11 +1324,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">50</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Wizard</td>
           <td class="px-3 py-2 text-xs text-slate-400">Staff</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Spell</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Robe</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
           <td class="px-3 py-2 text-sm">75</td>
@@ -1266,11 +1340,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">75</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">60</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Priest</td>
           <td class="px-3 py-2 text-xs text-slate-400">Wand</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Tome</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Robe</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
           <td class="px-3 py-2 text-sm">60</td>
@@ -1279,11 +1356,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">60</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Warrior</td>
           <td class="px-3 py-2 text-xs text-slate-400">Sword</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Helm</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Heavy</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">830</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
           <td class="px-3 py-2 text-sm">75</td>
@@ -1292,11 +1372,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">50</td>
           <td class="px-3 py-2 text-sm">75</td>
           <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Knight</td>
           <td class="px-3 py-2 text-xs text-slate-400">Sword</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Shield</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Heavy</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">950</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
           <td class="px-3 py-2 text-sm">50</td>
@@ -1305,11 +1388,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">50</td>
           <td class="px-3 py-2 text-sm">75</td>
           <td class="px-3 py-2 text-sm">50</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Paladin</td>
           <td class="px-3 py-2 text-xs text-slate-400">Sword</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Seal</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Heavy</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">820</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
           <td class="px-3 py-2 text-sm">50</td>
@@ -1318,11 +1404,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">45</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Assassin</td>
           <td class="px-3 py-2 text-xs text-slate-400">Dagger</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Poison</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Leather</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">680</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">252</td>
           <td class="px-3 py-2 text-sm">65</td>
@@ -1331,11 +1420,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">75</td>
           <td class="px-3 py-2 text-sm">50</td>
           <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Necromancer</td>
           <td class="px-3 py-2 text-xs text-slate-400">Staff</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Skull</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Robe</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
           <td class="px-3 py-2 text-sm">65</td>
@@ -1344,11 +1436,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">60</td>
           <td class="px-3 py-2 text-sm">65</td>
           <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Mystic</td>
           <td class="px-3 py-2 text-xs text-slate-400">Staff</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Orb</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Robe</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">630</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">385</td>
           <td class="px-3 py-2 text-sm">60</td>
@@ -1357,11 +1452,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">55</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Samurai</td>
           <td class="px-3 py-2 text-xs text-slate-400">Katana</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Wakizashi</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Heavy</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">760</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">225</td>
           <td class="px-3 py-2 text-sm">65</td>
@@ -1370,11 +1468,14 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">60</td>
           <td class="px-3 py-2 text-sm">70</td>
           <td class="px-3 py-2 text-sm">45</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td><td class="px-3 py-2 text-sm text-emerald-400">-</td>
         </tr>
 
         <tr class="hover:bg-slate-800/50">
           <td class="px-3 py-2 text-sm font-medium text-violet-300 whitespace-nowrap">Summoner</td>
-          <td class="px-3 py-2 text-xs text-slate-400">Summoning Staff</td>
+          <td class="px-3 py-2 text-xs text-slate-400">S. Staff</td>
+          <td class="px-3 py-2 text-xs text-slate-400">S. Orb</td>
+          <td class="px-3 py-2 text-xs text-slate-400">Robe</td>
           <td class="px-3 py-2 text-sm text-red-400 font-medium">600</td>
           <td class="px-3 py-2 text-sm text-blue-400 font-medium">500</td>
           <td class="px-3 py-2 text-sm">55</td>
@@ -1383,6 +1484,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <td class="px-3 py-2 text-sm">60</td>
           <td class="px-3 py-2 text-sm">40</td>
           <td class="px-3 py-2 text-sm">75</td>
+          <td class="px-3 py-2 text-sm text-emerald-400">30</td><td class="px-3 py-2 text-sm text-emerald-400">40</td><td class="px-3 py-2 text-sm text-emerald-400">55</td><td class="px-3 py-2 text-sm text-emerald-400">30</td>
         </tr>
 
       </tbody>
