@@ -194,7 +194,7 @@ function filterLocation(value) {
     <h1 class="text-3xl font-bold mb-2">
       <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Enemies</span>
     </h1>
-    <p class="text-slate-400">23 custom enemies parsed from game data.</p>
+    <p class="text-slate-400">38 custom enemies parsed from game data.</p>
   </div>
 
   <!-- Location Filter Tabs -->
@@ -212,6 +212,38 @@ function filterLocation(value) {
 
   <div id="enemies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-necro-colossus" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Necro-Colossus</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-soulreapers-wand" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Soulreaper&#39;s Wand <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-colossus-bone-plate" class="inline-block px-2 py-1 rounded text-xs text-orange-400 border-orange-700/50 bg-orange-900/30 border hover:brightness-125 transition-colors">Colossus Bone Plate <span class="text-slate-500">(0.03%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-magma-drake" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Magma Drake</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-magma-drakes-fang" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Magma Drake&#39;s Fang <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-dragonscale-fortress" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Dragonscale Fortress <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-the-void-sentinel" data-location="realm-events" data-boss="true">
         <div class="flex items-start gap-4 mb-3">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC9UlEQVR4nO2aXUhTYRjH3RYMWgs0ikoia8vldK2PddGX9nEVWlAjRpF1VVERJUQmJSYkNkMwrC6yohAyc5tUghe7CJeRsCFtfuSxQVlgnyDBPgjH1u3+G5w4HMdDnOd39+d53+f98+x93vNuO3l5DMMwDMMoFVWuF7h7bCyVrr9FJkUNFOavBX3yQUlOPapzmfx/gAtAbYCaeXITtB54Bz2+x2GCeHtHG+i4fgK0WoWfwffpMOjAkzjkf+3BM6TGZZV1Rih+B3ABqA1QI/kMaNkXhJ4s27IC4p6eftCx3zg//CkKWq3SgC7Sz4L2DQyCNttsoNvUo+DnwrMySWeC4ncAF4DaADWSz4DQ17egY0M/QPvG+kBfPNoCOhyqEs1fvGEZaOejS6AjM9jiQhjvBVJR/A7gAlAboOafZ8AtBz5nv8wGIe597wH9RngITZr/tAjmX6m9DOPVavwMbtxsBT0wifkSGi3ksxm2od816Pd8t/i9QPE7gAtAbYCarP5wVvqhhyxbDRDv6u0B3Rk4JenuXbnuGuTP/C7wMlgvKV/1pnuQ74j9EMQDr0Kg670VkF/xO4ALQG2Amqx7QEqTAO1xu0EvNCRxQkB8gd2W09Cj05FhiCdTmG+76QSMHxQ6RM+EAiP6dbtcoI1L14v6U/wO4AJQG6Amq7+6Gz5CD642Lof45mqtaE/ut16H+St1ZogHfz7PmAHD86yLDoKeio+CfhG8Krq+v/MPJPw88Qvi9qZCvgekwwWgNkBN1j3A0bgKeuR2bV8qc0w6FaU1EC/VlUNciA6B9n14LNrDixdY8LuIfifE45Y6iHtHmiGfX/DC+DNNVfx7gBhcAGoD1Mz5+zc7zGfx//zxO7LWKDefg3y+8fY59az4HcAFoDbAMAxDiexnqn1jAzyn3cONOX2397CtGdbrCtTxe4Jy4AJQG6BGcv/sNeHdXDt/CcSjsSnQXuG+rB7dVXwc1ivQlUA8mZgB3Tvi5PcEpcAFoDbAMAxDyV+DmsJnOnepewAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
@@ -224,6 +256,70 @@ function filterLocation(value) {
         <div class="border-t border-slate-700/50 pt-3">
           <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
           <div class="flex flex-wrap gap-1.5"><a href="items.html#item-void-scepter" class="inline-block px-2 py-1 rounded text-xs text-purple-400 border-purple-700/50 bg-purple-900/30 border hover:brightness-125 transition-colors">Void Scepter <span class="text-slate-500">(5%)</span></a> <a href="items.html#item-void-sentinels-core" class="inline-block px-2 py-1 rounded text-xs text-orange-400 border-orange-700/50 bg-orange-900/30 border hover:brightness-125 transition-colors">Void Sentinel&#39;s Core <span class="text-slate-500">(0.03%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-earthshaker-titan" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Earthshaker Titan</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Stunned (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-earthshakers-cleaver" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Earthshaker&#39;s Cleaver <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-titans-bedrock-plate" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Titan&#39;s Bedrock Plate <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-astral-seraph" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Astral Seraph</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Quiet (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (1.5s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-seraphs-holy-avenger" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Seraph&#39;s Holy Avenger <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-halo-of-the-astral-seraph" class="inline-block px-2 py-1 rounded text-xs text-orange-400 border-orange-700/50 bg-orange-900/30 border hover:brightness-125 transition-colors">Halo of the Astral Seraph <span class="text-slate-500">(0.03%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-solaris-the-eternal-flame" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Solaris the Eternal Flame</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">ArmorBroken (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-solaris-corona-wand" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Solaris Corona Wand <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-ring-of-the-solar-eclipse" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Ring of the Solar Eclipse <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-abyssal-kraken" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Abyssal Kraken</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Stunned (1.5s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-krakens-tentacle-bow" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Kraken&#39;s Tentacle Bow <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-abyssal-shroud" class="inline-block px-2 py-1 rounded text-xs text-orange-400 border-orange-700/50 bg-orange-900/30 border hover:brightness-125 transition-colors">Abyssal Shroud <span class="text-slate-500">(0.03%)</span></a></div>
         </div>
         
       </div>
@@ -244,6 +340,38 @@ function filterLocation(value) {
         <a href="dungeons.html" class="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors mt-3">Prismatic Paradise &rarr;</a>
       </div>
 
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-tidecaller-leviathan" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Tidecaller Leviathan</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Stunned (1.5s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-leviathans-trident" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Leviathan&#39;s Trident <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-abyss-touched-sigil" class="inline-block px-2 py-1 rounded text-xs text-orange-400 border-orange-700/50 bg-orange-900/30 border hover:brightness-125 transition-colors">Abyss-Touched Sigil <span class="text-slate-500">(0.03%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-crystal-wyrm" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Crystal Wyrm</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Stunned (1.5s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Dazed (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-crystalline-spire-staff" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Crystalline Spire Staff <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-geode-heart-ring" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Geode Heart Ring <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-infernal-colossus" data-location="realm-events" data-boss="true">
         <div class="flex items-start gap-4 mb-3">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADmklEQVR4nO1aXUiTURj+9jnDHzJHiDpxjk3TCEGI2IVgybRyGkpUN0IQ4YX9QCXVxZJ+QIJgSBddlHTjXUGZiZrFNLQgMhlURjC3nLCyFFdp5c90XdTFnrN2PsbUN/jOc/dw3nPOs3fvec8573c00jrjRl5lKJwf9z3RrLeGcMiUk/8PEA6gFkCNVV9/zdmlsMZrs1OgXWdDn2dZ0oC7L30F3jE5D/yyf2hVNas+AoQDqAVQY8334MDFE5ATpjRaaJeToVnSpxmBpzSeXlONqo8A4QBqAdTQKpvEh+TaQuD+hgfAZeYv0Lea11gRQvURIBxALYAaMe+xd4oqYOMuLE6EdnM52r/sQ27t7OXO2WXDekFZHaYpb18QuGd0GfiB9/0x/SbVR4BwALUAasR8DpAT0Gcf5laAlxzri+vsvq+HqRH2YHtH1R7IEQma+K4Kqo8A4QBqAdSIOQcYUnHfLSrBmp/UG5ceRezKR8njX37FNZ7qI0A4gFoANRRzwHXmW14wE9s3Xe2CjXjkjBXsDd+SwD7jdjd34546Wg39Z4wJ0K5rfgj9h/fbwN4xjfM3+Zzc+VQfAcIB1AKooZgDsox43y/t6uGuqcBr9KnRHIxi+W+wOcJZuTsUzVaSJGnHfdRztwxzluTjz6f6CBAOoBZADeUckMtvdzbimsv8jktw88346gP6DKw3OBuwHmBtw/FzTJizpEH++KqPAOEAagHUiFifDubsv6T7Ce0FtSXA82e9wE3FG4BvPNIJc/QW4/hj8/gfnHTjmp5tw7uBx493A4/WCNx7bwT44gzeRezM3UD1ESAcQC2AGhHngCbm7e6tZQuswaSBd2A/MIH7tGkb/2iRb8E1bFrBd4CSm+nAPCAYbP8BvMD4FnjqJ7x7nJ0U9QAuhAOoBVBD8S6w/VA68M+uBeC2U0XAFycmuOMt+JeAvwnMR7H8O54Xc0zFYdzXx57OAd9Zn44DOLjDiwgQDqAWQI2IHDB5pQb2/dRsvN9vPVgDPBTEb4Xua2PcCTuHA8CnQytRLP9g3IU5You9DrihCvsHXd3AP9r3wg/QtzwSd4FwCAdQC6BGRA4Y6sezdHW5Cbi8jOcAScajdm4OnvWn2s/DGnx+4QVXkL31HNiHhl5Be+LoInZg3izJAXxr/PiZhzuf6iNAOIBaADUUa/YteVbutzkt40M2qbD1BSWwNUmlL4tBiX+OYGuALFQfAcIB1AKo8RvszOF2eNWkNQAAAABJRU5ErkJggg==" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
@@ -256,6 +384,38 @@ function filterLocation(value) {
         <div class="border-t border-slate-700/50 pt-3">
           <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
           <span class="text-xs text-slate-600 italic">No unique drops</span>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-nyx-the-shadow-weaver" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Nyx the Shadow Weaver</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Quiet (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-nyxs-umbral-blade" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Nyx&#39;s Umbral Blade <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-shroud-of-eternal-night" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Shroud of Eternal Night <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-blood-moon-werewolf" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Blood Moon Werewolf</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Dazed (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-fang-of-the-blood-moon" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Fang of the Blood Moon <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-lycanthropes-hide" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Lycanthrope&#39;s Hide <span class="text-slate-500">(0.12%)</span></a></div>
         </div>
         
       </div>
@@ -276,6 +436,70 @@ function filterLocation(value) {
         
       </div>
 
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-sandstorm-pharaoh" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Sandstorm Pharaoh</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Weak (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-pharaohs-scepter-staff" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Pharaoh&#39;s Scepter Staff <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-scarab-signet" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Scarab Signet <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-chrono-wraith" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Chrono Wraith</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Dazed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Quiet (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-chrono-wraiths-paradox-staff" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Chrono Wraith&#39;s Paradox Staff <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-robes-of-the-time-stream" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Robes of the Time Stream <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-thornweald-the-living-forest" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Thornweald the Living Forest</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Paralyzed (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-thornwealds-bramble-bow" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Thornweald&#39;s Bramble Bow <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-bark-woven-cuirass" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Bark-Woven Cuirass <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-plague-bearer" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Plague Bearer</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Sick (3s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Weak (4s)</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Slowed (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-plague-doctors-scalpel" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Plague Doctor&#39;s Scalpel <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-ring-of-patient-zero" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Ring of Patient Zero <span class="text-slate-500">(0.12%)</span></a></div>
+        </div>
+        
+      </div>
+
       <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-the-stormweaver" data-location="realm-events" data-boss="true">
         <div class="flex items-start gap-4 mb-3">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAELElEQVR4nO2bbUhUWRjH7+htpKycsdQZLXOzlzWWxuzFLJUoqLaVbOtDRZRSS+UuFFFZ0Mt+WOiNXsgEoaIUipZFYndtN7TYsPe2nF60dTHLSW2SSict05nK6dOCvzvLWE1woHv+335z5t77n2fOee5zzrlXUaSkpPQsg/aDEKPR+ykvMHfjUfCSJd+Cd+dkgi+Wl4NT09LYfuFCQH7cHg9+c1BAZ/sMJAMg2oBoqZ/6hKOy1oHt50rBKZOSwY7OaHC0bRI4M2ctuMblBj+p+vujfP4n3fcAGQDRBkQr4DogPusI2BbdAb5Seh7cWnsdbBwwDrzml3zwtfud4A1pJvC00Tz+TXONX7+yDtBIBkC0AdEKuA5I/moC+GT+VvCY3ANgV/EhcOrKH8AlJ06CH1T1Ay/6+THYENzr/c3+j3TfA2QARBsQrYBzwIt6OzjEzft2ZsQdcGReDrjmbBnYXrAd3NXhAH+xnjnimZ054rV/uz7SfQ+QARBtQLQ+eC5gTV8Mdj1uAXfe+wOcuPIwuPovtitepqG4GBPYcfMSuF/f4eDUFcvAv26d7Wu6m+RcQCMZANEGRKvHOiAlfQrYOyMX7CraxAMMjKlqYEpRe1vAI8aGgR9VcN3f3foP2BTLucfieVPBFRdXgRvK8hR/0n0PkAEQbUC0eqwDvly0Ae1117nm5r73G3jQlKXgR7d5Hx+fWwxuu1sENgbR0p2inRrH/M8GzSkEW5Ing29sjKdfWQdQMgCiDYhWj3VAVNJEcH0578uKtws4a/434OIW5oya45zvJ63+ETzTXAf+6bITbLM8BH+/gnVF6d128A3Fv3TfA2QARBsQLd8coLnP2vO4jq+0OYADRmWBwzX7BJ1PI8CvnMfAI0O3gBMSmHPcD7mGeOkZ/VWv4/MHpoinij8NTFmKOkf3PUAGQLQB0VKtc/ZjTLT8uR5fcHsawZ421gHhffnMj/NsNa/QqmFNjikp2AUuDckAx87kXKT29+XgZtceMq+mRGafAjccnC7nAt0lAyDagGj5rAdYMvchJ3i92m0C1v6va7n3F2bqDQ4J5vy87tp34GCDGWwayGd+jOGsK5obT4A97Q/AoYkLwX1sCxR/0n0PkAEQbUC01MHLyzDIwyxcp29teq6w3QR2NlWBPU3MGc0v9oLNX+8At988Du54VQ/ur8zi+TVjPjK7RHP9SnDc2GFgR0UtWPc9QAZAtAHRUmMT4/BBmDUcXHmazwDFj+M6+/My7ter5mCwu7EQHGtLBY/M4DtD/+azTnA2FICjErg3aY6h37eWdLC3izlpSBJzgu57gAyAaAOipZqjOYb6W1mbpy2bBr61Yxu48eoWn/lEd2UUnMEgVGOGoj1UM4YNWZvBjmN838DbxXeGYqwveXzUaHCvIOYAbR2j+x4gAyDagGi9A2U5HYv+iKpIAAAAAElFTkSuQmCC" width="64" height="64" alt="" style="image-rendering:pixelated" class="flex-shrink-0">
@@ -288,6 +512,22 @@ function filterLocation(value) {
         <div class="border-t border-slate-700/50 pt-3">
           <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
           <span class="text-xs text-slate-600 italic">No unique drops</span>
+        </div>
+        
+      </div>
+
+      <div class="glass rounded-xl p-5 glass-hover transition-all duration-300 enemy-card" id="enemy-zephyrus-the-wind-king" data-location="" data-boss="true">
+        <div class="flex items-start gap-4 mb-3">
+          
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-red-400 leading-tight mb-1.5">Zephyrus the Wind King</h3>
+            <div class="flex flex-wrap gap-1"><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/30 font-semibold">Quest</span> <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-violet-900/40 text-violet-400 border border-violet-700/30 font-semibold">Realm Event</span> </div>
+          </div>
+        </div>
+        <div class='flex flex-wrap gap-1 mb-3'><span class="inline-block px-1.5 py-0.5 rounded text-xs bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Confused (2s)</span></div>
+        <div class="border-t border-slate-700/50 pt-3">
+          <span class="text-xs text-slate-500 block mb-1.5">Drops</span>
+          <div class="flex flex-wrap gap-1.5"><a href="items.html#item-galeforce-longbow" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Galeforce Longbow <span class="text-slate-500">(0.12%)</span></a> <a href="items.html#item-zephyrs-signet" class="inline-block px-2 py-1 rounded text-xs text-yellow-400 border-yellow-700/50 bg-yellow-900/30 border hover:brightness-125 transition-colors">Zephyr&#39;s Signet <span class="text-slate-500">(0.12%)</span></a></div>
         </div>
         
       </div>
