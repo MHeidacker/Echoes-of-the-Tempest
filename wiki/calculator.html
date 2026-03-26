@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Damage Calculator - Echoes of the Tempest</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'game-bg': '#020617',
+        'game-card': '#0f172a',
+        'game-card-alt': '#1e293b',
+        'game-border': '#334155',
+        'game-accent': '#8b5cf6',
+        'game-accent2': '#22d3ee',
+        'rarity-ut': '#b041ff',
+        'rarity-lg': '#ffd700',
+        'rarity-ar': '#ff8c00',
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50;
+  }
+  .glass-hover {
+    @apply hover:bg-slate-800/70 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+  .glow-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  .glow-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  .glow-btn:hover::after {
+    @apply opacity-100;
+  }
+}
+</style>
+<style>
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(30px); }
+}
+@keyframes float-particle-2 {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  50% { transform: translateY(-100px) translateX(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.particle-field {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle-field::before, .particle-field::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.particle-field::before {
+  left: 20%; bottom: 20%;
+  animation: float-particle 6s ease-in-out infinite;
+  box-shadow:
+    80px 20px 0 #22d3ee,
+    200px -10px 0 #8b5cf6,
+    350px 30px 0 #22d3ee,
+    500px -20px 0 #8b5cf6,
+    650px 10px 0 #22d3ee,
+    800px -30px 0 #8b5cf6;
+}
+.particle-field::after {
+  left: 60%; bottom: 30%;
+  animation: float-particle-2 8s ease-in-out infinite 2s;
+  box-shadow:
+    -100px 10px 0 #22d3ee,
+    50px -30px 0 #8b5cf6,
+    180px 20px 0 #22d3ee,
+    320px -10px 0 #8b5cf6,
+    450px 25px 0 #22d3ee;
+}
+.stat-gradient-hp { background: linear-gradient(90deg, #ef4444, #f97316); }
+.stat-gradient-mp { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.stat-gradient-att { background: linear-gradient(90deg, #f97316, #eab308); }
+.stat-gradient-def { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.stat-gradient-spd { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.stat-gradient-dex { background: linear-gradient(90deg, #a855f7, #c084fc); }
+.stat-gradient-vit { background: linear-gradient(90deg, #ef4444, #ec4899); }
+.stat-gradient-wis { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+.stat-gradient-mgt { background: linear-gradient(90deg, #f97316, #ef4444); }
+.stat-gradient-lck { background: linear-gradient(90deg, #eab308, #f59e0b); }
+.stat-gradient-rst { background: linear-gradient(90deg, #10b981, #34d399); }
+.stat-gradient-prt { background: linear-gradient(90deg, #6366f1, #818cf8); }
+table tbody tr { transition: background-color 0.15s ease; }
+.ar-sprite .ar-frame:first-child { opacity: 1 !important; }
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.ar-sprite').forEach(function(sprite) {
+    var frames = sprite.querySelectorAll('.ar-frame');
+    if (frames.length < 2) return;
+    var current = 0;
+    setInterval(function() {
+      frames[current].style.opacity = '0';
+      current = (current + 1) % frames.length;
+      frames[current].style.opacity = '1';
+    }, 200);
+  });
+});
+</script>
+
+
+<script>
+function filterByAttr(containerSelector, cardSelector, attrName, value, buttonGroup) {
+  // Toggle button styles
+  document.querySelectorAll(buttonGroup).forEach(function(btn) {
+    btn.classList.remove('bg-violet-600', 'text-white');
+    btn.classList.add('bg-slate-800', 'text-slate-300');
+  });
+  event.currentTarget.classList.remove('bg-slate-800', 'text-slate-300');
+  event.currentTarget.classList.add('bg-violet-600', 'text-white');
+
+  document.querySelectorAll(cardSelector).forEach(function(card) {
+    if (value === 'all' || card.getAttribute(attrName) === value) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function filterRarity(value) {
+  filterByAttr('#items-grid', '.item-card', 'data-rarity', value, '.rarity-tab');
+}
+
+function filterLocation(value) {
+  filterByAttr('#enemies-grid', '.enemy-card', 'data-location', value, '.location-tab');
+}
+</script>
+
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+<nav class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-xl border-b border-slate-700/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <a href="../index.html" class="text-violet-400 font-bold text-2xl tracking-wide hover:text-violet-300 transition-colors">EoT</a>
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-1 sm:gap-4">
+        <a href="../index.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Home</a>
+        <a href="index.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Wiki</a>
+        <a href="items.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Items</a>
+        <a href="enemies.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Enemies</a>
+        <a href="dungeons.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Dungeons</a>
+        <a href="classes.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Classes</a>
+        <a href="calculator.html" class="text-base text-slate-300 hover:text-violet-400 transition-colors px-5 py-3 rounded-lg hover:bg-slate-800/40">Calculator</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button onclick="document.getElementById('mobile-nav').classList.toggle('hidden')" class="md:hidden text-slate-200 hover:text-violet-400 p-4 -mr-2 rounded-lg active:bg-slate-800/60" aria-label="Menu">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile dropdown -->
+  <div id="mobile-nav" class="hidden md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-slate-700/50 px-3 py-2 space-y-1">
+    <a href="../index.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Home</a>
+        <a href="index.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Wiki</a>
+        <a href="items.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Items</a>
+        <a href="enemies.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Enemies</a>
+        <a href="dungeons.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Dungeons</a>
+        <a href="classes.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Classes</a>
+        <a href="calculator.html" class="block text-lg text-slate-200 hover:text-violet-400 hover:bg-slate-800/60 transition-colors px-5 py-4 rounded-lg">Calculator</a>
+  </div>
+</nav>
+
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Damage Calculator</span>
+    </h1>
+    <p class="text-slate-400">Calculate DPS for any class and weapon combination against varying enemy defense.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Left Column: Inputs -->
+    <div class="space-y-4">
+
+      <!-- Class Selector -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Class</h2>
+        <select id="class-select" onchange="onClassChange()" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 cursor-pointer">
+          <option value="">-- Select a class --</option>
+        </select>
+      </div>
+
+      <!-- Weapon Selector -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Weapon</h2>
+        <select id="weapon-select" onchange="onWeaponChange()" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 cursor-pointer">
+          <option value="">-- Select a weapon --</option>
+        </select>
+        <div id="weapon-info" class="mt-3 text-sm text-slate-400 hidden">
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>Damage: <span id="wi-damage" class="text-slate-200 font-medium"></span></div>
+            <div>Projectiles: <span id="wi-proj" class="text-slate-200 font-medium"></span></div>
+            <div>Rate of Fire: <span id="wi-rof" class="text-slate-200 font-medium"></span></div>
+            <div>Armor Piercing: <span id="wi-ap" class="text-slate-200 font-medium"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Inputs -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Stats</h2>
+        <p class="text-xs text-slate-500 mb-3">Base stats from class + equipment bonuses. Edit to simulate gear.</p>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs text-orange-400 font-bold mb-1">ATT</label>
+            <input type="number" id="stat-att" value="0" min="0" max="200" onchange="recalculate()" oninput="recalculate()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500">
+            <div class="text-xs text-slate-600 mt-0.5 text-center">base: <span id="base-att">0</span></div>
+          </div>
+          <div>
+            <label class="block text-xs text-purple-400 font-bold mb-1">DEX</label>
+            <input type="number" id="stat-dex" value="0" min="0" max="200" onchange="recalculate()" oninput="recalculate()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500">
+            <div class="text-xs text-slate-600 mt-0.5 text-center">base: <span id="base-dex">0</span></div>
+          </div>
+          <div>
+            <label class="block text-xs text-red-400 font-bold mb-1">MGT</label>
+            <input type="number" id="stat-mgt" value="0" min="0" max="200" onchange="recalculate()" oninput="recalculate()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500">
+            <div class="text-xs text-slate-600 mt-0.5 text-center">base: <span id="base-mgt">0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Equipment Bonuses -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Equipment Bonuses</h2>
+        <p class="text-xs text-slate-500 mb-3">Additional stat bonuses from armor, ring, and ability.</p>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs text-orange-400 font-bold mb-1">+ATT</label>
+            <input type="number" id="bonus-att" value="0" min="-50" max="100" onchange="applyBonuses()" oninput="applyBonuses()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500">
+          </div>
+          <div>
+            <label class="block text-xs text-purple-400 font-bold mb-1">+DEX</label>
+            <input type="number" id="bonus-dex" value="0" min="-50" max="100" onchange="applyBonuses()" oninput="applyBonuses()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500">
+          </div>
+          <div>
+            <label class="block text-xs text-red-400 font-bold mb-1">+MGT</label>
+            <input type="number" id="bonus-mgt" value="0" min="-50" max="100" onchange="applyBonuses()" oninput="applyBonuses()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- Enemy DEF Slider -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Enemy Defense</h2>
+        <div class="flex items-center gap-4">
+          <input type="range" id="enemy-def" min="0" max="60" value="0" oninput="onDefSlider()" class="flex-1 accent-violet-500 cursor-pointer h-2">
+          <input type="number" id="enemy-def-num" min="0" max="999" value="0" onchange="onDefInput()" oninput="onDefInput()"
+            class="w-16 bg-slate-800 border border-slate-600 rounded-lg px-2 py-2 text-slate-100 text-center focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Results -->
+    <div class="space-y-4">
+
+      <!-- DPS Results -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-4">Damage Output</h2>
+        <div id="results-placeholder" class="text-slate-500 text-sm py-8 text-center">Select a class and weapon to see results.</div>
+        <div id="results" class="hidden">
+          <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="bg-slate-800/60 rounded-lg p-4 text-center">
+              <div class="text-xs text-slate-500 mb-1">Damage Per Shot</div>
+              <div class="text-2xl font-bold text-cyan-400" id="r-dps-shot">--</div>
+              <div class="text-xs text-slate-600 mt-0.5"><span id="r-shot-min">--</span> - <span id="r-shot-max">--</span></div>
+            </div>
+            <div class="bg-slate-800/60 rounded-lg p-4 text-center">
+              <div class="text-xs text-slate-500 mb-1">Shots / Second</div>
+              <div class="text-2xl font-bold text-purple-400" id="r-sps">--</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="bg-slate-800/60 rounded-lg p-4 text-center">
+              <div class="text-xs text-slate-500 mb-1">Raw DPS</div>
+              <div class="text-2xl font-bold text-orange-400" id="r-raw-dps">--</div>
+              <div class="text-xs text-slate-600 mt-0.5">0 DEF</div>
+            </div>
+            <div class="bg-slate-800/60 rounded-lg p-4 text-center">
+              <div class="text-xs text-slate-500 mb-1">Effective DPS</div>
+              <div class="text-2xl font-bold text-green-400" id="r-eff-dps">--</div>
+              <div class="text-xs text-slate-600 mt-0.5">vs <span id="r-def-val">0</span> DEF</div>
+            </div>
+          </div>
+
+          <!-- Might bonus indicator -->
+          <div id="might-row" class="hidden bg-slate-800/40 rounded-lg p-3 mb-5 text-center">
+            <span class="text-xs text-slate-500">Might bonus:</span>
+            <span class="text-sm font-bold text-red-400" id="r-might-pct">+0%</span>
+            <span class="text-xs text-slate-500">damage</span>
+          </div>
+
+          <!-- DPS vs DEF chart -->
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">DPS vs Defense</h3>
+          <div class="space-y-1.5" id="dps-chart"></div>
+        </div>
+      </div>
+
+      <!-- Time to Kill -->
+      <div class="glass rounded-xl p-5">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-4">Time to Kill</h2>
+        <div id="ttk-placeholder" class="text-slate-500 text-sm py-4 text-center">Select a class and weapon to see results.</div>
+        <div id="ttk-results" class="hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-slate-700">
+                  <th class="px-3 py-2 text-left text-xs font-bold text-violet-400 uppercase">Enemy HP</th>
+                  <th class="px-3 py-2 text-right text-xs font-bold text-violet-400 uppercase">Time (0 DEF)</th>
+                  <th class="px-3 py-2 text-right text-xs font-bold text-violet-400 uppercase">Time (vs DEF)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800" id="ttk-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+// Embedded game data
+var CLASSES = [{"name": "Rogue", "weapon": "Dagger", "ability": "Cloak", "armor": "Leather", "hp": 680, "mp": 252, "att": 50, "def": 25, "spd": 75, "dex": 75, "vit": 40, "wis": 50, "mgt": 50, "lck": 75, "prt": 25}, {"name": "Archer", "weapon": "Bow", "ability": "Quiver", "armor": "Leather", "hp": 680, "mp": 252, "att": 75, "def": 25, "spd": 50, "dex": 50, "vit": 40, "wis": 50, "mgt": 80, "lck": 40, "prt": 25}, {"name": "Wizard", "weapon": "Staff", "ability": "Spell", "armor": "Robe", "hp": 630, "mp": 385, "att": 75, "def": 25, "spd": 50, "dex": 75, "vit": 40, "wis": 60, "mgt": 30, "lck": 20, "prt": 25}, {"name": "Priest", "weapon": "Wand", "ability": "Tome", "armor": "Robe", "hp": 630, "mp": 385, "att": 60, "def": 25, "spd": 55, "dex": 60, "vit": 40, "wis": 75, "mgt": 40, "lck": 70, "prt": 60}, {"name": "Warrior", "weapon": "Sword", "ability": "Helm", "armor": "Heavy", "hp": 830, "mp": 252, "att": 75, "def": 25, "spd": 50, "dex": 50, "vit": 75, "wis": 50, "mgt": 50, "lck": 10, "prt": 25}, {"name": "Knight", "weapon": "Sword", "ability": "Shield", "armor": "Heavy", "hp": 950, "mp": 252, "att": 50, "def": 40, "spd": 50, "dex": 50, "vit": 75, "wis": 50, "mgt": 40, "lck": 10, "prt": 40}, {"name": "Paladin", "weapon": "Sword", "ability": "Seal", "armor": "Heavy", "hp": 820, "mp": 252, "att": 50, "def": 30, "spd": 55, "dex": 45, "vit": 40, "wis": 75, "mgt": 30, "lck": 10, "prt": 50}, {"name": "Assassin", "weapon": "Dagger", "ability": "Poison", "armor": "Leather", "hp": 680, "mp": 252, "att": 65, "def": 25, "spd": 75, "dex": 75, "vit": 50, "wis": 75, "mgt": 80, "lck": 80, "prt": 25}, {"name": "Necromancer", "weapon": "Staff", "ability": "Skull", "armor": "Robe", "hp": 630, "mp": 385, "att": 65, "def": 30, "spd": 50, "dex": 60, "vit": 65, "wis": 75, "mgt": 30, "lck": 10, "prt": 40}, {"name": "Huntress", "weapon": "Bow", "ability": "Trap", "armor": "Leather", "hp": 660, "mp": 252, "att": 75, "def": 25, "spd": 55, "dex": 50, "vit": 35, "wis": 50, "mgt": 70, "lck": 50, "prt": 25}, {"name": "Mystic", "weapon": "Staff", "ability": "Orb", "armor": "Robe", "hp": 630, "mp": 385, "att": 60, "def": 25, "spd": 60, "dex": 55, "vit": 40, "wis": 75, "mgt": 40, "lck": 50, "prt": 50}, {"name": "Trickster", "weapon": "Dagger", "ability": "Prism", "armor": "Leather", "hp": 680, "mp": 252, "att": 85, "def": 25, "spd": 80, "dex": 65, "vit": 50, "wis": 60, "mgt": 80, "lck": 25, "prt": 40}, {"name": "Sorcerer", "weapon": "Wand", "ability": "Scepter", "armor": "Robe", "hp": 670, "mp": 425, "att": 70, "def": 25, "spd": 60, "dex": 65, "vit": 75, "wis": 80, "mgt": 50, "lck": 40, "prt": 25}, {"name": "Ninja", "weapon": "Katana", "ability": "Star", "armor": "Leather", "hp": 680, "mp": 252, "att": 80, "def": 25, "spd": 65, "dex": 80, "vit": 35, "wis": 70, "mgt": 70, "lck": 100, "prt": 25}, {"name": "Samurai", "weapon": "Katana", "ability": "Wakizashi", "armor": "Heavy", "hp": 760, "mp": 225, "att": 65, "def": 25, "spd": 55, "dex": 60, "vit": 70, "wis": 45, "mgt": 80, "lck": 80, "prt": 25}, {"name": "Templar", "weapon": "Greatsword", "ability": "Banner", "armor": "Heavy", "hp": 880, "mp": 125, "att": 75, "def": 20, "spd": 65, "dex": 45, "vit": 80, "wis": 30, "mgt": 40, "lck": 40, "prt": 60}, {"name": "Drakzix", "weapon": "Wand", "ability": "Dragonfire", "armor": "Robe", "hp": 600, "mp": 900, "att": 50, "def": 20, "spd": 40, "dex": 55, "vit": 35, "wis": 80, "mgt": 50, "lck": 30, "prt": 25}, {"name": "Shrine Maiden", "weapon": "Katana", "ability": "Ofuda", "armor": "Robe", "hp": 650, "mp": 410, "att": 75, "def": 25, "spd": 65, "dex": 65, "vit": 60, "wis": 75, "mgt": 60, "lck": 85, "prt": 75}, {"name": "Gambler", "weapon": "Dagger", "ability": "Cards", "armor": "Leather", "hp": 580, "mp": 385, "att": 70, "def": 25, "spd": 55, "dex": 55, "vit": 40, "wis": 75, "mgt": 100, "lck": 150, "prt": 25}, {"name": "Blademaster", "weapon": "Twin Blades", "ability": "Blade Dance", "armor": "Leather", "hp": 720, "mp": 252, "att": 40, "def": 15, "spd": 100, "dex": 100, "vit": 40, "wis": 50, "mgt": 80, "lck": 80, "prt": 25}, {"name": "Spirithunter", "weapon": "Bow", "ability": "Spirit Trap", "armor": "Robe", "hp": 660, "mp": 280, "att": 60, "def": 25, "spd": 65, "dex": 60, "vit": 50, "wis": 75, "mgt": 50, "lck": 50, "prt": 75}, {"name": "Summoner", "weapon": "S. Staff", "ability": "S. Orb", "armor": "Robe", "hp": 600, "mp": 500, "att": 55, "def": 20, "spd": 55, "dex": 60, "vit": 40, "wis": 75, "mgt": 30, "lck": 40, "prt": 30}];
+var WEAPONS = [{"name": "Stormcaller's Staff", "type": "Staff", "rarity": "UT", "minDamage": 65, "maxDamage": 110, "numProjectiles": 2, "rateOfFire": 1.2, "armorPiercing": false, "attBonus": 3, "dexBonus": 3}, {"name": "Tempest of Thaleos", "type": "Staff", "rarity": "LG", "minDamage": 85, "maxDamage": 155, "numProjectiles": 3, "rateOfFire": 1.3, "armorPiercing": false, "attBonus": 5, "dexBonus": 5}, {"name": "Flamecaster's Staff", "type": "Staff", "rarity": "UT", "minDamage": 70, "maxDamage": 110, "numProjectiles": 1, "rateOfFire": 1.1, "armorPiercing": false, "attBonus": 3, "dexBonus": 2}, {"name": "Frostbite Sword", "type": "Sword", "rarity": "UT", "minDamage": 80, "maxDamage": 120, "numProjectiles": 1, "rateOfFire": 1.15, "armorPiercing": false, "attBonus": -3, "dexBonus": 3}, {"name": "Rainbow Wand", "type": "Wand", "rarity": "LG", "minDamage": 70, "maxDamage": 130, "numProjectiles": 2, "rateOfFire": 1.1, "armorPiercing": false, "attBonus": 4, "dexBonus": 3}, {"name": "Phoenix Feather Bow", "type": "Bow", "rarity": "LG", "minDamage": 80, "maxDamage": 130, "numProjectiles": 3, "rateOfFire": 1.2, "armorPiercing": false, "attBonus": 0, "dexBonus": -3}, {"name": "Gale Piercer", "type": "Bow", "rarity": "UT", "minDamage": 250, "maxDamage": 350, "numProjectiles": 1, "rateOfFire": 0.5, "armorPiercing": true, "attBonus": 5, "dexBonus": -5}, {"name": "Magma Fang", "type": "Sword", "rarity": "UT", "minDamage": 30, "maxDamage": 60, "numProjectiles": 5, "rateOfFire": 1.0, "armorPiercing": false, "attBonus": 3, "dexBonus": 0}, {"name": "Blizzard Staff", "type": "Staff", "rarity": "UT", "minDamage": 40, "maxDamage": 70, "numProjectiles": 4, "rateOfFire": 0.8, "armorPiercing": false, "attBonus": -5, "dexBonus": 0}];
+
+// Slot type -> weapon type name mapping
+var WEAPON_TYPE_MAP = {1: "Sword", 2: "Dagger", 3: "Bow", 8: "Wand", 17: "Staff", 24: "Katana", 33: "Summoning Staff"};
+// Class weapon name -> slot types
+var CLASS_WEAPON_SLOTS = {
+  "Sword": [1], "Dagger": [2], "Bow": [3], "Wand": [8], "Staff": [17],
+  "Katana": [24], "S. Staff": [33], "Twin Blades": [1], "Greatsword": [1]
+};
+
+var currentClass = null;
+var currentWeapon = null;
+var baseAtt = 0, baseDex = 0, baseMgt = 0;
+
+// Populate class dropdown
+(function() {
+  var sel = document.getElementById('class-select');
+  CLASSES.forEach(function(c, i) {
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+})();
+
+function onClassChange() {
+  var idx = document.getElementById('class-select').value;
+  if (idx === '') {
+    currentClass = null;
+    resetStats();
+    populateWeapons([]);
+    recalculate();
+    return;
+  }
+  currentClass = CLASSES[parseInt(idx)];
+  baseAtt = currentClass.att;
+  baseDex = currentClass.dex;
+  baseMgt = currentClass.mgt;
+
+  // Apply weapon stat bonuses on top of base
+  applyBonuses();
+
+  // Filter weapons to ones usable by this class
+  var validSlots = CLASS_WEAPON_SLOTS[currentClass.weapon] || [];
+  var filtered = WEAPONS.filter(function(w) {
+    for (var i = 0; i < validSlots.length; i++) {
+      for (var st in WEAPON_TYPE_MAP) {
+        if (WEAPON_TYPE_MAP[st] === w.type && parseInt(st) === validSlots[i]) return true;
+      }
+    }
+    return false;
+  });
+  populateWeapons(filtered);
+  recalculate();
+}
+
+function populateWeapons(weaponList) {
+  var sel = document.getElementById('weapon-select');
+  sel.innerHTML = '<option value="">-- Select a weapon --</option>';
+  weaponList.forEach(function(w, i) {
+    var opt = document.createElement('option');
+    opt.value = JSON.stringify(w);
+    var rarityTag = w.rarity === 'AR' ? ' [AR]' : w.rarity === 'LG' ? ' [LG]' : w.rarity === 'UT' ? ' [UT]' : '';
+    opt.textContent = w.name + rarityTag;
+    sel.appendChild(opt);
+  });
+  currentWeapon = null;
+  document.getElementById('weapon-info').classList.add('hidden');
+}
+
+function onWeaponChange() {
+  var val = document.getElementById('weapon-select').value;
+  if (!val) {
+    currentWeapon = null;
+    document.getElementById('weapon-info').classList.add('hidden');
+    recalculate();
+    return;
+  }
+  currentWeapon = JSON.parse(val);
+
+  // Show weapon info
+  var info = document.getElementById('weapon-info');
+  info.classList.remove('hidden');
+  document.getElementById('wi-damage').textContent = currentWeapon.minDamage + ' - ' + currentWeapon.maxDamage;
+  document.getElementById('wi-proj').textContent = currentWeapon.numProjectiles;
+  document.getElementById('wi-rof').textContent = currentWeapon.rateOfFire.toFixed(2) + 'x';
+  document.getElementById('wi-ap').textContent = currentWeapon.armorPiercing ? 'Yes' : 'No';
+
+  // Update bonuses from weapon
+  applyBonuses();
+}
+
+function resetStats() {
+  baseAtt = 0; baseDex = 0; baseMgt = 0;
+  document.getElementById('stat-att').value = 0;
+  document.getElementById('stat-dex').value = 0;
+  document.getElementById('stat-mgt').value = 0;
+  document.getElementById('base-att').textContent = '0';
+  document.getElementById('base-dex').textContent = '0';
+  document.getElementById('base-mgt').textContent = '0';
+  document.getElementById('bonus-att').value = 0;
+  document.getElementById('bonus-dex').value = 0;
+  document.getElementById('bonus-mgt').value = 0;
+}
+
+function applyBonuses() {
+  var weaponAtt = currentWeapon ? (currentWeapon.attBonus || 0) : 0;
+  var weaponDex = currentWeapon ? (currentWeapon.dexBonus || 0) : 0;
+  var bonusAtt = parseInt(document.getElementById('bonus-att').value) || 0;
+  var bonusDex = parseInt(document.getElementById('bonus-dex').value) || 0;
+  var bonusMgt = parseInt(document.getElementById('bonus-mgt').value) || 0;
+
+  var totalBaseAtt = baseAtt + weaponAtt;
+  var totalBaseDex = baseDex + weaponDex;
+
+  document.getElementById('base-att').textContent = totalBaseAtt;
+  document.getElementById('base-dex').textContent = totalBaseDex;
+  document.getElementById('base-mgt').textContent = baseMgt;
+
+  document.getElementById('stat-att').value = totalBaseAtt + bonusAtt;
+  document.getElementById('stat-dex').value = totalBaseDex + bonusDex;
+  document.getElementById('stat-mgt').value = baseMgt + bonusMgt;
+
+  recalculate();
+}
+
+function onDefSlider() {
+  var v = document.getElementById('enemy-def').value;
+  document.getElementById('enemy-def-num').value = v;
+  recalculate();
+}
+
+function onDefInput() {
+  var v = parseInt(document.getElementById('enemy-def-num').value) || 0;
+  if (v > 60) document.getElementById('enemy-def').value = 60;
+  else document.getElementById('enemy-def').value = Math.max(0, v);
+  recalculate();
+}
+
+function calcDPS(att, dex, mgt, weapon, enemyDef) {
+  if (!weapon) return null;
+  var minDmg = weapon.minDamage;
+  var maxDmg = weapon.maxDamage;
+  var avgDmg = (minDmg + maxDmg) / 2;
+  var numProj = weapon.numProjectiles;
+  var rof = weapon.rateOfFire;
+  var ap = weapon.armorPiercing;
+
+  // ATT modifier: 0.5 + ATT/50
+  var attMod = 0.5 + att / 50;
+
+  // Might bonus: additive percentage
+  var mgtMod = 1 + mgt / 100;
+
+  // Scaled damage per projectile (before DEF)
+  var scaledMin = minDmg * attMod * mgtMod;
+  var scaledMax = maxDmg * attMod * mgtMod;
+  var scaledAvg = avgDmg * attMod * mgtMod;
+
+  // DEX -> shots per second
+  // frequency = 0.0015 + (DEX/75) * 0.0065
+  // period = 1 / frequency / RoF
+  var freq = 0.0015 + (dex / 75) * 0.0065;
+  var period = 1 / freq / rof;
+  var shotsPerSec = 1000 / period; // period is in ms
+
+  // Apply DEF to each projectile hit
+  var floor = scaledAvg * 0.1; // 10% minimum damage floor
+  var defReduced;
+  if (ap) {
+    defReduced = scaledAvg; // armor piercing ignores DEF
+  } else {
+    defReduced = Math.max(scaledAvg - enemyDef, floor);
+  }
+
+  // Min/max after DEF
+  var minAfterDef = ap ? scaledMin : Math.max(scaledMin - enemyDef, scaledMin * 0.1);
+  var maxAfterDef = ap ? scaledMax : Math.max(scaledMax - enemyDef, scaledMax * 0.1);
+
+  var rawDPS = scaledAvg * numProj * shotsPerSec;
+  var effDPS = defReduced * numProj * shotsPerSec;
+
+  return {
+    shotMin: Math.round(scaledMin * numProj),
+    shotMax: Math.round(scaledMax * numProj),
+    shotAvg: Math.round(scaledAvg * numProj),
+    shotsPerSec: shotsPerSec,
+    rawDPS: rawDPS,
+    effDPS: effDPS,
+    mgtPct: Math.round(mgt),
+    armorPiercing: ap,
+  };
+}
+
+function recalculate() {
+  var att = parseInt(document.getElementById('stat-att').value) || 0;
+  var dex = parseInt(document.getElementById('stat-dex').value) || 0;
+  var mgt = parseInt(document.getElementById('stat-mgt').value) || 0;
+  var def = parseInt(document.getElementById('enemy-def-num').value) || 0;
+
+  if (!currentClass || !currentWeapon) {
+    document.getElementById('results').classList.add('hidden');
+    document.getElementById('results-placeholder').classList.remove('hidden');
+    document.getElementById('ttk-results').classList.add('hidden');
+    document.getElementById('ttk-placeholder').classList.remove('hidden');
+    return;
+  }
+
+  var r = calcDPS(att, dex, mgt, currentWeapon, def);
+  if (!r) return;
+
+  document.getElementById('results-placeholder').classList.add('hidden');
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('ttk-placeholder').classList.add('hidden');
+  document.getElementById('ttk-results').classList.remove('hidden');
+
+  document.getElementById('r-dps-shot').textContent = r.shotAvg.toLocaleString();
+  document.getElementById('r-shot-min').textContent = r.shotMin.toLocaleString();
+  document.getElementById('r-shot-max').textContent = r.shotMax.toLocaleString();
+  document.getElementById('r-sps').textContent = r.shotsPerSec.toFixed(2);
+  document.getElementById('r-raw-dps').textContent = Math.round(r.rawDPS).toLocaleString();
+  document.getElementById('r-eff-dps').textContent = Math.round(r.effDPS).toLocaleString();
+  document.getElementById('r-def-val').textContent = def;
+
+  // Might indicator
+  var mightRow = document.getElementById('might-row');
+  if (r.mgtPct > 0) {
+    mightRow.classList.remove('hidden');
+    document.getElementById('r-might-pct').textContent = '+' + r.mgtPct + '%';
+  } else {
+    mightRow.classList.add('hidden');
+  }
+
+  // DPS vs DEF chart (0, 10, 20, 30, 40, 50, 60)
+  var chartHtml = '';
+  var maxDps = r.rawDPS; // max is always at 0 DEF
+  [0, 10, 20, 30, 40, 50, 60].forEach(function(d) {
+    var result = calcDPS(att, dex, mgt, currentWeapon, d);
+    var pct = maxDps > 0 ? Math.round(result.effDPS / maxDps * 100) : 0;
+    var isActive = d === def;
+    var barColor = isActive ? 'bg-gradient-to-r from-violet-500 to-cyan-500' : 'bg-slate-600';
+    var textColor = isActive ? 'text-violet-300 font-bold' : 'text-slate-500';
+    chartHtml += '<div class="flex items-center gap-2">';
+    chartHtml += '<span class="w-12 text-right text-xs ' + textColor + '">' + d + ' DEF</span>';
+    chartHtml += '<div class="flex-1 h-4 bg-slate-800 rounded-full overflow-hidden">';
+    chartHtml += '<div class="h-full rounded-full ' + barColor + ' transition-all duration-300" style="width:' + pct + '%"></div>';
+    chartHtml += '</div>';
+    chartHtml += '<span class="w-16 text-right text-xs ' + textColor + '">' + Math.round(result.effDPS).toLocaleString() + '</span>';
+    chartHtml += '</div>';
+  });
+  document.getElementById('dps-chart').innerHTML = chartHtml;
+
+  // Time to Kill table
+  var ttkHtml = '';
+  [1000, 5000, 10000, 50000, 100000].forEach(function(hp) {
+    var rawTime = r.rawDPS > 0 ? (hp / r.rawDPS) : Infinity;
+    var effTime = r.effDPS > 0 ? (hp / r.effDPS) : Infinity;
+    function fmtTime(t) {
+      if (t === Infinity) return '--';
+      if (t < 1) return (t * 1000).toFixed(0) + 'ms';
+      if (t < 60) return t.toFixed(1) + 's';
+      return Math.floor(t / 60) + 'm ' + Math.round(t % 60) + 's';
+    }
+    ttkHtml += '<tr class="hover:bg-slate-800/50">';
+    ttkHtml += '<td class="px-3 py-2 text-sm text-slate-300">' + hp.toLocaleString() + ' HP</td>';
+    ttkHtml += '<td class="px-3 py-2 text-sm text-right text-orange-400">' + fmtTime(rawTime) + '</td>';
+    ttkHtml += '<td class="px-3 py-2 text-sm text-right text-green-400">' + fmtTime(effTime) + '</td>';
+    ttkHtml += '</tr>';
+  });
+  document.getElementById('ttk-body').innerHTML = ttkHtml;
+}
+</script>
+
+<footer class="border-t border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-slate-500 text-sm">Echoes of the Tempest &mdash; A Realm of the Mad God experience reimagined</div>
+      <div class="flex gap-6">
+        <a href="../index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Home</a>
+        <a href="index.html" class="text-slate-400 hover:text-violet-400 text-sm transition-colors">Wiki</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
