@@ -854,6 +854,9 @@ function sortItems(mode) {
   cards.forEach(function(card) { grid.appendChild(card); });
 }
 
+// Apply default sort on page load
+document.addEventListener('DOMContentLoaded', function() { sortItems('rarity-desc'); });
+
 function filterItems(category) {
   _itemCatFilter = category;
   document.querySelectorAll('.filter-tab').forEach(function(btn) {
