@@ -296,8 +296,6 @@ document.addEventListener('click', function(e) {
     <span class="text-slate-600">|</span>
     <a href="#loot-bags" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Loot Bags</a>
     <span class="text-slate-600">|</span>
-    <a href="#combat" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Combat Mechanics</a>
-    <span class="text-slate-600">|</span>
     <a href="#status-effects" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Status Effects</a>
     <span class="text-slate-600">|</span>
     <a href="#passives" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Passive Powers</a>
@@ -418,17 +416,24 @@ document.addEventListener('click', function(e) {
         </div>
       </div>
       <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAwElEQVR4nGNkIAA+fP3xH5+8ADcHIyEz8AEmSjRTA4w6gAVdgFCcP3r+Eq96UtPEgIfAqAMw0gB6HOupyKPG6aVnqGnk7juKHDDgITDqAMJ5Fi3OL3H9RpHW+8bKgFcePQ2hgQEPgVEHYMYPgTiXkxTHa6AAWrlAKE0MeAiMOgCjLqAUfFAWQuFjpIk7D1HS2ICHwKgDMMqBLYdPoMSRnKQkVS189Pw5Cn/AQ2DUAQTbA+hpglLgY2sxWhcMLgcAAPDPOEK8KhkkAAAAAElFTkSuQmCC" width="32" height="32" class="inline-block" style="image-rendering:pixelated" alt="cyan_ut bag">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAwklEQVR4nGNkIBHwS+v8R+Z/fHqFkVQzkAETJZqpAUYdQDD+0OPcf3ofXvWL/NxIShMDHgKjDmBBF+AVV/+PTSEMbNv5FYX/7+peihww4CEw6gCMNMCVMAOF/2NJLgp/dZMXCn/+UW4U/vrru1HS0OeXN/GWCwMeAqMOIFhu73/7EyVO1//+gVf9yf5OVH5n22gaGNwOwCgHSAUfTp1E4TMyM5Okf8BDYNQBBNPA/KMHSTLw/9+/JKkf8BAYdcAoGAUA9rEsC0vCSlUAAAAASUVORK5CYII=" width="32" height="32" class="inline-block" style="image-rendering:pixelated" alt="cyan_ut bag">
         <div>
           <span class="font-semibold text-cyan-400">Cyan Bag</span>
-          <p class="text-xs text-slate-400">UT and Legendary items. Soulbound — the moment your heart skips a beat.</p>
+          <p class="text-xs text-slate-400">Untiered (UT) items. Soulbound — unique equipment with special properties.</p>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-4">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA3UlEQVR4nGNkIABEBLj+45N/8+EbIyEz8AEmSjRTA4w6gOT4OzKTCSVNHNuGmkTKNv4nycwBD4FRB5CcBj58TESJdEWpxSjyf/6iponPP/7itWPAQ2DUASyEFHx6HoQSqVzcHSjyj+9/ROFPTNyAZgJquVG99R9KmhjwEBh1AEYeFeRmQYmzV+9R4/jnh1gU/r+/qPovbdqAwrdJ/zdaDgxuB2CUA5UuqJF6ejEvSQaitw/Q09T7r39Gy4HB5QCMPIre5kMH6HGMDn6jRjEDKwv+NuOAh8CoA0bBKAAA3/lANL8omT4AAAAASUVORK5CYII=" width="32" height="32" class="inline-block" style="image-rendering:pixelated" alt="gold_lg bag">
+        <div>
+          <span class="font-semibold text-yellow-400">Gold Bag</span>
+          <p class="text-xs text-slate-400">Legendary (LG) items. Soulbound — rare drops with passive Legend powers. Your heart skips a beat.</p>
         </div>
       </div>
       <div class="glass rounded-lg p-4 flex items-center gap-4 exalted-card" style="border-color:rgba(232,224,255,0.3)">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzUlEQVR4nGNkIAB+/fj/H588GwcjIyEz8AEmSjRTA4w6gAVdgFCcv3vzDa96UtPEgIfAqAMw0gB6HEvIcKPE6Z1LqHH+5R1lDhjwEBh1AME8ix7nPEKoaeTLOy4GfPLoaQgdDHgIjDoAI34IxbmQCGqco4NHt1D5hNLEgIfAqAMw6gJKgZwaKv/RLdQ08+LJV5Q0NuAhMOoAjDTw7fdzFD4PAz8KH729QAjwCKHyX738iMIf8BAYdQDB9sCls8/w9hNIBXrGUqN1weByAAACeDoS4yhmxgAAAABJRU5ErkJggg==" width="32" height="32" class="inline-block" style="image-rendering:pixelated" alt="exalted bag">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAtklEQVR4nGNgGAUjHTASUvD377//yPz06qMo8hpGrCh8d2s5FL6utBReO5gIOYDWYNQBLIQUMDMzocThqYdPUdLEoZOPUdQTinN0MOAhMOoAgmng1qtXKHH+8/cfqjpgwENg1AEE8+zlp89Q0oCWhASK/LUXL/DqH60LRh0w6oBB7wCMuqBn1Yn/2BTCAKF8jw4S3FtRzFuwsxqlXBjwEBh1AEntNwYGzDglBNDjHB0MeAiMOgAAZVwo5dRY2EAAAAAASUVORK5CYII=" width="32" height="32" class="inline-block" style="image-rendering:pixelated" alt="exalted bag">
         <div>
-          <span class="font-semibold exalted-name">Radiant White Bag</span>
-          <p class="text-xs text-slate-400">Exalted items only. Glows with a pulsing radiant aura on the ground. If you see this, screenshot it — it's a 1/3400 drop.</p>
+          <span class="font-semibold exalted-name">Radiant Bag</span>
+          <p class="text-xs text-slate-400">Exalted (EX) items only. Glows with a pulsing radiant aura on the ground. If you see this, screenshot it — it's a 1/3400 drop.</p>
         </div>
       </div>
     </div>
@@ -466,49 +471,7 @@ document.addEventListener('click', function(e) {
     </div>
   </div>
 
-  <!-- ===== COMBAT MECHANICS ===== -->
-  <div class="mb-12" id="combat">
-    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Combat Mechanics</h2>
-
-  <!-- Damage Formula -->
-  <div class="mb-8">
-    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Damage Formula</h2>
-    <div class="glass rounded-xl p-6">
-      <p class="text-slate-300 text-sm mb-3">Base damage for each projectile hit:</p>
-      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-cyan-300 font-mono overflow-x-auto mb-3">damage = avg(MinDamage, MaxDamage) * (0.5 + ATT / 50) - DEF</pre>
-      <p class="text-slate-400 text-sm mb-3">Minimum damage is <strong class="text-slate-200">25%</strong> of the pre-DEF value (damage can never go below this floor).</p>
-      <p class="text-slate-400 text-sm mb-2">Example: weapon with 80-120 damage (avg 100), 60 ATT, vs 20 DEF:</p>
-      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-green-300 font-mono overflow-x-auto">avg    = (80 + 120) / 2 = 100
-scaled = 100 * (0.5 + 60/50) = 100 * 1.7 = 170
-final  = 170 - 20 = 150
-floor  = 170 * 0.25 = 42.5
-result = max(150, 42.5) = 150</pre>
-    </div>
-  </div>
-
-  <!-- Fire Rate -->
-  <div class="mb-8">
-    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Fire Rate Formula</h2>
-    <div class="glass rounded-xl p-6">
-      <p class="text-slate-300 text-sm mb-3">Attacks per second are determined by DEX and the weapon's Rate of Fire multiplier:</p>
-      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-cyan-300 font-mono overflow-x-auto mb-3">frequency = 0.0015 + (DEX / 75) * 0.0065
-period    = 1 / frequency / RateOfFire</pre>
-      <p class="text-slate-400 text-sm">At 75 DEX with 1.0x RoF: frequency = 0.008, period = 125ms (<strong class="text-slate-200">8 shots/sec</strong>).</p>
-      <p class="text-slate-400 text-sm">At 75 DEX with 1.2x RoF: period = ~104ms (<strong class="text-slate-200">9.6 shots/sec</strong>).</p>
-    </div>
-  </div>
-
-  <!-- ScaleHP -->
-  <div class="mb-8">
-    <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">ScaleHP</h2>
-    <div class="glass rounded-xl p-6">
-      <p class="text-slate-300 text-sm mb-3">Boss HP scales with the number of players in the dungeon:</p>
-      <pre class="bg-slate-800/80 rounded-lg p-4 text-sm text-cyan-300 font-mono overflow-x-auto mb-3">effective_hp = base_hp + (player_count - 1) * ScaleHP_value</pre>
-      <p class="text-slate-400 text-sm">Example: Thaleos has 50,000 base HP and ScaleHP of 25,000. With 4 players: 50,000 + 3 &times; 25,000 = <strong class="text-slate-200">125,000 HP</strong>.</p>
-    </div>
-  </div>
-
-  <!-- Status Effects -->
+  <!-- ===== STATUS EFFECTS ===== -->
   <div class="mb-8">
     <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Status Effects</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
