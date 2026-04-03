@@ -195,8 +195,8 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); bor
     <h1>Sprite Studio</h1>
     <p>EOT Game Content Editor</p>
     <input type="password" id="pat-input" placeholder="GitHub Personal Access Token">
-    <input type="password" id="pixellab-key-input" placeholder="PixelLab API Key (optional)" style="margin-top:4px">
     <button class="btn-primary" id="btn-login">Authenticate</button>
+    <p style="margin-top:12px;font-size:11px;color:var(--text-muted)">Claude handles all PixelLab generation.<br>You review, edit, and approve here.</p>
     <div class="auth-error" id="auth-error"></div>
   </div>
 </div>
@@ -206,7 +206,7 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); bor
     <h1>Sprite Studio</h1>
     <input type="search" class="search" id="search-input" placeholder="Search content...">
     <button class="btn-secondary btn-sm" id="btn-save" title="Save to GitHub">Save</button>
-    <button class="btn-secondary btn-sm" id="btn-pixellab-key" title="Set PixelLab API Key">&#128273;</button>
+    <button class="btn-sm" style="background:var(--green);color:#000" id="btn-export-approved" title="Export Approved sprites as JSON">Export Approved</button>
     <button class="btn-secondary btn-sm btn-logout" id="btn-logout">Logout</button>
   </div>
   <div class="tabs" id="tabs">
@@ -443,6 +443,72 @@ async function saveContent(msg) {
 }
 
 $("btn-save").onclick = () => saveContent("update " + currentTab);
+
+// --- Schema Validation & Export Approved ---
+const REQUIRED_FIELDS = {
+  items: ["name", "type_id", "slot_type", "rarity", "description"],
+  enemies: ["name", "type_id", "hp", "defense"],
+  portals: ["name", "type_id"],
+  projectiles: ["name", "type_id"],
+  tiles: ["name", "type_id"]
+};
+
+function validateEntry(entry, type) {
+  const required = REQUIRED_FIELDS[type] || ["name", "type_id"];
+  const missing = [];
+  for (const field of required) {
+    const val = entry[field];
+    if (val === undefined || val === null || val === "" || val === 0) {
+      // type_id "0x0000" or "auto" is acceptable (auto-assign)
+      if (field === "type_id" && (val === "auto" || val === "0x0000")) continue;
+      missing.push(field);
+    }
+  }
+  // Check frames exist
+  if (!entry.frames || entry.frames.length === 0) {
+    missing.push("frames (no sprite data)");
+  }
+  return { valid: missing.length === 0, missing };
+}
+
+function exportApproved() {
+  const approved = {};
+  let totalCount = 0;
+  for (const [type, entries] of Object.entries(contentData)) {
+    if (!Array.isArray(entries)) continue;
+    const filtered = entries.filter(e => e.status === "approved");
+    if (filtered.length > 0) {
+      approved[type] = filtered;
+      totalCount += filtered.length;
+    }
+  }
+  if (totalCount === 0) {
+    alert("No approved entries to export.");
+    return;
+  }
+  // Validate all approved entries
+  let warnings = [];
+  for (const [type, entries] of Object.entries(approved)) {
+    for (const entry of entries) {
+      const result = validateEntry(entry, type);
+      if (!result.valid) {
+        warnings.push(`${entry.name || "Unnamed"} (${type}): missing ${result.missing.join(", ")}`);
+      }
+    }
+  }
+  if (warnings.length > 0) {
+    const proceed = confirm(`Export has ${warnings.length} validation warning(s):\n\n${warnings.join("\n")}\n\nExport anyway?`);
+    if (!proceed) return;
+  }
+  const blob = new Blob([JSON.stringify(approved, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.download = "approved_sprites.json";
+  a.href = URL.createObjectURL(blob);
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+$("btn-export-approved").onclick = exportApproved;
 
 // --- Tabs ---
 document.querySelectorAll(".tab").forEach(t => {
@@ -1200,11 +1266,26 @@ function renderFields() {
     el.addEventListener("change", handler);
   });
 
-  // Status buttons
+  // Status buttons (with validation on approve)
   fieldsPanel.querySelectorAll("[data-status]").forEach(btn => {
     btn.onclick = () => {
       const newStatus = btn.dataset.status;
       const comment = $("status-comment")?.value || "";
+
+      // Validate on approve
+      if (newStatus === "approved") {
+        const result = validateEntry(currentItem, currentTab);
+        if (!result.valid) {
+          alert(`Cannot approve: missing required fields:\n- ${result.missing.join("\n- ")}\n\nFill in all required fields before approving.`);
+          return;
+        }
+        // Sync frames before approving
+        syncFramesToItem();
+        const tid = currentItem.type_id || "auto-assign";
+        const msg = `Ready for import: ${currentItem.name || "Unnamed"} (${tid})`;
+        if (!confirm(msg + "\n\nApprove this entry?")) return;
+      }
+
       currentItem.status = newStatus;
       if (!currentItem.status_history) currentItem.status_history = [];
       currentItem.status_history.push({
@@ -1256,18 +1337,43 @@ function renderFields() {
     };
   });
 
-  // AI Generate bindings
-  const genBtn = $("btn-generate");
-  if (genBtn) genBtn.onclick = generatePixelLabSprite;
-  const templateSel = $("ai-template");
-  if (templateSel) {
-    templateSel.onchange = () => {
-      const val = templateSel.value;
-      if (val) { const prompt = $("ai-prompt"); if (prompt) prompt.value = val; }
-    };
+  // Claude workflow bindings
+  const approveBtn = $("btn-approve-sprite");
+  if (approveBtn) approveBtn.onclick = () => {
+    if (!currentEntry) return;
+    currentEntry.status = "approved";
+    currentEntry.feedback = "";
+    currentEntry.status_history = currentEntry.status_history || [];
+    currentEntry.status_history.push({ status: "approved", date: new Date().toISOString(), comment: "Approved by user" });
+    const statusEl = $("ai-status");
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--green)">✓ Approved! Claude will import to game.</span>';
+    renderBrowser();
+  };
+  const changesBtn = $("btn-request-changes");
+  if (changesBtn) changesBtn.onclick = () => {
+    if (!currentEntry) return;
+    const feedback = $("ai-feedback")?.value?.trim();
+    if (!feedback) { alert("Please describe what changes you want."); return; }
+    currentEntry.status = "needs_changes";
+    currentEntry.feedback = feedback;
+    currentEntry.status_history = currentEntry.status_history || [];
+    currentEntry.status_history.push({ status: "needs_changes", date: new Date().toISOString(), comment: feedback });
+    const statusEl = $("ai-status");
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--orange)">Changes requested. Save & Claude will regenerate.</span>';
+    renderBrowser();
+  };
+  // Show existing prompt/feedback if present
+  if (currentEntry) {
+    const promptEl = $("ai-prompt");
+    if (promptEl && currentEntry.generation_prompt) promptEl.value = currentEntry.generation_prompt;
+    const feedbackEl = $("ai-feedback");
+    if (feedbackEl && currentEntry.feedback) feedbackEl.value = currentEntry.feedback;
+    const statusEl = $("ai-status");
+    if (statusEl && currentEntry.status) {
+      const colors = { approved: "var(--green)", needs_changes: "var(--orange)", pending_review: "var(--blue)", draft: "var(--text-dim)" };
+      statusEl.innerHTML = `<span style="color:${colors[currentEntry.status] || "var(--text-dim)"}">Status: ${currentEntry.status}</span>`;
+    }
   }
-  renderGenHistory();
-  updateSessionCost();
 }
 
 function fieldInput(key, label, value, type) {
@@ -1291,22 +1397,7 @@ let genHistory = [];
 let sessionCost = 0;
 let isGenerating = false;
 
-// Save/load PixelLab key
-$("pixellab-key-input").value = localStorage.getItem("pixellab_key") || "";
-$("pixellab-key-input").addEventListener("change", e => {
-  const key = e.target.value.trim();
-  if (key) localStorage.setItem("pixellab_key", key);
-  else localStorage.removeItem("pixellab_key");
-});
-
-$("btn-pixellab-key").onclick = () => {
-  const current = localStorage.getItem("pixellab_key") || "";
-  const key = prompt("PixelLab API Key:", current);
-  if (key !== null) {
-    if (key.trim()) localStorage.setItem("pixellab_key", key.trim());
-    else localStorage.removeItem("pixellab_key");
-  }
-};
+// PixelLab generation is handled by Claude — no client-side API key needed
 
 const PROMPT_TEMPLATES = [
   { l: "-- Select template --", v: "" },
@@ -1323,46 +1414,27 @@ const PROMPT_TEMPLATES = [
 ];
 
 function buildAIPanel() {
-  let html = '<details class="ai-section" id="ai-section">';
-  html += '<summary>AI Generate (PixelLab)</summary>';
+  let html = '<details class="ai-section" id="ai-section" open>';
+  html += '<summary>Sprite Generation (Claude + PixelLab)</summary>';
   html += '<div class="ai-controls">';
 
-  // Prompt template
-  html += '<div><label>Template</label><select id="ai-template" style="width:100%">';
-  PROMPT_TEMPLATES.forEach(t => { html += `<option value="${t.v}">${t.l}</option>`; });
-  html += '</select></div>';
+  // Info
+  html += '<div style="color:var(--text-dim);font-size:12px;margin-bottom:8px;padding:8px;background:var(--bg);border-radius:var(--radius)">Claude runs PixelLab and commits sprites here. You review, give feedback, and approve.</div>';
 
-  // Prompt textarea
-  html += '<div><label>Prompt</label><textarea id="ai-prompt" rows="3" placeholder="Describe the sprite..."></textarea></div>';
+  // Current prompt (read-only — shows what Claude used)
+  html += '<div><label>Generation Prompt (set by Claude)</label><textarea id="ai-prompt" rows="3" placeholder="Claude will set this when generating..." style="background:var(--bg);opacity:0.8"></textarea></div>';
 
-  // Size / Outline / Shading / View
-  html += '<div class="ai-row">';
-  html += '<div><label>Size</label><select id="ai-size" style="width:100%"><option value="32">32x32</option><option value="48">48x48</option><option value="64">64x64</option></select></div>';
-  html += '<div><label>Outline</label><select id="ai-outline" style="width:100%"><option value="single color outline">Outline</option><option value="lineless">Lineless</option></select></div>';
-  html += '</div>';
-  html += '<div class="ai-row">';
-  html += '<div><label>Shading</label><select id="ai-shading" style="width:100%"><option value="detailed shading">Detailed</option><option value="medium shading">Medium</option><option value="basic shading">Basic</option><option value="flat shading">Flat</option></select></div>';
-  html += '<div><label>View</label><select id="ai-view" style="width:100%"><option value="side">Side</option><option value="high top-down">High Top-Down</option><option value="low top-down">Low Top-Down</option></select></div>';
+  // Feedback area — user types changes they want
+  html += '<div><label style="color:var(--gold)">Your Feedback</label><textarea id="ai-feedback" rows="3" placeholder="Describe changes you want: \'make it more red\', \'add a glow effect\', \'too large, shrink the blade\'..."></textarea></div>';
+
+  // Action buttons
+  html += '<div style="display:flex;gap:8px;margin-top:8px">';
+  html += '<button class="btn-primary" id="btn-approve-sprite" style="flex:1">✓ Approve</button>';
+  html += '<button style="flex:1;background:var(--orange);color:#000" id="btn-request-changes">Request Changes</button>';
   html += '</div>';
 
-  // Seed
-  html += '<div class="ai-row"><div><label>Seed (0 = random)</label><input type="number" id="ai-seed" value="0" min="0" style="width:100%"></div><div></div></div>';
-
-  // Generate button
-  html += '<button class="btn-generate" id="btn-generate">Generate Sprite</button>';
-  html += '<div class="ai-cost">~$0.008 per generation</div>';
-
-  // Loading indicator
-  html += '<div class="ai-loading" id="ai-loading"><div class="ai-spinner"></div><span>Generating sprite...</span></div>';
-
-  // Error area
-  html += '<div class="ai-error" id="ai-error"></div>';
-
-  // History thumbnails
-  html += '<div id="ai-history-wrap"><label style="font-size:10px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.3px;display:none" id="ai-history-label">Recent</label><div class="ai-history" id="ai-history"></div></div>';
-
-  // Session cost
-  html += '<div class="ai-session-cost" id="ai-session-cost"></div>';
+  // Status display
+  html += '<div id="ai-status" style="margin-top:8px;font-size:12px;color:var(--text-dim)"></div>';
 
   html += '</div></details>';
   return html;
