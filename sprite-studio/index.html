@@ -608,12 +608,46 @@ document.querySelectorAll(".tab").forEach(t => {
 // --- Search ---
 searchInput.oninput = () => { searchQuery = searchInput.value.toLowerCase(); renderBrowser(); };
 
+// --- Tag filter ---
+let tagFilter = "all"; // "all", "new", "live", "placeholder"
+
 // --- Browser ---
 function getItems() { return contentData ? (contentData[currentTab] || []) : []; }
 
 function renderBrowser() {
   const items = getItems();
-  const filtered = items.filter(it => !searchQuery || (it.name||"").toLowerCase().includes(searchQuery) || (it.type_id||"").toLowerCase().includes(searchQuery));
+  const filtered = items.filter(it => {
+    const matchSearch = !searchQuery || (it.name||"").toLowerCase().includes(searchQuery) || (it.type_id||"").toLowerCase().includes(searchQuery);
+    const matchTag = tagFilter === "all"
+      || (tagFilter === "new" && it.tag !== "live")
+      || (tagFilter === "live" && it.tag === "live")
+      || (tagFilter === "placeholder" && it.placeholder_sprite);
+    return matchSearch && matchTag;
+  });
+
+  // Render tag filter buttons (above grid)
+  let filterHtml = '<div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">';
+  const tags = [
+    {id:"all", label:"All", count: items.length},
+    {id:"new", label:"New/Draft", count: items.filter(i => i.tag !== "live").length},
+    {id:"live", label:"Live Game", count: items.filter(i => i.tag === "live").length},
+    {id:"placeholder", label:"⚠ Placeholder", count: items.filter(i => i.placeholder_sprite).length}
+  ];
+  tags.forEach(t => {
+    if (t.count === 0 && t.id !== "all") return;
+    const active = tagFilter === t.id;
+    filterHtml += `<button onclick="tagFilter='${t.id}';renderBrowser()" style="padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid ${active ? 'var(--purple)' : 'var(--border)'};background:${active ? 'var(--purple)' : 'transparent'};color:${active ? '#fff' : 'var(--text-dim)'}">${t.label} (${t.count})</button>`;
+  });
+  filterHtml += '</div>';
+
+  // Insert filter before grid
+  let filterEl = document.getElementById("tag-filters");
+  if (!filterEl) {
+    filterEl = document.createElement("div");
+    filterEl.id = "tag-filters";
+    gridEl.parentNode.insertBefore(filterEl, gridEl);
+  }
+  filterEl.innerHTML = filterHtml;
   $("item-count").textContent = `${filtered.length} / ${items.length}`;
   if (filtered.length === 0) {
     gridEl.innerHTML = "";
@@ -632,6 +666,22 @@ function renderBrowser() {
       badge.className = `status-badge status-${status}`;
       badge.textContent = status.replace("_", " ");
       div.appendChild(badge);
+      // Placeholder warning
+      if (item.placeholder_sprite) {
+        const warn = document.createElement("span");
+        warn.style.cssText = "position:absolute;top:2px;right:2px;background:#ef4444;color:#fff;font-size:9px;padding:1px 4px;border-radius:4px;font-weight:700";
+        warn.textContent = "⚠ BAD";
+        div.style.position = "relative";
+        div.appendChild(warn);
+      }
+      // Live game tag
+      if (item.tag === "live" && !item.placeholder_sprite) {
+        const liveTag = document.createElement("span");
+        liveTag.style.cssText = "position:absolute;top:2px;right:2px;background:#3b82f6;color:#fff;font-size:9px;padding:1px 4px;border-radius:4px;font-weight:600";
+        liveTag.textContent = "LIVE";
+        div.style.position = "relative";
+        div.appendChild(liveTag);
+      }
       // Preview
       const c = document.createElement("canvas");
       c.width = 48; c.height = 48;
@@ -1324,6 +1374,16 @@ function renderFields() {
   html += '<div class="field-section">General</div>';
   html += fieldInput("name", "Name", currentItem.name || "");
   html += fieldInput("type_id", "Type ID (hex)", currentItem.type_id || "0x0000");
+
+  // Sprite debug info for live game items
+  if (currentItem.tag === "live") {
+    const sfName = currentItem.sprite_file_name || `file ${currentItem.sprite_file}`;
+    const warn = currentItem.placeholder_sprite ? ' <span style="color:#ef4444;font-weight:700">⚠ PLACEHOLDER — needs real sprite</span>' : '';
+    html += `<div style="background:var(--bg);padding:8px;border-radius:6px;margin:8px 0;font-size:12px;border:1px solid var(--border)">`;
+    html += `<span style="color:var(--blue);font-weight:600">LIVE GAME</span> · `;
+    html += `Sheet: <span style="color:var(--gold)">${sfName}</span> · Index: <span style="color:var(--gold)">${currentItem.sprite_index}</span>${warn}`;
+    html += `</div>`;
+  }
 
   if (currentTab === "items") {
     html += fieldSelect("slot_type", "Slot Type", SLOT_TYPES.map(s => ({ v: s.v, l: `${s.v} - ${s.l}` })), currentItem.slot_type);
