@@ -37,6 +37,13 @@ textarea { resize: vertical; }
 ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
 @keyframes fadeout { 0%,70% { opacity:1; } 100% { opacity:0; } }
 
+/* Fullscreen canvas mode */
+.canvas-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; z-index: 9998; background: var(--bg); display: flex; flex-direction: column; }
+.canvas-fullscreen .canvas-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; }
+.canvas-fullscreen .canvas-wrapper canvas { max-width: 90vw; max-height: 70vh; }
+.canvas-fullscreen .tools-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2); border-top: 1px solid var(--border); padding: 8px; z-index: 9999; }
+.canvas-fullscreen .fs-exit { position: fixed; top: 12px; right: 12px; z-index: 9999; background: var(--red); color: #fff; padding: 10px 16px; border-radius: var(--radius); font-weight: 600; }
+
 /* Auth Screen */
 #auth-screen { display: flex; align-items: center; justify-content: center; height: 100%; }
 .auth-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 40px; max-width: 420px; width: 90%; text-align: center; }
@@ -233,7 +240,8 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); bor
       <div class="editor-header">
         <button class="btn-secondary btn-sm" id="btn-back">&larr; Back</button>
         <span id="editor-title" style="font-weight:600;color:var(--gold)"></span>
-        <button class="btn-danger btn-sm" id="btn-delete" style="margin-left:auto">Delete</button>
+        <button class="btn-secondary btn-sm" id="btn-fullscreen" style="margin-left:auto" title="Fullscreen Canvas">&#x26F6; Full</button>
+        <button class="btn-danger btn-sm" id="btn-delete">Delete</button>
       </div>
       <div class="editor-body">
         <div class="canvas-area">
@@ -580,10 +588,13 @@ function renderBrowser() {
       c.width = 48; c.height = 48;
       const cx = c.getContext("2d");
       cx.imageSmoothingEnabled = false;
-      if (item.frames && item.frames.length > 0) {
+      // Show sprite from frames array OR sprite_data field
+      const spriteSource = (item.frames && item.frames.length > 0) ? item.frames[0]
+        : item.sprite_data ? "data:image/png;base64," + item.sprite_data : null;
+      if (spriteSource) {
         const img = new Image();
         img.onload = () => { cx.drawImage(img, 0, 0, 48, 48); };
-        img.src = item.frames[0];
+        img.src = spriteSource;
       } else {
         cx.fillStyle = "#1e293b";
         cx.fillRect(0, 0, 48, 48);
@@ -665,6 +676,23 @@ function openEditor(idx) {
       img.src = dataUrl;
     });
   }
+  // Load from sprite_data (base64) if no frames array — Claude commits this way
+  if (frames.length === 0 && currentItem.sprite_data) {
+    const img = new Image();
+    img.onload = () => {
+      const tc = document.createElement("canvas");
+      tc.width = spriteSize; tc.height = spriteSize;
+      const tcx = tc.getContext("2d");
+      tcx.imageSmoothingEnabled = false;
+      tcx.drawImage(img, 0, 0, spriteSize, spriteSize);
+      frames[0] = tcx.getImageData(0, 0, spriteSize, spriteSize);
+      currentFrame = 0;
+      drawCanvas();
+      renderFrameStrip();
+    };
+    img.src = "data:image/png;base64," + currentItem.sprite_data;
+    frames.push(createBlankFrame()); // placeholder until image loads
+  }
   if (frames.length === 0) {
     frames.push(createBlankFrame());
   }
@@ -689,6 +717,41 @@ function closeEditor() {
 }
 
 $("btn-back").onclick = closeEditor;
+
+// Fullscreen canvas toggle
+let isFullscreen = false;
+$("btn-fullscreen").onclick = () => {
+  const canvasArea = document.querySelector(".canvas-area");
+  if (!canvasArea) return;
+  isFullscreen = !isFullscreen;
+  if (isFullscreen) {
+    canvasArea.classList.add("canvas-fullscreen");
+    // Add exit button
+    let exitBtn = document.getElementById("fs-exit-btn");
+    if (!exitBtn) {
+      exitBtn = document.createElement("button");
+      exitBtn.id = "fs-exit-btn";
+      exitBtn.className = "fs-exit";
+      exitBtn.textContent = "✕ Exit Fullscreen";
+      exitBtn.onclick = () => {
+        canvasArea.classList.remove("canvas-fullscreen");
+        exitBtn.remove();
+        isFullscreen = false;
+        $("btn-fullscreen").textContent = "⛶ Full";
+        drawCanvas();
+      };
+      canvasArea.appendChild(exitBtn);
+    }
+    $("btn-fullscreen").textContent = "Exit Full";
+    drawCanvas();
+  } else {
+    canvasArea.classList.remove("canvas-fullscreen");
+    const exitBtn = document.getElementById("fs-exit-btn");
+    if (exitBtn) exitBtn.remove();
+    $("btn-fullscreen").textContent = "⛶ Full";
+    drawCanvas();
+  }
+};
 
 $("btn-delete").onclick = () => {
   if (!currentItem) return;
