@@ -40,6 +40,12 @@ textarea { resize: vertical; min-height: auto; }
 ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
 @keyframes fadeout { 0%,70% { opacity:1; } 100% { opacity:0; } }
 
+/* Preview mode: tools hidden, canvas is view-only */
+.tools-bar.preview-hidden { display: none !important; }
+.frame-strip.preview-hidden { display: none !important; }
+.canvas-wrapper.preview-mode { cursor: grab; touch-action: pan-x pan-y; }
+.canvas-wrapper.preview-mode:active { cursor: grabbing; }
+
 /* Fullscreen canvas mode */
 .canvas-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; z-index: 9998; background: var(--bg); display: flex; flex-direction: column; }
 .canvas-fullscreen .canvas-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; }
@@ -276,7 +282,7 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); bor
       <div class="editor-header">
         <button class="btn-secondary btn-sm" id="btn-back">&larr; Back</button>
         <span id="editor-title" style="font-weight:600;color:var(--gold)"></span>
-        <button class="btn-secondary btn-sm" id="btn-fullscreen" style="margin-left:auto" title="Fullscreen Canvas">&#x26F6; Full</button>
+        <button class="btn-primary btn-sm" id="btn-edit-sprite" style="margin-left:auto" title="Edit Sprite in Fullscreen">&#9998; Edit Sprite</button>
         <button class="btn-danger btn-sm" id="btn-delete">Delete</button>
       </div>
       <div class="editor-body">
@@ -367,9 +373,15 @@ const ROTMG_PALETTE = [
 ];
 
 const SLOT_TYPES = [
-  {v:0,l:"None"},{v:1,l:"Sword"},{v:2,l:"Dagger"},{v:3,l:"Bow"},{v:6,l:"Leather"},
-  {v:7,l:"Heavy"},{v:8,l:"Wand"},{v:9,l:"Ring"},{v:10,l:"Scepter"},{v:11,l:"Spell"},
-  {v:14,l:"Robe"},{v:17,l:"Staff"},{v:33,l:"SummonStaff"},{v:34,l:"SummonOrb"}
+  {v:0,l:"None"},{v:1,l:"Sword"},{v:2,l:"Dagger"},{v:3,l:"Bow"},{v:4,l:"Tome"},
+  {v:5,l:"Shield"},{v:6,l:"Leather Armor"},{v:7,l:"Heavy Armor"},{v:8,l:"Wand"},
+  {v:9,l:"Ring"},{v:10,l:"Scepter"},{v:11,l:"Spell"},{v:12,l:"Seal"},{v:13,l:"Cloak"},
+  {v:14,l:"Robe"},{v:15,l:"Quiver"},{v:16,l:"Helm"},{v:17,l:"Staff"},{v:18,l:"Poison"},
+  {v:19,l:"Skull"},{v:20,l:"Trap"},{v:21,l:"Orb"},{v:22,l:"Prism"},{v:23,l:"Star"},
+  {v:24,l:"Katana"},{v:25,l:"Wakizashi"},{v:26,l:"Consumable"},{v:27,l:"Lute"},
+  {v:28,l:"Mace"},{v:29,l:"Sheath"},{v:30,l:"Banner"},{v:31,l:"Flail"},
+  {v:32,l:"Morning Star"},{v:33,l:"Summon Staff"},{v:34,l:"Summon Orb"},
+  {v:35,l:"Dual Blades"},{v:36,l:"Hatchet"}
 ];
 
 // --- State ---
@@ -683,6 +695,12 @@ function openEditor(idx) {
   editor.classList.add("visible");
   $("editor-title").textContent = currentItem.name || "New " + currentTab.slice(0,-1);
 
+  // Default to preview mode (tools hidden, canvas view-only)
+  isEditing = false;
+  document.querySelectorAll(".tools-bar, .frame-strip").forEach(el => el.classList.add("preview-hidden"));
+  const wrapper = $("canvas-wrapper");
+  if (wrapper) wrapper.classList.add("preview-mode");
+
   // Load frames
   spriteSize = currentItem.sprite_size || (currentTab === "enemies" ? (currentItem.sprite_size || 16) : 16);
   $("sprite-size-select").value = spriteSize;
@@ -764,40 +782,54 @@ function closeEditor() {
 
 $("btn-back").onclick = closeEditor;
 
-// Fullscreen canvas toggle
-let isFullscreen = false;
-$("btn-fullscreen").onclick = () => {
+// Edit Sprite button — enters fullscreen pixel editor
+let isEditing = false;
+function enterEditMode() {
+  isEditing = true;
   const canvasArea = document.querySelector(".canvas-area");
   if (!canvasArea) return;
-  isFullscreen = !isFullscreen;
-  if (isFullscreen) {
-    canvasArea.classList.add("canvas-fullscreen");
-    // Add exit button
-    let exitBtn = document.getElementById("fs-exit-btn");
-    if (!exitBtn) {
-      exitBtn = document.createElement("button");
-      exitBtn.id = "fs-exit-btn";
-      exitBtn.className = "fs-exit";
-      exitBtn.textContent = "✕ Exit Fullscreen";
-      exitBtn.onclick = () => {
-        canvasArea.classList.remove("canvas-fullscreen");
-        exitBtn.remove();
-        isFullscreen = false;
-        $("btn-fullscreen").textContent = "⛶ Full";
-        drawCanvas();
-      };
-      canvasArea.appendChild(exitBtn);
-    }
-    $("btn-fullscreen").textContent = "Exit Full";
-    drawCanvas();
-  } else {
-    canvasArea.classList.remove("canvas-fullscreen");
-    const exitBtn = document.getElementById("fs-exit-btn");
-    if (exitBtn) exitBtn.remove();
-    $("btn-fullscreen").textContent = "⛶ Full";
-    drawCanvas();
+  // Show tools and frame strip
+  document.querySelectorAll(".tools-bar, .frame-strip").forEach(el => el.classList.remove("preview-hidden"));
+  const wrapper = $("canvas-wrapper");
+  if (wrapper) wrapper.classList.remove("preview-mode");
+  // Go fullscreen
+  canvasArea.classList.add("canvas-fullscreen");
+  let exitBtn = document.getElementById("fs-exit-btn");
+  if (!exitBtn) {
+    exitBtn = document.createElement("button");
+    exitBtn.id = "fs-exit-btn";
+    exitBtn.className = "fs-exit";
+    exitBtn.textContent = "✕ Done Editing";
+    exitBtn.onclick = exitEditMode;
+    canvasArea.appendChild(exitBtn);
   }
-};
+  drawCanvas();
+}
+function exitEditMode() {
+  isEditing = false;
+  const canvasArea = document.querySelector(".canvas-area");
+  if (!canvasArea) return;
+  canvasArea.classList.remove("canvas-fullscreen");
+  const exitBtn = document.getElementById("fs-exit-btn");
+  if (exitBtn) exitBtn.remove();
+  // Hide tools, show preview mode
+  document.querySelectorAll(".tools-bar, .frame-strip").forEach(el => el.classList.add("preview-hidden"));
+  const wrapper = $("canvas-wrapper");
+  if (wrapper) wrapper.classList.add("preview-mode");
+  // Save frame data back to entry
+  saveFramesToEntry();
+  drawCanvas();
+}
+function saveFramesToEntry() {
+  if (!currentItem || frames.length === 0) return;
+  // Save current frame data as base64 to sprite_data
+  const tc = document.createElement("canvas");
+  tc.width = spriteSize; tc.height = spriteSize;
+  const tcx = tc.getContext("2d");
+  tcx.putImageData(frames[0], 0, 0);
+  currentItem.sprite_data = tc.toDataURL("image/png").replace("data:image/png;base64,", "");
+}
+$("btn-edit-sprite").onclick = enterEditMode;
 
 $("btn-delete").onclick = () => {
   if (!currentItem) return;
