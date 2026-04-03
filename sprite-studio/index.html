@@ -35,6 +35,7 @@ textarea { resize: vertical; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+@keyframes fadeout { 0%,70% { opacity:1; } 100% { opacity:0; } }
 
 /* Auth Screen */
 #auth-screen { display: flex; align-items: center; justify-content: center; height: 100%; }
@@ -389,6 +390,7 @@ async function authenticate(token) {
     await loadContent();
     showApp();
     renderBrowser();
+    startPolling(); // auto-check for new content every 30s
     return true;
   } catch(e) {
     authError.textContent = e.message;
@@ -424,6 +426,31 @@ async function loadContent() {
     contentSha = null;
     console.error("Load error:", e);
   }
+}
+
+// Auto-poll for updates every 30s — hot reload when Claude pushes new content
+let pollInterval = null;
+function startPolling() {
+  if (pollInterval) return;
+  pollInterval = setInterval(async () => {
+    try {
+      const r = await fetch(`${API}/repos/${REPO}/contents/${CONTENT_PATH}`, { headers: ghHeaders() });
+      if (!r.ok) return;
+      const d = await r.json();
+      if (d.sha && d.sha !== contentSha) {
+        // Content changed — reload
+        contentSha = d.sha;
+        contentData = JSON.parse(atob(d.content.replace(/\n/g, "")));
+        renderBrowser();
+        // Show notification
+        const notif = document.createElement("div");
+        notif.style.cssText = "position:fixed;top:12px;left:50%;transform:translateX(-50%);background:var(--green);color:#000;padding:8px 16px;border-radius:8px;font-weight:600;z-index:9999;font-size:13px;animation:fadeout 3s forwards";
+        notif.textContent = "New content loaded!";
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), 3000);
+      }
+    } catch(e) { /* silent */ }
+  }, 30000);
 }
 
 async function saveContent(msg) {
