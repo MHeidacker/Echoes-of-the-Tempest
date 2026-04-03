@@ -466,22 +466,41 @@ function ghHeaders() {
 }
 
 async function loadContent() {
+  // Try loading from same-origin static file first (fast, no size limit)
+  // Then get SHA from API for saving (small metadata request)
   try {
-    const r = await fetch(`${API}/repos/${REPO}/contents/${CONTENT_PATH}`, { headers: ghHeaders() });
+    // Load data from static file (works on GitHub Pages, local server, file://)
+    const staticUrl = "content.json?" + Date.now(); // cache-bust
+    const staticR = await fetch(staticUrl);
+    if (staticR.ok) {
+      contentData = await staticR.json();
+      console.log("Loaded content from static file");
+    }
+  } catch(e) {
+    console.log("Static load failed, trying API...", e);
+  }
+
+  // Get SHA for saving (even if static load succeeded)
+  try {
+    const r = await fetch(`${API}/repos/${REPO}/contents/${CONTENT_PATH}`, {
+      headers: ghHeaders(),
+      // Use ref parameter to only get metadata, not full content
+    });
     if (r.ok) {
       const d = await r.json();
       contentSha = d.sha;
-      contentData = JSON.parse(atob(d.content.replace(/\n/g, "")));
-    } else if (r.status === 404) {
-      contentData = { version: 1, items: [], enemies: [], portals: [], projectiles: [], tiles: [] };
-      contentSha = null;
-    } else {
-      throw new Error(`Failed to load content: ${r.status}`);
+      // If static load failed, try API content (only works for files <1MB)
+      if (!contentData && d.content) {
+        contentData = JSON.parse(atob(d.content.replace(/\n/g, "")));
+      }
     }
   } catch(e) {
+    console.log("API metadata fetch failed:", e);
+  }
+
+  if (!contentData) {
     contentData = { version: 1, items: [], enemies: [], portals: [], projectiles: [], tiles: [] };
     contentSha = null;
-    console.error("Load error:", e);
   }
 }
 
@@ -491,13 +510,20 @@ function startPolling() {
   if (pollInterval) return;
   pollInterval = setInterval(async () => {
     try {
+      // Check SHA via API metadata
       const r = await fetch(`${API}/repos/${REPO}/contents/${CONTENT_PATH}`, { headers: ghHeaders() });
       if (!r.ok) return;
       const d = await r.json();
       if (d.sha && d.sha !== contentSha) {
-        // Content changed — reload
+        // Content changed — reload from static file (handles large files)
         contentSha = d.sha;
-        contentData = JSON.parse(atob(d.content.replace(/\n/g, "")));
+        try {
+          const sr = await fetch("content.json?" + Date.now());
+          if (sr.ok) contentData = await sr.json();
+        } catch(e) {
+          // Fallback to API content if available
+          if (d.content) contentData = JSON.parse(atob(d.content.replace(/\n/g, "")));
+        }
         renderBrowser();
         // Show notification
         const notif = document.createElement("div");
