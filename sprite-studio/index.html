@@ -198,12 +198,29 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); bor
   .top-bar h1 { font-size: 15px; }
   .tab { padding: 10px 14px; font-size: 11px; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+  .filter-bar { gap: 6px !important; }
+  .filter-bar .filter-group { gap: 4px !important; }
+  .filter-pill { padding: 3px 8px !important; font-size: 10px !important; }
   .grid-item { padding: 10px; }
   #browser { padding: 12px; }
   .editor-header { padding: 8px 12px; gap: 6px; }
   .fields-panel { padding: 14px 12px; max-height: 50vh; }
   .field-group input, .field-group select { font-size: 16px; /* prevents iOS zoom */ }
 }
+
+/* Filter Bar */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; align-items: center; }
+.filter-group { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.filter-group-label { font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-right: 2px; white-space: nowrap; }
+.filter-pill { padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.15s; white-space: nowrap; min-height: 28px; }
+.filter-pill:hover { border-color: var(--purple); color: var(--text); }
+.filter-pill.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+.filter-pill .pill-count { font-size: 9px; opacity: 0.7; margin-left: 3px; }
+.filter-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 11px; color: var(--text-dim); font-weight: 600; white-space: nowrap; }
+.filter-toggle input[type="checkbox"] { width: 16px; height: 16px; min-height: 16px; accent-color: var(--purple); cursor: pointer; }
+.filter-toggle.active { color: var(--purple); }
+.filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+.hp-threshold-input { width: 70px; padding: 3px 6px; font-size: 11px; min-height: 28px; border-radius: 16px; text-align: center; }
 
 /* Saving indicator */
 .saving { position: fixed; top: 12px; right: 12px; background: var(--purple); color: #fff; padding: 10px 20px; border-radius: var(--radius); font-size: 13px; font-weight: 600; z-index: 100; display: none; box-shadow: 0 4px 16px rgba(139,92,246,0.3); }
@@ -432,6 +449,8 @@ function switchTab(tabName) {
   const tabBtn = document.querySelector(`.tab[data-tab="${tabName}"]`);
   if (tabBtn) tabBtn.classList.add("active");
   currentTab = tabName;
+  tagFilter = "all";
+  resetContentFilters();
   closeEditor();
   renderBrowser();
 }
@@ -683,6 +702,8 @@ document.querySelectorAll(".tab").forEach(t => {
     document.querySelector(".tab.active").classList.remove("active");
     t.classList.add("active");
     currentTab = t.dataset.tab;
+    tagFilter = "all";
+    resetContentFilters();
     closeEditor();
     renderBrowser();
   };
@@ -694,8 +715,143 @@ searchInput.oninput = () => { searchQuery = searchInput.value.toLowerCase(); ren
 // --- Tag filter ---
 let tagFilter = "all"; // "all", "new", "live", "placeholder"
 
+// --- Content filters ---
+let rarityFilter = "all"; // "all", "Common", "UT", "LG", "EX"
+let slotFilter = "all";   // "all", "weapons", "abilities", "armor", "rings", "consumables"
+let hasProjectileFilter = false; // items/enemies with projectile
+let hpThreshold = 0; // enemies with HP above this value (0 = disabled)
+
+const SLOT_GROUPS = {
+  weapons: [1,2,3,8,17,24,33],
+  abilities: [4,5,11,12,13,15,16,18,19,20,21,22,23,25,34],
+  armor: [6,7,14],
+  rings: [9],
+  consumables: [0,10,26]
+};
+
+function resetContentFilters() {
+  rarityFilter = "all";
+  slotFilter = "all";
+  hasProjectileFilter = false;
+  hpThreshold = 0;
+}
+
 // --- Browser ---
 function getItems() { return contentData ? (contentData[currentTab] || []) : []; }
+
+function matchesContentFilters(it) {
+  // Rarity filter (items only)
+  if (currentTab === "items" && rarityFilter !== "all") {
+    const r = (it.rarity || "Common").toString();
+    if (r !== rarityFilter) return false;
+  }
+  // Slot type filter (items only)
+  if (currentTab === "items" && slotFilter !== "all") {
+    const st = parseInt(it.slot_type) || 0;
+    const group = SLOT_GROUPS[slotFilter];
+    if (group && !group.includes(st)) return false;
+  }
+  // Has projectile filter (items)
+  if (currentTab === "items" && hasProjectileFilter) {
+    if (!it.proj_type_id) return false;
+  }
+  // Has projectile filter (enemies)
+  if (currentTab === "enemies" && hasProjectileFilter) {
+    if (!it.projectile_type_ids || it.projectile_type_ids.length === 0) return false;
+  }
+  // HP threshold (enemies)
+  if (currentTab === "enemies" && hpThreshold > 0) {
+    if ((parseInt(it.hp) || 0) < hpThreshold) return false;
+  }
+  return true;
+}
+
+function renderContentFilterBar(items) {
+  let html = '';
+  if (currentTab === "items") {
+    // Rarity filter
+    html += '<div class="filter-group"><span class="filter-group-label">Rarity</span>';
+    ["all","Common","UT","LG","EX"].forEach(r => {
+      const label = r === "all" ? "All" : r;
+      const count = r === "all" ? items.length : items.filter(i => (i.rarity||"Common") === r).length;
+      if (count === 0 && r !== "all") return;
+      const active = rarityFilter === r ? " active" : "";
+      html += `<button class="filter-pill${active}" data-rarity="${r}">${label}<span class="pill-count">${count}</span></button>`;
+    });
+    html += '</div>';
+    html += '<div class="filter-sep"></div>';
+    // Slot type filter
+    html += '<div class="filter-group"><span class="filter-group-label">Slot</span>';
+    const slotOptions = [
+      {id:"all", label:"All"},
+      {id:"weapons", label:"Weapons"},
+      {id:"abilities", label:"Abilities"},
+      {id:"armor", label:"Armor"},
+      {id:"rings", label:"Rings"},
+      {id:"consumables", label:"Consumables"}
+    ];
+    slotOptions.forEach(s => {
+      const count = s.id === "all" ? items.length : items.filter(i => {
+        const st = parseInt(i.slot_type) || 0;
+        return SLOT_GROUPS[s.id] && SLOT_GROUPS[s.id].includes(st);
+      }).length;
+      if (count === 0 && s.id !== "all") return;
+      const active = slotFilter === s.id ? " active" : "";
+      html += `<button class="filter-pill${active}" data-slot="${s.id}">${s.label}<span class="pill-count">${count}</span></button>`;
+    });
+    html += '</div>';
+    html += '<div class="filter-sep"></div>';
+    // Has projectile toggle
+    const projCount = items.filter(i => !!i.proj_type_id).length;
+    html += `<label class="filter-toggle${hasProjectileFilter ? ' active' : ''}" title="Show only items with projectiles"><input type="checkbox" data-filter="has-proj" ${hasProjectileFilter ? 'checked' : ''}>Has Projectile<span class="pill-count">(${projCount})</span></label>`;
+  } else if (currentTab === "enemies") {
+    // Has projectile toggle
+    const projCount = items.filter(i => i.projectile_type_ids && i.projectile_type_ids.length > 0).length;
+    html += `<label class="filter-toggle${hasProjectileFilter ? ' active' : ''}" title="Show only enemies with projectiles"><input type="checkbox" data-filter="has-proj" ${hasProjectileFilter ? 'checked' : ''}>Has Projectile<span class="pill-count">(${projCount})</span></label>`;
+    html += '<div class="filter-sep"></div>';
+    // HP threshold
+    html += '<div class="filter-group"><span class="filter-group-label">Min HP</span>';
+    html += `<input type="number" class="hp-threshold-input" data-filter="hp-threshold" value="${hpThreshold || ''}" placeholder="0">`;
+    // Quick HP presets
+    const hpPresets = [{v:0,l:"Any"},{v:1000,l:"1k+"},{v:10000,l:"10k+"},{v:50000,l:"50k+"}];
+    hpPresets.forEach(p => {
+      const active = hpThreshold === p.v ? " active" : "";
+      const count = p.v === 0 ? items.length : items.filter(i => (parseInt(i.hp)||0) >= p.v).length;
+      html += `<button class="filter-pill${active}" data-hp="${p.v}">${p.l}<span class="pill-count">${count}</span></button>`;
+    });
+    html += '</div>';
+  }
+  return html;
+}
+
+function bindContentFilterEvents() {
+  const filterEl = document.getElementById("tag-filters");
+  if (!filterEl) return;
+  // Rarity buttons
+  filterEl.querySelectorAll("[data-rarity]").forEach(btn => {
+    btn.onclick = () => { rarityFilter = btn.dataset.rarity; renderBrowser(); };
+  });
+  // Slot buttons
+  filterEl.querySelectorAll("[data-slot]").forEach(btn => {
+    btn.onclick = () => { slotFilter = btn.dataset.slot; renderBrowser(); };
+  });
+  // Has projectile checkbox
+  filterEl.querySelectorAll('[data-filter="has-proj"]').forEach(cb => {
+    cb.onchange = () => { hasProjectileFilter = cb.checked; renderBrowser(); };
+  });
+  // HP threshold input
+  filterEl.querySelectorAll('[data-filter="hp-threshold"]').forEach(inp => {
+    inp.oninput = () => { hpThreshold = parseInt(inp.value) || 0; renderBrowser(); };
+  });
+  // HP preset buttons
+  filterEl.querySelectorAll("[data-hp]").forEach(btn => {
+    btn.onclick = () => { hpThreshold = parseInt(btn.dataset.hp) || 0; renderBrowser(); };
+  });
+  // Tag filter buttons (existing — convert from inline onclick)
+  filterEl.querySelectorAll("[data-tag]").forEach(btn => {
+    btn.onclick = () => { tagFilter = btn.dataset.tag; renderBrowser(); };
+  });
+}
 
 function renderBrowser() {
   const items = getItems();
@@ -705,7 +861,8 @@ function renderBrowser() {
       || (tagFilter === "new" && it.tag !== "live")
       || (tagFilter === "live" && it.tag === "live")
       || (tagFilter === "placeholder" && it.placeholder_sprite);
-    return matchSearch && matchTag;
+    const matchContent = matchesContentFilters(it);
+    return matchSearch && matchTag && matchContent;
   });
 
   // Render tag filter buttons (above grid)
@@ -714,14 +871,20 @@ function renderBrowser() {
     {id:"all", label:"All", count: items.length},
     {id:"new", label:"New/Draft", count: items.filter(i => i.tag !== "live").length},
     {id:"live", label:"Live Game", count: items.filter(i => i.tag === "live").length},
-    {id:"placeholder", label:"⚠ Placeholder", count: items.filter(i => i.placeholder_sprite).length}
+    {id:"placeholder", label:"Placeholder", count: items.filter(i => i.placeholder_sprite).length}
   ];
   tags.forEach(t => {
     if (t.count === 0 && t.id !== "all") return;
     const active = tagFilter === t.id;
-    filterHtml += `<button onclick="tagFilter='${t.id}';renderBrowser()" style="padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid ${active ? 'var(--purple)' : 'var(--border)'};background:${active ? 'var(--purple)' : 'transparent'};color:${active ? '#fff' : 'var(--text-dim)'}">${t.label} (${t.count})</button>`;
+    filterHtml += `<button data-tag="${t.id}" style="padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid ${active ? 'var(--purple)' : 'var(--border)'};background:${active ? 'var(--purple)' : 'transparent'};color:${active ? '#fff' : 'var(--text-dim)'}; cursor:pointer">${t.label} (${t.count})</button>`;
   });
   filterHtml += '</div>';
+
+  // Render content filter bar (tab-specific)
+  const contentFilterHtml = renderContentFilterBar(items);
+  if (contentFilterHtml) {
+    filterHtml += '<div class="filter-bar">' + contentFilterHtml + '</div>';
+  }
 
   // Insert filter before grid
   let filterEl = document.getElementById("tag-filters");
@@ -731,6 +894,7 @@ function renderBrowser() {
     gridEl.parentNode.insertBefore(filterEl, gridEl);
   }
   filterEl.innerHTML = filterHtml;
+  bindContentFilterEvents();
   $("item-count").textContent = `${filtered.length} / ${items.length}`;
   if (filtered.length === 0) {
     gridEl.innerHTML = "";
