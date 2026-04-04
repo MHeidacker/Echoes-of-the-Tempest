@@ -411,6 +411,35 @@ let searchQuery = "";
 let pinchStartDist = 0;
 let pinchStartZoom = 0;
 
+// --- Projectile lookup ---
+const PROJ_FILE_NAMES = {1:'lofiObj',2:'lofiObj2',3:'lofiObj3',4:'lofiObj4',5:'lofiObj5',6:'lofiObj6',9:'lofiProjs'};
+
+function findProjectileByTypeId(typeId) {
+  if (!typeId || !contentData || !contentData.projectiles) return null;
+  const tid = typeId.toLowerCase();
+  return contentData.projectiles.find(p => p.type_id && p.type_id.toLowerCase() === tid) || null;
+}
+
+function buildProjectilePreviewHtml(proj) {
+  if (!proj) return '';
+  let html = '<div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">';
+  // Show sprite if sprite_data or frames exist
+  const spriteSource = (proj.frames && proj.frames.length > 0) ? proj.frames[0]
+    : proj.sprite_data ? ("data:image/png;base64," + proj.sprite_data) : null;
+  if (spriteSource) {
+    html += `<img src="${spriteSource}" style="width:32px;height:32px;image-rendering:pixelated;background:#000;border-radius:4px;flex-shrink:0">`;
+  } else {
+    // No inline sprite — show a placeholder with sheet info
+    html += '<div style="width:32px;height:32px;background:#000;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;color:var(--text-muted)" title="Sprite from spritesheet">&#10043;</div>';
+  }
+  html += '<div style="flex:1;min-width:0">';
+  html += `<div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${proj.name || 'Unknown'}</div>`;
+  html += `<div style="font-size:10px;color:var(--text-muted)">${proj.sprite_file || '?'} index ${proj.sprite_index ?? '?'}</div>`;
+  if (proj.type_id) html += `<div style="font-size:10px;color:var(--text-muted)">${proj.type_id}</div>`;
+  html += '</div></div>';
+  return html;
+}
+
 // --- DOM ---
 const $ = id => document.getElementById(id);
 const authScreen = $("auth-screen");
@@ -729,6 +758,33 @@ function renderBrowser() {
         cx.fillText("?", 24, 30);
       }
       div.appendChild(c);
+      // Tiny projectile indicator for items
+      if (currentTab === "items" && item.proj_type_id) {
+        const proj = findProjectileByTypeId(item.proj_type_id);
+        if (proj) {
+          const projWrap = document.createElement("div");
+          projWrap.style.cssText = "display:flex;align-items:center;gap:3px;justify-content:center;margin-bottom:4px";
+          projWrap.title = (proj.name || "Projectile") + " (" + (proj.sprite_file || "?") + " #" + (proj.sprite_index ?? "?") + ")";
+          const projSrc = (proj.frames && proj.frames.length > 0) ? proj.frames[0]
+            : proj.sprite_data ? ("data:image/png;base64," + proj.sprite_data) : null;
+          if (projSrc) {
+            const projImg = document.createElement("img");
+            projImg.src = projSrc;
+            projImg.style.cssText = "width:16px;height:16px;image-rendering:pixelated;background:#000;border-radius:2px";
+            projWrap.appendChild(projImg);
+          } else {
+            const dot = document.createElement("span");
+            dot.style.cssText = "width:16px;height:16px;background:#000;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted)";
+            dot.textContent = "\u2726";
+            projWrap.appendChild(dot);
+          }
+          const projLabel = document.createElement("span");
+          projLabel.style.cssText = "font-size:9px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:80px";
+          projLabel.textContent = proj.name || item.proj_name || "";
+          projWrap.appendChild(projLabel);
+          div.appendChild(projWrap);
+        }
+      }
       // Name
       const nameEl = document.createElement("div");
       nameEl.className = "name";
@@ -1427,6 +1483,25 @@ function renderFields() {
     html += fieldInput("proj_speed", "Proj Speed", currentItem.proj_speed, "number");
     html += fieldInput("proj_lifetime", "Proj Lifetime", currentItem.proj_lifetime, "number");
     html += '</div>';
+    // Projectile preview section
+    if (currentItem.proj_type_id) {
+      const proj = findProjectileByTypeId(currentItem.proj_type_id);
+      html += '<div class="field-section">Projectile</div>';
+      if (proj) {
+        html += buildProjectilePreviewHtml(proj);
+        if (currentItem.proj_name) {
+          html += `<div style="font-size:11px;color:var(--text-dim);margin-top:4px">Name: ${currentItem.proj_name}</div>`;
+        }
+        const fileName = currentItem.proj_sprite_file ? (PROJ_FILE_NAMES[currentItem.proj_sprite_file] || `file ${currentItem.proj_sprite_file}`) : (proj.sprite_file || '?');
+        const idx = currentItem.proj_sprite !== undefined ? currentItem.proj_sprite : (proj.sprite_index ?? '?');
+        html += `<div style="font-size:11px;color:var(--text-dim);margin-top:2px">Sprite: ${fileName} index ${idx}</div>`;
+      } else {
+        html += `<div style="color:var(--text-muted);font-size:12px;padding:8px;background:var(--bg);border-radius:6px">Projectile ${currentItem.proj_type_id} not found in data</div>`;
+      }
+    } else {
+      html += '<div class="field-section">Projectile</div>';
+      html += '<div style="color:var(--text-muted);font-size:12px;padding:8px;background:var(--bg);border-radius:6px">No projectile</div>';
+    }
     html += fieldInput("mp_cost", "MP Cost", currentItem.mp_cost, "number");
     html += fieldInput("fame_bonus", "Fame Bonus", currentItem.fame_bonus, "number");
     html += '<div class="field-section">Stat Bonuses</div>';
@@ -1463,6 +1538,22 @@ function renderFields() {
     html += fieldInput("proj_count", "Proj Count", currentItem.proj_count, "number");
     html += '</div>';
     html += fieldInput("proj_spread", "Proj Spread", currentItem.proj_spread, "number");
+    // Enemy projectile sprites section
+    if (currentItem.projectile_type_ids && currentItem.projectile_type_ids.length > 0) {
+      html += '<div class="field-section">Projectile Sprites</div>';
+      currentItem.projectile_type_ids.forEach(tid => {
+        const proj = findProjectileByTypeId(tid);
+        if (proj) {
+          html += buildProjectilePreviewHtml(proj);
+          html += '<div style="height:6px"></div>';
+        } else {
+          html += `<div style="color:var(--text-muted);font-size:11px;padding:4px 8px;background:var(--bg);border-radius:4px;margin-bottom:6px">${tid} — not found</div>`;
+        }
+      });
+    } else {
+      html += '<div class="field-section">Projectile Sprites</div>';
+      html += '<div style="color:var(--text-muted);font-size:12px;padding:8px;background:var(--bg);border-radius:6px">Melee only</div>';
+    }
     html += fieldInput("xp_reward", "XP Reward", currentItem.xp_reward, "number");
   } else if (currentTab === "portals") {
     html += fieldInput("destination", "Destination", currentItem.destination || "");
