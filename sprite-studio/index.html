@@ -232,6 +232,13 @@ input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); bor
 .ai-history canvas { width: 44px; height: 44px; image-rendering: pixelated; background: #000; border-radius: 6px; border: 2px solid var(--border); cursor: pointer; transition: border-color 0.15s; }
 .ai-history canvas:hover { border-color: var(--purple); }
 .ai-session-cost { font-size: 10px; color: var(--text-muted); text-align: right; margin-top: 6px; }
+.proj-preview { display:flex; align-items:center; gap:12px; padding:10px; background:var(--bg); border-radius:8px; border:1px solid var(--border); transition: border-color 0.15s, background 0.15s; margin-bottom:6px; }
+.proj-preview:hover { border-color: var(--accent); background: rgba(139,92,246,0.06); }
+.proj-preview-img { width:48px; height:48px; image-rendering:pixelated; background:#0a0a0f; border-radius:6px; flex-shrink:0; border:1px solid #333; }
+.proj-preview-placeholder { width:48px; height:48px; background:#0a0a0f; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; color:#555; border:1px solid #333; }
+.proj-preview-info { flex:1; min-width:0; }
+.proj-preview-name { font-size:13px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.proj-preview-meta { font-size:11px; color:var(--text-muted); margin-top:2px; }
 </style>
 </head>
 <body>
@@ -420,22 +427,43 @@ function findProjectileByTypeId(typeId) {
   return contentData.projectiles.find(p => p.type_id && p.type_id.toLowerCase() === tid) || null;
 }
 
+function switchTab(tabName) {
+  document.querySelector(".tab.active").classList.remove("active");
+  const tabBtn = document.querySelector(`.tab[data-tab="${tabName}"]`);
+  if (tabBtn) tabBtn.classList.add("active");
+  currentTab = tabName;
+  closeEditor();
+  renderBrowser();
+}
+
+function navigateToProjectile(projTypeId) {
+  if (!contentData.projectiles) return;
+  const idx = contentData.projectiles.findIndex(p => p.type_id && p.type_id.toLowerCase() === projTypeId.toLowerCase());
+  if (idx >= 0) {
+    switchTab('projectiles');
+    currentIndex = idx;
+    currentItem = contentData.projectiles[idx];
+    renderDetail();
+    renderGrid();
+  }
+}
+
 function buildProjectilePreviewHtml(proj) {
   if (!proj) return '';
-  let html = '<div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">';
-  // Show sprite if sprite_data or frames exist
+  const clickAttr = proj.type_id ? `onclick="navigateToProjectile('${proj.type_id}')" style="cursor:pointer"` : '';
+  let html = `<div ${clickAttr ? '' : 'style="'} class="proj-preview" ${clickAttr}>`;
+  // Show sprite — prefer sprite_data, fallback to placeholder
   const spriteSource = (proj.frames && proj.frames.length > 0) ? proj.frames[0]
     : proj.sprite_data ? ("data:image/png;base64," + proj.sprite_data) : null;
   if (spriteSource) {
-    html += `<img src="${spriteSource}" style="width:32px;height:32px;image-rendering:pixelated;background:#000;border-radius:4px;flex-shrink:0">`;
+    html += `<img src="${spriteSource}" class="proj-preview-img">`;
   } else {
-    // No inline sprite — show a placeholder with sheet info
-    html += '<div style="width:32px;height:32px;background:#000;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;color:var(--text-muted)" title="Sprite from spritesheet">&#10043;</div>';
+    html += '<div class="proj-preview-placeholder">?</div>';
   }
-  html += '<div style="flex:1;min-width:0">';
-  html += `<div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${proj.name || 'Unknown'}</div>`;
-  html += `<div style="font-size:10px;color:var(--text-muted)">${proj.sprite_file || '?'} index ${proj.sprite_index ?? '?'}</div>`;
-  if (proj.type_id) html += `<div style="font-size:10px;color:var(--text-muted)">${proj.type_id}</div>`;
+  html += '<div class="proj-preview-info">';
+  html += `<div class="proj-preview-name">${proj.name || 'Unknown'}</div>`;
+  html += `<div class="proj-preview-meta">${proj.sprite_file || '?'} index ${proj.sprite_index ?? '?'}</div>`;
+  if (proj.type_id) html += `<div class="proj-preview-meta" style="color:var(--accent)">${proj.type_id} &mdash; click to view</div>`;
   html += '</div></div>';
   return html;
 }
