@@ -18,8 +18,9 @@ tailwind.config = {
         'game-accent': '#8b5cf6',
         'game-accent2': '#22d3ee',
         'rarity-ut': '#b041ff',
+        'rarity-rs': '#00b4a0',
         'rarity-my': '#ffd700',
-        'rarity-pr': '#ff8c00',
+        'rarity-pr': '#e8e0ff',
       }
     }
   }
@@ -109,12 +110,12 @@ tailwind.config = {
 table tbody tr { transition: background-color 0.15s ease; }
 .ar-sprite .ar-frame:first-child { opacity: 1 !important; }
 
-/* Exalted radiant shimmer effects */
-@keyframes exalted-shimmer {
+/* Primordial radiant shimmer effects */
+@keyframes primordial-shimmer {
   0%, 100% { text-shadow: 0 0 6px rgba(232,224,255,0.4), 0 0 12px rgba(200,200,255,0.2); }
   50% { text-shadow: 0 0 10px rgba(232,224,255,0.7), 0 0 20px rgba(200,200,255,0.4), 0 0 30px rgba(180,180,255,0.2); }
 }
-@keyframes exalted-glow {
+@keyframes primordial-glow {
   0%, 100% { box-shadow: 0 0 4px rgba(232,224,255,0.2), inset 0 0 4px rgba(232,224,255,0.05); }
   50% { box-shadow: 0 0 12px rgba(232,224,255,0.4), 0 0 24px rgba(200,200,255,0.15), inset 0 0 8px rgba(232,224,255,0.1); }
 }
@@ -123,11 +124,11 @@ table tbody tr { transition: background-color 0.15s ease; }
   50% { filter: hue-rotate(15deg) brightness(1.15); }
   100% { filter: hue-rotate(0deg) brightness(1); }
 }
-.exalted-badge { animation: exalted-shimmer 2s ease-in-out infinite; }
-.exalted-btn:hover { animation: exalted-glow 1.5s ease-in-out infinite; }
-.exalted-card { animation: exalted-glow 3s ease-in-out infinite; border-color: rgba(232,224,255,0.3) !important; }
-.exalted-name { color: #f0f0ff; animation: exalted-shimmer 2.5s ease-in-out infinite; }
-.exalted-sprite { animation: sparkle-rotate 4s ease-in-out infinite; }
+.primordial-badge { animation: primordial-shimmer 2s ease-in-out infinite; }
+.primordial-btn:hover { animation: primordial-glow 1.5s ease-in-out infinite; }
+.primordial-card { animation: primordial-glow 3s ease-in-out infinite; border-color: rgba(232,224,255,0.3) !important; }
+.primordial-name { color: #f0f0ff; animation: primordial-shimmer 2.5s ease-in-out infinite; }
+.primordial-sprite { animation: sparkle-rotate 4s ease-in-out infinite; }
 </style>
 
 
@@ -285,20 +286,34 @@ document.addEventListener('click', function(e) {
     <h1 class="text-3xl font-bold mb-2">
       <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Server Guide</span>
     </h1>
-    <p class="text-slate-400">Everything you need to know about Echoes of the Tempest — getting started, item rarities, loot bags, and combat mechanics.</p>
+    <p class="text-slate-400">Everything you need to know about Echoes of the Tempest -- getting started, permadeath, classes, item rarities, dungeons, and endgame systems.</p>
   </div>
 
   <!-- Quick Nav -->
   <div class="glass rounded-xl p-4 mb-10 flex flex-wrap gap-3">
     <a href="#getting-started" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Getting Started</a>
     <span class="text-slate-600">|</span>
+    <a href="#permadeath" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Permadeath</a>
+    <span class="text-slate-600">|</span>
+    <a href="#stats" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Stats</a>
+    <span class="text-slate-600">|</span>
     <a href="#rarities" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Item Rarities</a>
     <span class="text-slate-600">|</span>
     <a href="#loot-bags" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Loot Bags</a>
     <span class="text-slate-600">|</span>
-    <a href="#status-effects" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Status Effects</a>
-    <span class="text-slate-600">|</span>
     <a href="#passives" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Passive Powers</a>
+    <span class="text-slate-600">|</span>
+    <a href="#dungeons" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Dungeons</a>
+    <span class="text-slate-600">|</span>
+    <a href="#enchantments" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Enchantments</a>
+    <span class="text-slate-600">|</span>
+    <a href="#achievements" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Achievements</a>
+    <span class="text-slate-600">|</span>
+    <a href="#social" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Guilds & Parties</a>
+    <span class="text-slate-600">|</span>
+    <a href="#world-boss" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">World Boss</a>
+    <span class="text-slate-600">|</span>
+    <a href="#status-effects" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Status Effects</a>
   </div>
 
   <!-- ===== GETTING STARTED ===== -->
@@ -309,7 +324,7 @@ document.addEventListener('click', function(e) {
         <span class="text-2xl">1.</span>
         <div>
           <h3 class="font-semibold text-slate-200">Download the Client</h3>
-          <p class="text-sm text-slate-400">Grab the latest <strong class="text-slate-200">EchoesOfTheTempest.zip</strong> from the GitHub Releases page. Extract it anywhere and run <code class="text-cyan-300 bg-slate-800 px-1 rounded">EchoesOfTheTempest.exe</code> — no Flash Player or SDK required.</p>
+          <p class="text-sm text-slate-400">Grab the latest <strong class="text-slate-200">EchoesOfTheTempest.zip</strong> from the GitHub Releases page. Extract it anywhere and run <code class="text-cyan-300 bg-slate-800 px-1 rounded">EchoesOfTheTempest.exe</code> -- no Flash Player or SDK required.</p>
         </div>
       </div>
       <div class="flex gap-4 items-start">
@@ -322,22 +337,103 @@ document.addEventListener('click', function(e) {
       <div class="flex gap-4 items-start">
         <span class="text-2xl">3.</span>
         <div>
-          <h3 class="font-semibold text-slate-200">Enter the Realm</h3>
-          <p class="text-sm text-slate-400">Choose a class and enter the realm. Start by farming <strong class="text-slate-200">Godlands</strong> enemies for gear upgrades and dungeon portal drops. Kill realm event bosses for Legendary and Exalted loot.</p>
+          <h3 class="font-semibold text-slate-200">Choose a Class</h3>
+          <p class="text-sm text-slate-400">Pick from <a href="classes.html" class="text-violet-400 hover:text-violet-300">23 playable classes</a> -- each with a unique weapon type, ability, and armor class. New players should try Wizard (ranged DPS) or Knight (tanky melee).</p>
         </div>
       </div>
       <div class="flex gap-4 items-start">
         <span class="text-2xl">4.</span>
         <div>
-          <h3 class="font-semibold text-slate-200">Run Dungeons</h3>
-          <p class="text-sm text-slate-400">Five custom dungeons each drop unique equipment. Boss encounters scale with player count. Clear all five to unlock the best gear in the game.</p>
+          <h3 class="font-semibold text-slate-200">Enter the Realm</h3>
+          <p class="text-sm text-slate-400">Start by farming <strong class="text-slate-200">Godlands</strong> enemies for gear upgrades and dungeon portal drops. Kill realm event bosses for Mythic and Primordial loot.</p>
         </div>
       </div>
       <div class="flex gap-4 items-start">
         <span class="text-2xl">5.</span>
         <div>
-          <h3 class="font-semibold text-slate-200">Hunt Exalted Gear</h3>
-          <p class="text-sm text-slate-400">The rarest items — <span style="color:#e8e0ff;text-shadow:0 0 6px rgba(232,224,255,0.4)">Exalted (EX)</span> — drop from realm event bosses and dungeon bosses at a 1/3400 rate. These build-defining items have unique passive powers that fundamentally change how you play.</p>
+          <h3 class="font-semibold text-slate-200">Run Dungeons</h3>
+          <p class="text-sm text-slate-400">17 dungeons each drop unique equipment. Boss encounters scale with player count. Progress from Pirate Cave through endgame challenges like The Shatters and Void Abyss.</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <span class="text-2xl">6.</span>
+        <div>
+          <h3 class="font-semibold text-slate-200">Hunt Primordial Gear</h3>
+          <p class="text-sm text-slate-400">The rarest items -- <span style="color:#e8e0ff;text-shadow:0 0 6px rgba(232,224,255,0.4)">Primordial (PR)</span> -- drop from realm event bosses and dungeon bosses at a 1/3400 rate. These build-defining items have unique passive powers that fundamentally change how you play.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PERMADEATH ===== -->
+  <div class="mb-12" id="permadeath">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Permadeath</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-3">When your character dies, they are <strong class="text-red-400">gone forever</strong> -- along with all equipped items and inventory. There are no respawns and no second chances. This is what makes every decision matter.</p>
+      <p class="text-sm text-slate-400 mb-3">On death, your character's accumulated experience is converted into <strong class="text-yellow-400">Fame</strong> -- a permanent account currency. Fame under 200,000 XP is calculated as <code class="text-cyan-300 bg-slate-800 px-1 rounded">XP / 1000</code>; above that threshold it scales as <code class="text-cyan-300 bg-slate-800 px-1 rounded">200 + (XP - 200,000) / 1000</code>.</p>
+      <p class="text-sm text-slate-400">Items stored in your <strong class="text-slate-200">Vault</strong> survive death. Smart players bank valuable gear before risky dungeon runs.</p>
+    </div>
+  </div>
+
+  <!-- ===== STATS ===== -->
+  <div class="mb-12" id="stats">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Stats</h2>
+    <p class="text-slate-400 text-sm mb-4">Every character has 8 core stats that grow on level-up (random rolls per class) and can be permanently boosted with stat potions. Each stat has a per-class cap.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-hp flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-red-400">HP</span>
+          <span class="text-xs text-slate-400 ml-2">Hit Points. Reach zero and you die -- permanently.</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-mp flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-blue-400">MP</span>
+          <span class="text-xs text-slate-400 ml-2">Mana Points. Consumed when using your class ability.</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-att flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-orange-400">ATT</span>
+          <span class="text-xs text-slate-400 ml-2">Attack. Increases weapon damage output.</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-def flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-green-400">DEF</span>
+          <span class="text-xs text-slate-400 ml-2">Defense. Reduces incoming damage per hit.</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-spd flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-cyan-400">SPD</span>
+          <span class="text-xs text-slate-400 ml-2">Speed. Movement speed in the world.</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-dex flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-purple-400">DEX</span>
+          <span class="text-xs text-slate-400 ml-2">Dexterity. Increases attack speed (rate of fire).</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-vit flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-pink-400">VIT</span>
+          <span class="text-xs text-slate-400 ml-2">Vitality. HP regeneration rate over time.</span>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-3">
+        <span class="inline-block w-10 h-1.5 rounded-full stat-gradient-wis flex-shrink-0"></span>
+        <div>
+          <span class="font-semibold text-sm text-indigo-400">WIS</span>
+          <span class="text-xs text-slate-400 ml-2">Wisdom. MP regeneration rate over time.</span>
         </div>
       </div>
     </div>
@@ -352,7 +448,7 @@ document.addEventListener('click', function(e) {
           <span class="text-lg font-bold text-slate-300">Tiered (T1-T14)</span>
           <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-slate-700 text-slate-300 border border-slate-600">Common</span>
         </div>
-        <p class="text-sm text-slate-400">Standard equipment that drops from most enemies. Higher tiers drop from harder enemies. No special abilities — pure stat sticks. Tradeable.</p>
+        <p class="text-sm text-slate-400">Standard equipment that drops from most enemies. Higher tiers drop from harder enemies. No special abilities -- pure stat sticks. Tradeable.</p>
       </div>
 
       <div class="glass rounded-xl p-5">
@@ -360,23 +456,31 @@ document.addEventListener('click', function(e) {
           <span class="text-lg font-bold" style="color:#b041ff">Untiered (UT)</span>
           <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-purple-900/60 text-purple-400 border border-purple-700/50">UT</span>
         </div>
-        <p class="text-sm text-slate-400">Unique items with special properties that tiered gear lacks — unusual projectile patterns, condition effects, or stat tradeoffs. Drop rate: <strong class="text-slate-200">5% (1/20)</strong> from specific bosses. Soulbound. Drops in a <span class="text-cyan-400">cyan bag</span>.</p>
+        <p class="text-sm text-slate-400">Unique items with special properties that tiered gear lacks -- unusual projectile patterns, condition effects, or stat tradeoffs. Drop rate: <strong class="text-slate-200">5% (1/20)</strong> from specific bosses. Soulbound. Drops in a <span class="text-cyan-400">cyan bag</span>.</p>
       </div>
 
       <div class="glass rounded-xl p-5">
         <div class="flex items-center gap-3 mb-2">
-          <span class="text-lg font-bold" style="color:#ffd700">Legendary (LG)</span>
-          <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-yellow-900/60 text-yellow-400 border border-yellow-700/50">LG</span>
+          <span class="text-lg font-bold" style="color:#00b4a0">Resonant (RS)</span>
+          <span class="inline-block px-2 py-0.5 rounded text-xs font-bold border" style="background:rgba(0,180,160,0.15);color:#00b4a0;border-color:rgba(0,180,160,0.5)">RS</span>
         </div>
-        <p class="text-sm text-slate-400">Rare items with a <strong class="text-yellow-400">Legend passive power</strong> — conditional buffs, proc-on-hit effects, aura abilities, or stacking mechanics that enhance your playstyle. Drop rate: <strong class="text-slate-200">0.125% (1/800)</strong>. Soulbound. Drops in a <span class="text-cyan-400">cyan bag</span>.</p>
+        <p class="text-sm text-slate-400">Enhanced untiered items that resonate with elemental energy. Stronger base stats than UT with minor passive effects. Drop rate: <strong class="text-slate-200">1% (1/100)</strong> from dungeon bosses. Soulbound. Drops in a <span class="text-cyan-400">cyan bag</span>.</p>
       </div>
 
-      <div class="glass rounded-xl p-5 exalted-card">
+      <div class="glass rounded-xl p-5">
         <div class="flex items-center gap-3 mb-2">
-          <span class="text-lg font-bold exalted-name">Exalted (EX)</span>
-          <span class="exalted-badge inline-block px-2 py-0.5 rounded text-xs font-bold border" style="background:linear-gradient(135deg,rgba(232,224,255,0.15),rgba(200,200,255,0.25));color:#f0f0ff;border-color:rgba(232,224,255,0.5);text-shadow:0 0 8px rgba(232,224,255,0.6)">EX</span>
+          <span class="text-lg font-bold" style="color:#ffd700">Mythic (MY)</span>
+          <span class="inline-block px-2 py-0.5 rounded text-xs font-bold bg-yellow-900/60 text-yellow-400 border border-yellow-700/50">MY</span>
         </div>
-        <p class="text-sm text-slate-400">The pinnacle. Exalted items don't just buff you — they <strong style="color:#e8e0ff">change how you play</strong>. Frost Wisp companions that fight alongside you. Volcanic auras that melt enemies. Void singularities from your sword strikes. Shadow clones that spawn when you're hit. Each one creates a unique gameplay experience.</p>
+        <p class="text-sm text-slate-400">Rare items with a <strong class="text-yellow-400">Legend passive power</strong> -- conditional buffs, proc-on-hit effects, aura abilities, or stacking mechanics that enhance your playstyle. Drop rate: <strong class="text-slate-200">0.125% (1/800)</strong>. Soulbound. Drops in a <span class="text-yellow-400">gold bag</span>.</p>
+      </div>
+
+      <div class="glass rounded-xl p-5 primordial-card">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-lg font-bold primordial-name">Primordial (PR)</span>
+          <span class="primordial-badge inline-block px-2 py-0.5 rounded text-xs font-bold border" style="background:linear-gradient(135deg,rgba(232,224,255,0.15),rgba(200,200,255,0.25));color:#f0f0ff;border-color:rgba(232,224,255,0.5);text-shadow:0 0 8px rgba(232,224,255,0.6)">PR</span>
+        </div>
+        <p class="text-sm text-slate-400">The pinnacle. Primordial items don't just buff you -- they <strong style="color:#e8e0ff">change how you play</strong>. Frost Wisp companions that fight alongside you. Volcanic auras that melt enemies. Void singularities from your sword strikes. Shadow clones that spawn when you're hit. Each one creates a unique gameplay experience.</p>
         <p class="text-sm text-slate-400 mt-2">Drop rate: <strong class="text-slate-200">0.03% (1/3400)</strong>. Soulbound. Drops in a <span style="color:#e8e0ff;text-shadow:0 0 4px rgba(232,224,255,0.4)">radiant bag</span> with a glowing aura.</p>
       </div>
     </div>
@@ -388,52 +492,75 @@ document.addEventListener('click', function(e) {
     <p class="text-slate-400 text-sm mb-4">When enemies die, they drop loot in colored bags. The bag color is determined by the rarest item inside.</p>
     <div class="space-y-3">
       <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAA2klEQVR4nO2YIQoCURRFHbG4AJNYprgNxVUIRoPBNGsxGIxuQzC4CUEsYnIBBoNu4L9wROfy4J74Zpg/hweX91/VgeyX9Zu8v9hdK3oGofvPj7eBBdRYQE2YEDRtxoN+sX5+PIv16bwp1oezNUqt9B2wgBoLqPnZnHI/bFBq0bSJSN8BC6ixgBqcBNGMFM1CEdGMRG9w6TtgATUWUINvZDRtKDSd0nfAAmosoMYCaiygxgJqetGD0+XV5n98fW76DlhAjQXU4L3QajJCW2jK9njzXigVFlCTXuAD6EMmk0IZt9AAAAAASUVORK5CYII=" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="brown bag">
+        <div class="w-12 h-12 rounded-lg bg-amber-900/40 border border-amber-700/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-amber-700 font-bold text-lg">B</span>
+        </div>
         <div>
           <span class="font-semibold text-amber-700">Brown Bag</span>
-          <p class="text-xs text-slate-400">Basic drops — T0 starter gear, consumables. Public (anyone can loot).</p>
+          <p class="text-xs text-slate-400">Basic drops -- T0 starter gear, consumables. Public (anyone can loot).</p>
         </div>
       </div>
       <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAA0klEQVR4nO2YsQmFQBBEVxFMNLINezC0Gcuxkx8Z2oM9GBkZGWkDtx8GToeFeeHi3flYGG6vMJDDjhv5vrOuQM9AKN/c/AskwEYCbNyEQNPmnM5kvZ3bZL1ZmmS9HmsotcJ3QAJsJMAm2z3lWi4otdC08QjfAQmwkQCbCl3g3ZH2355lH3SCC98BCbCRABt4IvMmr1x4E5yXTuE7IAE2EmAjATYSYCMBNu5EttmWrPdz/9rP/DvXI3wHJMBGAmzgF+LVVugVGmWwQe9CoZAAm/ACD23pI/amhCkeAAAAAElFTkSuQmCC" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="green bag">
+        <div class="w-12 h-12 rounded-lg bg-pink-900/40 border border-pink-700/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-pink-400 font-bold text-lg">P</span>
+        </div>
         <div>
-          <span class="font-semibold text-green-400">Pink Bag</span>
-          <p class="text-xs text-slate-400">Low-tier loot — T1-T4 equipment. Public.</p>
+          <span class="font-semibold text-pink-400">Pink Bag</span>
+          <p class="text-xs text-slate-400">Low-tier tiered gear -- T1-T4 equipment. Public.</p>
         </div>
       </div>
       <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAA2UlEQVR4nO2YsQkCQRBFPTGxARMxucQ2FJswsADF8GoRLcA2BBOLEMFETGzAwEAb2Ame6H0G/gvnjtt7DHxmp+pAlvX+Td7fXRcVPYPQ/efH28ACaiygJkwImjaD/rhYfzzPxfq8mRfrk/UQpVb6DlhAjQXU/GxOOW7uKLVo2kSk74AF1FhADU6CaEaKZqGIaEaiN7j0HbCAGguowTcymjYUmk7pO2ABNRZQYwE1FlBjATW96MHldWrzP74+N30HLKDGAmrwXmg2WqEtNOVw23ovlAoLqEkv8AHyJSaTVZlRDwAAAABJRU5ErkJggg==" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="purple_sb bag">
+        <div class="w-12 h-12 rounded-lg bg-purple-900/40 border border-purple-700/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-purple-400 font-bold text-lg">P</span>
+        </div>
         <div>
           <span class="font-semibold text-purple-400">Purple Bag</span>
-          <p class="text-xs text-slate-400">Mid-tier soulbound loot — potions, T5+ gear. Only you can see it.</p>
+          <p class="text-xs text-slate-400">Mid-tier soulbound loot -- T5+ gear. Only you can see it.</p>
         </div>
       </div>
       <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABTElEQVR4nO2ZwUrDQBCG3dCLYqEhPZjSe2/pvXkBEXyBejNvoNdehF77Bu2x0Bdo6C2neJaIkPReEsRqQUG9GF/gn8NAYLow3/HP7uz+DBl2Z80Jk/huVMMPxkC577ZZ8YPJBgcicFjRjxA1II0akIb84+P7EFabq1nKqhJcsuklXJeqTtZnQA1IowakadGf8JGH4u9lBSdQUZzDFurPySNrXeszoAakUQPSkFWorPZQr9OHRqoNl8XNAC5hfQbUgDRqQJoWdQMaXrtwwu0XvpCZQ8Fa2Pw+QT3++GTFsT4DakAaNSANeRaq9z9Qd7ycGP8NdeOdQj1L8PgdsR//oov3Q4y3BjUgjRqQxlBdaIp+5xzqQXgG9Xj9ytpQWb1BPVoW2p0+StSANNYbIN+75mPch+n5+ExCdYbK6h3q0TJv5K3N+gyoAWnUgDT/mGpIGmzWsSQAAAAASUVORK5CYII=" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="blue bag">
-        <div>
-          <span class="font-semibold text-blue-400">Blue Bag</span>
-          <p class="text-xs text-slate-400">Higher-tier drops — T8+ gear, stat potions.</p>
+        <div class="w-12 h-12 rounded-lg bg-cyan-900/40 border border-cyan-700/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-cyan-400 font-bold text-lg">C</span>
         </div>
-      </div>
-      <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,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" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="cyan_ut bag">
         <div>
           <span class="font-semibold text-cyan-400">Cyan Bag</span>
-          <p class="text-xs text-slate-400">Untiered (UT) items. Soulbound — unique equipment with special properties.</p>
+          <p class="text-xs text-slate-400">Keys and consumable items. Soulbound.</p>
         </div>
       </div>
       <div class="glass rounded-lg p-4 flex items-center gap-4">
-        <img src="data:image/png;base64,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" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="gold_lg bag">
+        <div class="w-12 h-12 rounded-lg bg-blue-900/40 border border-blue-700/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-blue-400 font-bold text-lg">B</span>
+        </div>
         <div>
-          <span class="font-semibold text-yellow-400">Gold Bag</span>
-          <p class="text-xs text-slate-400">Legendary (LG) items. Soulbound — rare drops with passive Legend powers. Your heart skips a beat.</p>
+          <span class="font-semibold text-blue-400">Blue Bag</span>
+          <p class="text-xs text-slate-400">Stat potions and high-tier soulbound drops. Blue outranks purple in the bag hierarchy.</p>
         </div>
       </div>
-      <div class="glass rounded-lg p-4 flex items-center gap-4 exalted-card" style="border-color:rgba(232,224,255,0.3)">
-        <img src="data:image/png;base64,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" width="48" height="48" class="inline-block flex-shrink-0" style="image-rendering:pixelated" alt="exalted bag">
+      <div class="glass rounded-lg p-4 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-lg bg-yellow-900/40 border border-yellow-700/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-yellow-400 font-bold text-lg">G</span>
+        </div>
         <div>
-          <span class="font-semibold exalted-name">Radiant Bag</span>
-          <p class="text-xs text-slate-400">Exalted (EX) items only. Glows with a pulsing radiant aura on the ground. If you see this, screenshot it — it's a 1/3400 drop.</p>
+          <span class="font-semibold text-yellow-400">Gold Bag</span>
+          <p class="text-xs text-slate-400">Mythic (MY) items. Soulbound -- rare drops with passive Legend powers. Your heart skips a beat.</p>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-lg border flex items-center justify-center flex-shrink-0" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.3)">
+          <span class="text-white font-bold text-lg">W</span>
+        </div>
+        <div>
+          <span class="font-semibold text-white">White Bag</span>
+          <p class="text-xs text-slate-400">UT and RS soulbound items. The classic white bag moment.</p>
+        </div>
+      </div>
+      <div class="glass rounded-lg p-4 flex items-center gap-4 primordial-card" style="border-color:rgba(232,224,255,0.3)">
+        <div class="w-12 h-12 rounded-lg border flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,rgba(232,224,255,0.1),rgba(200,200,255,0.2));border-color:rgba(232,224,255,0.4)">
+          <span class="font-bold text-lg" style="color:#e8e0ff">R</span>
+        </div>
+        <div>
+          <span class="font-semibold primordial-name">Radiant Bag</span>
+          <p class="text-xs text-slate-400">Primordial (PR) items only. Glows with a pulsing radiant aura on the ground. If you see this, screenshot it -- it's a 1/3400 drop.</p>
         </div>
       </div>
     </div>
@@ -442,37 +569,161 @@ document.addEventListener('click', function(e) {
   <!-- ===== PASSIVE POWERS ===== -->
   <div class="mb-12" id="passives">
     <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Passive Powers (Legend System)</h2>
-    <p class="text-slate-400 text-sm mb-4">Legendary and Exalted items have <strong class="text-slate-200">Legend passives</strong> — abilities that activate automatically based on different triggers.</p>
+    <p class="text-slate-400 text-sm mb-4">Mythic and Primordial items have <strong class="text-slate-200">Legend passives</strong> -- abilities that activate automatically based on different triggers. There are 9 passive types across 40+ items.</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <div class="glass rounded-lg p-4">
-        <h3 class="font-semibold text-yellow-400 text-sm mb-1">Conditional Buff</h3>
-        <p class="text-xs text-slate-400">Activates when a condition is met (below X% HP, Surge above threshold). Grants temporary buffs like Armored, Berserk, or Healing.</p>
-      </div>
-      <div class="glass rounded-lg p-4">
         <h3 class="font-semibold text-red-400 text-sm mb-1">Proc-on-Hit</h3>
-        <p class="text-xs text-slate-400">Chance to trigger on each weapon hit. Chain lightning, armor break, pressure stacks, lifesteal — turns every shot into a gamble.</p>
+        <p class="text-xs text-slate-400">Chance to trigger on each weapon hit. Chain lightning, armor break, lifesteal -- turns every shot into a gamble.</p>
       </div>
       <div class="glass rounded-lg p-4">
-        <h3 class="font-semibold text-cyan-400 text-sm mb-1">Companion</h3>
-        <p class="text-xs text-slate-400">Summon an entity that fights alongside you. Frost Wisps fire ice shards; Guardian Spirits heal allies. Can sacrifice themselves to save you.</p>
+        <h3 class="font-semibold text-orange-400 text-sm mb-1">Hit Stack</h3>
+        <p class="text-xs text-slate-400">Build stacks with each hit. At threshold, unleash a powerful burst -- AOE explosions, armor breaks, or stat surges.</p>
       </div>
       <div class="glass rounded-lg p-4">
-        <h3 class="font-semibold text-green-400 text-sm mb-1">Aura / Proximity</h3>
-        <p class="text-xs text-slate-400">Passive area effects. Damage enemies near you, heal allies, apply debuffs. Rewards aggressive positioning.</p>
+        <h3 class="font-semibold text-cyan-400 text-sm mb-1">Periodic Aura</h3>
+        <p class="text-xs text-slate-400">Pulses on a timer. Damage enemies, heal allies, or apply debuffs in an area around you. Rewards aggressive positioning.</p>
       </div>
       <div class="glass rounded-lg p-4">
-        <h3 class="font-semibold text-violet-400 text-sm mb-1">Resource Management</h3>
-        <p class="text-xs text-slate-400">Rewrites your HP/MP/Surge economy. MP becomes a shield, Surge fuels eruptions, missing HP increases damage.</p>
+        <h3 class="font-semibold text-violet-400 text-sm mb-1">On Ability</h3>
+        <p class="text-xs text-slate-400">Triggers when you use your class ability. Grants buffs like Speedy, Invisible, or stat boosts after each ability use.</p>
       </div>
       <div class="glass rounded-lg p-4">
-        <h3 class="font-semibold" style="color:#e8e0ff">Weapon Modification</h3>
-        <p class="text-xs text-slate-400">Changes how your weapon fundamentally works. Shots chain to enemies, leave void rifts, or spawn shadow clones. Unique to Exalted items.</p>
+        <h3 class="font-semibold text-green-400 text-sm mb-1">On Kill</h3>
+        <p class="text-xs text-slate-400">Activates when you slay an enemy. Berserk frenzy, healing bursts, or stat stacking that rewards clearing fast.</p>
+      </div>
+      <div class="glass rounded-lg p-4">
+        <h3 class="font-semibold text-blue-400 text-sm mb-1">Position Stack</h3>
+        <p class="text-xs text-slate-400">Build stacks by standing still or moving. Grants Armored, DEF boosts, or healing when you hold your ground.</p>
+      </div>
+      <div class="glass rounded-lg p-4">
+        <h3 class="font-semibold text-yellow-400 text-sm mb-1">Phase Cycle</h3>
+        <p class="text-xs text-slate-400">Rotates through phases on a timer. Solar/Lunar cycles, prismatic color shifts -- each phase grants different bonuses.</p>
+      </div>
+      <div class="glass rounded-lg p-4">
+        <h3 class="font-semibold text-pink-400 text-sm mb-1">Damage Threshold</h3>
+        <p class="text-xs text-slate-400">Triggers when your HP drops below a percentage. Emergency heals, Armored buff, or retaliatory explosions.</p>
+      </div>
+      <div class="glass rounded-lg p-4 sm:col-span-2">
+        <h3 class="font-semibold text-sm mb-1" style="color:#e8e0ff">Always Active</h3>
+        <p class="text-xs text-slate-400">Permanent passive effects while equipped. Constant lifesteal, Damaging condition, DEF aura, or HP regeneration. Simple but powerful.</p>
       </div>
     </div>
   </div>
 
+  <!-- ===== DUNGEONS ===== -->
+  <div class="mb-12" id="dungeons">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Dungeons</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-4">17 procedurally generated dungeons, each with unique enemies, bosses, and loot tables. Dungeon portals drop from realm enemies and event bosses. See the <a href="dungeons.html" class="text-violet-400 hover:text-violet-300">Dungeons page</a> for full details.</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-slate-300">
+        <span class="glass rounded px-2 py-1.5 text-center">Pirate Cave</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Snake Pit</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Sprite World</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Undead Lair</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Abyss of Demons</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Mad Lab</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Ocean Trench</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Tomb of the Ancients</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Puppet Theatre</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Tunnel of Pain</span>
+        <span class="glass rounded px-2 py-1.5 text-center">The Shatters</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Temple of Storms</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Storm Palace</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Inferno Depths</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Glacial Sanctum</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Prismatic Paradise</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Void Abyss</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DUNGEON KEYS ===== -->
+  <div class="mb-12" id="dungeon-keys">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Dungeon Keys</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400">Consumable items that open a dungeon portal on use. Keys can be purchased with gold or found as rare drops. Using a key in the Nexus creates a portal accessible to all nearby players -- useful for running specific dungeons without waiting for realm drops.</p>
+    </div>
+  </div>
+
+  <!-- ===== DUNGEON MODIFIERS ===== -->
+  <div class="mb-12" id="dungeon-modifiers">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Dungeon Modifiers</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-3">Dungeon instances can roll random <strong class="text-slate-200">modifiers</strong> that change the difficulty and rewards. Modifiers are displayed when you enter the dungeon.</p>
+      <div class="flex flex-wrap gap-2">
+        <span class="inline-block px-2 py-1 rounded text-xs font-semibold bg-red-900/40 text-red-400 border border-red-700/30">Fortified</span>
+        <span class="inline-block px-2 py-1 rounded text-xs font-semibold bg-orange-900/40 text-orange-400 border border-orange-700/30">Enraged</span>
+        <span class="inline-block px-2 py-1 rounded text-xs font-semibold bg-yellow-900/40 text-yellow-400 border border-yellow-700/30">Gilded</span>
+        <span class="inline-block px-2 py-1 rounded text-xs font-semibold bg-purple-900/40 text-purple-400 border border-purple-700/30">Cursed</span>
+        <span class="inline-block px-2 py-1 rounded text-xs font-semibold bg-cyan-900/40 text-cyan-400 border border-cyan-700/30">Frozen</span>
+      </div>
+      <p class="text-xs text-slate-500 mt-2">Harder modifiers increase drop rates. Stacking modifiers multiply the challenge and the reward.</p>
+    </div>
+  </div>
+
+  <!-- ===== ENCHANTMENTS ===== -->
+  <div class="mb-12" id="enchantments">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Enchantments</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-3">Apply enchantments to equipment for permanent stat bonuses. There are <strong class="text-slate-200">6 enchantment types</strong> across <strong class="text-slate-200">2 tiers</strong> (Standard and Superior). Each enchantment costs gold to apply and is consumed on use.</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-slate-300">
+        <span class="glass rounded px-2 py-1.5 text-center">Might (ATT)</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Fortitude (DEF)</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Swiftness (SPD)</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Precision (DEX)</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Vitality (VIT)</span>
+        <span class="glass rounded px-2 py-1.5 text-center">Insight (WIS)</span>
+      </div>
+      <p class="text-xs text-slate-500 mt-2">Superior enchantments give larger bonuses but cost significantly more gold. Items can only have one enchantment at a time -- applying a new one replaces the old.</p>
+    </div>
+  </div>
+
+  <!-- ===== ACHIEVEMENTS ===== -->
+  <div class="mb-12" id="achievements">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Achievements</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-3"><strong class="text-slate-200">30 achievements</strong> across 4 categories track your progress and reward you with titles displayed next to your name.</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-slate-300">
+        <div class="glass rounded px-2 py-1.5 text-center">
+          <span class="text-red-400 font-semibold block">Combat</span>
+          <span class="text-slate-500">Kills, bosses, damage</span>
+        </div>
+        <div class="glass rounded px-2 py-1.5 text-center">
+          <span class="text-cyan-400 font-semibold block">Exploration</span>
+          <span class="text-slate-500">Dungeons, portals, realm</span>
+        </div>
+        <div class="glass rounded px-2 py-1.5 text-center">
+          <span class="text-yellow-400 font-semibold block">Collection</span>
+          <span class="text-slate-500">Items, fame, gold</span>
+        </div>
+        <div class="glass rounded px-2 py-1.5 text-center">
+          <span class="text-green-400 font-semibold block">Social</span>
+          <span class="text-slate-500">Guilds, trades, parties</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GUILDS & PARTIES ===== -->
+  <div class="mb-12" id="social">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Guilds & Parties</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-3"><strong class="text-slate-200">Parties</strong> of up to 6 players share XP, see each other on the minimap, and can teleport to party members. Create or join a party with <code class="text-cyan-300 bg-slate-800 px-1 rounded">/party invite &lt;name&gt;</code>.</p>
+      <p class="text-sm text-slate-400"><strong class="text-slate-200">Guilds</strong> are permanent organizations with their own chat channel, a shared Guild Hall safe zone, and a guild leaderboard. Guild creation costs fame. Members share a guild tag displayed next to their name.</p>
+    </div>
+  </div>
+
+  <!-- ===== WORLD BOSS ===== -->
+  <div class="mb-12" id="world-boss">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">World Boss: Typhon</h2>
+    <div class="glass rounded-xl p-6">
+      <p class="text-sm text-slate-400 mb-3">When the realm closes, <strong class="text-red-400">Typhon</strong> appears -- the ultimate world boss. All remaining players are teleported to a dedicated arena for a server-wide battle. Typhon has multiple phases with devastating attacks and massive HP scaling.</p>
+      <p class="text-sm text-slate-400">Defeating Typhon guarantees high-tier loot for all participants, including a chance at Mythic and Primordial drops. Failing to kill Typhon before the timer expires means everyone dies.</p>
+    </div>
+  </div>
+
   <!-- ===== STATUS EFFECTS ===== -->
-  <div class="mb-8">
+  <div class="mb-8" id="status-effects">
     <h2 class="text-xl font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2">Status Effects</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <div class="glass rounded-lg p-3 flex gap-3 items-start">
@@ -538,7 +789,6 @@ document.addEventListener('click', function(e) {
     </div>
   </div>
 
-  <!-- Status Effects moved up into combat section -->
 </section>
 
 <footer class="border-t border-slate-800 mt-16">
