@@ -280,6 +280,93 @@ document.addEventListener('click', function(e) {
 });
 </script>
 
+<style>
+/* Equipment slot styles */
+.equip-slot {
+  width: 80px; height: 80px;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.equip-slot:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.25), inset 0 0 8px rgba(139, 92, 246, 0.08);
+  background: rgba(30, 41, 59, 0.9);
+}
+.equip-slot.filled { background: rgba(15, 23, 42, 0.95); }
+.equip-slot.rarity-tiered { border-color: #64748b; }
+.equip-slot.rarity-ut { border-color: #b041ff; box-shadow: 0 0 8px rgba(176, 65, 255, 0.2); }
+.equip-slot.rarity-my { border-color: #ffd700; box-shadow: 0 0 8px rgba(255, 215, 0, 0.2); }
+.equip-slot.rarity-pr { border-color: #e8e0ff; box-shadow: 0 0 12px rgba(232, 224, 255, 0.3); animation: primordial-glow 3s ease-in-out infinite; }
+.equip-slot .slot-icon { font-size: 24px; opacity: 0.4; line-height: 1; }
+.equip-slot .slot-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.equip-slot .slot-item-name { font-size: 10px; color: #e2e8f0; text-align: center; line-height: 1.2; padding: 0 4px; max-height: 36px; overflow: hidden; word-break: break-word; }
+.equip-slot .slot-item-icon { font-size: 22px; line-height: 1; }
+.equip-slot .slot-clear {
+  position: absolute; top: -6px; right: -6px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #ef4444; color: white; font-size: 11px; font-weight: bold;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; line-height: 1; border: 2px solid #1e293b;
+}
+.equip-slot.filled .slot-clear { display: flex; }
+.equip-slot .slot-clear:hover { background: #dc2626; transform: scale(1.1); }
+
+/* Item picker modal */
+.item-picker-overlay {
+  position: fixed; inset: 0; background: rgba(2, 6, 23, 0.75);
+  z-index: 100; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.item-picker {
+  background: #0f172a; border: 1px solid #334155; border-radius: 16px;
+  width: 90vw; max-width: 440px; max-height: 80vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 30px rgba(139,92,246,0.1);
+}
+.item-picker-header {
+  padding: 16px 20px; border-bottom: 1px solid #1e293b;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.item-picker-header h3 { font-size: 14px; font-weight: 700; color: #c4b5fd; text-transform: uppercase; letter-spacing: 0.05em; }
+.item-picker-close { color: #64748b; cursor: pointer; padding: 4px; border-radius: 6px; transition: all 0.15s; }
+.item-picker-close:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+.item-picker-body { overflow-y: auto; padding: 8px; flex: 1; }
+.item-picker-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 12px 4px; }
+.item-picker-group-label.rarity-tiered-label { color: #94a3b8; }
+.item-picker-group-label.rarity-ut-label { color: #b041ff; }
+.item-picker-group-label.rarity-my-label { color: #ffd700; }
+.item-picker-group-label.rarity-pr-label { color: #e8e0ff; text-shadow: 0 0 6px rgba(232,224,255,0.3); }
+.item-pick-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 8px; cursor: pointer;
+  transition: all 0.15s;
+}
+.item-pick-row:hover { background: rgba(139, 92, 246, 0.1); }
+.item-pick-row .pick-name { font-size: 13px; color: #e2e8f0; font-weight: 500; flex: 1; }
+.item-pick-row .pick-stats { font-size: 11px; color: #64748b; white-space: nowrap; }
+
+/* Stat bonus bar */
+.stat-bonus { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+.stat-bonus.positive { color: #4ade80; background: rgba(74, 222, 128, 0.08); }
+.stat-bonus.negative { color: #f87171; background: rgba(248, 113, 113, 0.08); }
+.stat-bonus.zero { color: #475569; }
+
+@media (max-width: 480px) {
+  .equip-slot { width: 72px; height: 72px; }
+  .equip-slot .slot-icon { font-size: 20px; }
+  .equip-slot .slot-item-name { font-size: 9px; }
+}
+</style>
+
 <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
   <div class="mb-8">
     <h1 class="text-3xl font-bold mb-2">
@@ -290,7 +377,7 @@ document.addEventListener('click', function(e) {
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-    <!-- Left Column: Inputs -->
+    <!-- Left Column: Equipment Panel -->
     <div class="space-y-4">
 
       <!-- Class Selector -->
@@ -301,13 +388,40 @@ document.addEventListener('click', function(e) {
         </select>
       </div>
 
-      <!-- Weapon Selector -->
+      <!-- Equipment Grid -->
       <div class="glass rounded-xl p-5">
-        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Weapon</h2>
-        <select id="weapon-select" onchange="onWeaponChange()" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 cursor-pointer">
-          <option value="">-- Select a weapon --</option>
-        </select>
-        <div id="weapon-info" class="mt-3 text-sm text-slate-400 hidden">
+        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-4">Equipment</h2>
+        <div class="flex justify-center">
+          <div class="grid grid-cols-2 gap-3" id="equip-grid">
+            <!-- Weapon slot -->
+            <div class="equip-slot" id="slot-weapon" onclick="openItemPicker('weapon')" title="Weapon">
+              <span class="slot-icon">&#9876;</span>
+              <span class="slot-label">Weapon</span>
+              <span class="slot-clear" onclick="event.stopPropagation(); clearSlot('weapon')">&times;</span>
+            </div>
+            <!-- Ability slot -->
+            <div class="equip-slot" id="slot-ability" onclick="openItemPicker('ability')" title="Ability">
+              <span class="slot-icon">&#10038;</span>
+              <span class="slot-label">Ability</span>
+              <span class="slot-clear" onclick="event.stopPropagation(); clearSlot('ability')">&times;</span>
+            </div>
+            <!-- Armor slot -->
+            <div class="equip-slot" id="slot-armor" onclick="openItemPicker('armor')" title="Armor">
+              <span class="slot-icon">&#128737;</span>
+              <span class="slot-label">Armor</span>
+              <span class="slot-clear" onclick="event.stopPropagation(); clearSlot('armor')">&times;</span>
+            </div>
+            <!-- Ring slot -->
+            <div class="equip-slot" id="slot-ring" onclick="openItemPicker('ring')" title="Ring">
+              <span class="slot-icon">&#128141;</span>
+              <span class="slot-label">Ring</span>
+              <span class="slot-clear" onclick="event.stopPropagation(); clearSlot('ring')">&times;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weapon info (shown when weapon equipped) -->
+        <div id="weapon-info" class="mt-4 text-sm text-slate-400 hidden border-t border-slate-700/50 pt-3">
           <div class="grid grid-cols-2 gap-2 text-xs">
             <div>Damage: <span id="wi-damage" class="text-slate-200 font-medium"></span></div>
             <div>Projectiles: <span id="wi-proj" class="text-slate-200 font-medium"></span></div>
@@ -315,21 +429,11 @@ document.addEventListener('click', function(e) {
             <div>Armor Piercing: <span id="wi-ap" class="text-slate-200 font-medium"></span></div>
           </div>
         </div>
-      </div>
 
-      <!-- Ability Selector -->
-      <div class="glass rounded-xl p-5">
-        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Ability</h2>
-        <select id="ability-select" onchange="onAbilityChange()" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 cursor-pointer">
-          <option value="">-- No ability --</option>
-        </select>
-        <div id="ability-info" class="mt-3 text-sm text-slate-400 hidden">
-          <div class="grid grid-cols-4 gap-2 text-xs">
-            <div>HP: <span id="ab-hp" class="text-red-400 font-medium"></span></div>
-            <div>ATT: <span id="ab-att" class="text-orange-400 font-medium"></span></div>
-            <div>DEX: <span id="ab-dex" class="text-purple-400 font-medium"></span></div>
-            <div>DEF: <span id="ab-def" class="text-green-400 font-medium"></span></div>
-          </div>
+        <!-- Equipment stat bonuses summary -->
+        <div id="equip-bonuses" class="mt-4 border-t border-slate-700/50 pt-3 hidden">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Equipment Bonuses</div>
+          <div class="flex flex-wrap gap-2" id="bonus-tags"></div>
         </div>
       </div>
 
@@ -355,37 +459,6 @@ document.addEventListener('click', function(e) {
             <input type="number" id="stat-mgt" value="0" min="0" max="200" onchange="recalculate()" oninput="recalculate()"
               class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500">
             <div class="text-xs text-slate-600 mt-0.5 text-center">base: <span id="base-mgt">0</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Armor Selector -->
-      <div class="glass rounded-xl p-5">
-        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Armor</h2>
-        <select id="armor-select" onchange="onArmorChange()" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 cursor-pointer">
-          <option value="">-- No armor --</option>
-        </select>
-        <div id="armor-info" class="mt-3 text-sm text-slate-400 hidden">
-          <div class="grid grid-cols-3 gap-2 text-xs">
-            <div>DEF: <span id="ai-def" class="text-green-400 font-medium"></span></div>
-            <div>HP: <span id="ai-hp" class="text-red-400 font-medium"></span></div>
-            <div>ATT: <span id="ai-att" class="text-orange-400 font-medium"></span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Ring Selector -->
-      <div class="glass rounded-xl p-5">
-        <h2 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-3">Ring</h2>
-        <select id="ring-select" onchange="onRingChange()" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 cursor-pointer">
-          <option value="">-- No ring --</option>
-        </select>
-        <div id="ring-info" class="mt-3 text-sm text-slate-400 hidden">
-          <div class="grid grid-cols-4 gap-2 text-xs">
-            <div>HP: <span id="ri-hp" class="text-red-400 font-medium"></span></div>
-            <div>ATT: <span id="ri-att" class="text-orange-400 font-medium"></span></div>
-            <div>DEX: <span id="ri-dex" class="text-purple-400 font-medium"></span></div>
-            <div>DEF: <span id="ri-def" class="text-green-400 font-medium"></span></div>
           </div>
         </div>
       </div>
@@ -497,6 +570,11 @@ var currentRing = null;
 var currentAbility = null;
 var baseAtt = 0, baseDex = 0, baseMgt = 0;
 
+// Cached filtered lists per class
+var filteredWeapons = [];
+var filteredArmors = [];
+var filteredAbilities = [];
+
 // Class armor type mapping
 var CLASS_ARMOR_TYPE = {
   "Heavy": ["Warrior", "Knight", "Paladin", "Samurai", "Templar"],
@@ -511,6 +589,223 @@ function getClassArmorType(className) {
   return null;
 }
 
+// Slot icon map
+var SLOT_ICONS = { weapon: '\u2694', ability: '\u2726', armor: '\uD83D\uDEE1', ring: '\uD83D\uDC8D' };
+var SLOT_LABELS = { weapon: 'Weapon', ability: 'Ability', armor: 'Armor', ring: 'Ring' };
+
+// Group items by rarity for picker display
+function groupByRarity(items) {
+  var groups = {"Tiered": [], "UT": [], "MY": [], "PR": []};
+  items.forEach(function(item) {
+    var r = item.rarity || "Tiered";
+    if (groups[r]) groups[r].push(item);
+    else groups["Tiered"].push(item);
+  });
+  return groups;
+}
+
+// Get stat summary string for an item
+function itemStatSummary(item, slotType) {
+  var parts = [];
+  if (slotType === 'weapon') {
+    parts.push(item.minDamage + '-' + item.maxDamage + ' dmg');
+    if (item.numProjectiles > 1) parts.push(item.numProjectiles + ' shots');
+    if (item.attBonus) parts.push((item.attBonus > 0 ? '+' : '') + item.attBonus + ' ATT');
+    if (item.dexBonus) parts.push((item.dexBonus > 0 ? '+' : '') + item.dexBonus + ' DEX');
+  } else {
+    if (item.hpBonus) parts.push((item.hpBonus > 0 ? '+' : '') + item.hpBonus + ' HP');
+    if (item.attBonus) parts.push((item.attBonus > 0 ? '+' : '') + item.attBonus + ' ATT');
+    if (item.defBonus) parts.push((item.defBonus > 0 ? '+' : '') + item.defBonus + ' DEF');
+    if (item.dexBonus) parts.push((item.dexBonus > 0 ? '+' : '') + item.dexBonus + ' DEX');
+    if (item.spdBonus) parts.push((item.spdBonus > 0 ? '+' : '') + item.spdBonus + ' SPD');
+    if (item.vitBonus) parts.push((item.vitBonus > 0 ? '+' : '') + item.vitBonus + ' VIT');
+    if (item.wisBonus) parts.push((item.wisBonus > 0 ? '+' : '') + item.wisBonus + ' WIS');
+  }
+  return parts.join(', ');
+}
+
+// Get rarity CSS class
+function rarityClass(rarity) {
+  if (rarity === 'UT') return 'rarity-ut';
+  if (rarity === 'MY') return 'rarity-my';
+  if (rarity === 'PR') return 'rarity-pr';
+  return 'rarity-tiered';
+}
+
+// Update a slot's visual display
+function updateSlotDisplay(slotType) {
+  var slotEl = document.getElementById('slot-' + slotType);
+  var item = null;
+  if (slotType === 'weapon') item = currentWeapon;
+  else if (slotType === 'ability') item = currentAbility;
+  else if (slotType === 'armor') item = currentArmor;
+  else if (slotType === 'ring') item = currentRing;
+
+  // Remove all rarity classes
+  slotEl.classList.remove('filled', 'rarity-tiered', 'rarity-ut', 'rarity-my', 'rarity-pr');
+
+  if (item) {
+    slotEl.classList.add('filled', rarityClass(item.rarity));
+    slotEl.innerHTML = '<span class="slot-item-icon">' + SLOT_ICONS[slotType] + '</span>' +
+      '<span class="slot-item-name">' + item.name + '</span>' +
+      '<span class="slot-clear" onclick="event.stopPropagation(); clearSlot(\'' + slotType + '\')">&times;</span>';
+  } else {
+    slotEl.innerHTML = '<span class="slot-icon">' + SLOT_ICONS[slotType] + '</span>' +
+      '<span class="slot-label">' + SLOT_LABELS[slotType] + '</span>' +
+      '<span class="slot-clear" onclick="event.stopPropagation(); clearSlot(\'' + slotType + '\')">&times;</span>';
+  }
+}
+
+// Open the item picker modal
+function openItemPicker(slotType) {
+  if (!currentClass && slotType !== 'ring') return; // Need class selected first (except ring)
+
+  var items = [];
+  var title = SLOT_LABELS[slotType];
+  if (slotType === 'weapon') items = filteredWeapons;
+  else if (slotType === 'ability') items = filteredAbilities;
+  else if (slotType === 'armor') items = filteredArmors;
+  else if (slotType === 'ring') items = RINGS;
+
+  if (items.length === 0 && slotType !== 'ring') return;
+
+  var groups = groupByRarity(items);
+
+  // Build modal HTML
+  var html = '<div class="item-picker-overlay" id="item-picker-overlay" onclick="closeItemPicker(event)">';
+  html += '<div class="item-picker" onclick="event.stopPropagation()">';
+  html += '<div class="item-picker-header"><h3>Select ' + title + '</h3>';
+  html += '<span class="item-picker-close" onclick="closeItemPicker()">';
+  html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+  html += '</span></div>';
+  html += '<div class="item-picker-body">';
+
+  ["Tiered", "UT", "MY", "PR"].forEach(function(rarity) {
+    if (groups[rarity].length === 0) return;
+    var labelClass = 'rarity-' + rarity.toLowerCase() + '-label';
+    html += '<div class="item-picker-group-label ' + labelClass + '">' + rarity + '</div>';
+    groups[rarity].forEach(function(item, idx) {
+      var statsStr = itemStatSummary(item, slotType);
+      html += '<div class="item-pick-row" onclick="pickItem(\'' + slotType + '\', \'' + rarity + '\', ' + idx + ')">';
+      html += '<span class="pick-name">' + item.name + '</span>';
+      if (statsStr) html += '<span class="pick-stats">' + statsStr + '</span>';
+      html += '</div>';
+    });
+  });
+
+  html += '</div></div></div>';
+
+  // Remove existing picker if any
+  var existing = document.getElementById('item-picker-overlay');
+  if (existing) existing.remove();
+
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  // Focus trap: close on Escape
+  document.addEventListener('keydown', pickerEscHandler);
+}
+
+function pickerEscHandler(e) {
+  if (e.key === 'Escape') closeItemPicker();
+}
+
+function closeItemPicker(e) {
+  if (e && e.target && !e.target.classList.contains('item-picker-overlay')) return;
+  var overlay = document.getElementById('item-picker-overlay');
+  if (overlay) overlay.remove();
+  document.removeEventListener('keydown', pickerEscHandler);
+}
+
+// Pick an item from the modal
+function pickItem(slotType, rarity, idx) {
+  var items = [];
+  if (slotType === 'weapon') items = filteredWeapons;
+  else if (slotType === 'ability') items = filteredAbilities;
+  else if (slotType === 'armor') items = filteredArmors;
+  else if (slotType === 'ring') items = RINGS;
+
+  var groups = groupByRarity(items);
+  var item = groups[rarity][idx];
+
+  if (slotType === 'weapon') {
+    currentWeapon = item;
+    var info = document.getElementById('weapon-info');
+    info.classList.remove('hidden');
+    document.getElementById('wi-damage').textContent = item.minDamage + ' - ' + item.maxDamage;
+    document.getElementById('wi-proj').textContent = item.numProjectiles;
+    document.getElementById('wi-rof').textContent = item.rateOfFire.toFixed(2) + 'x';
+    document.getElementById('wi-ap').textContent = item.armorPiercing ? 'Yes' : 'No';
+  } else if (slotType === 'ability') {
+    currentAbility = item;
+  } else if (slotType === 'armor') {
+    currentArmor = item;
+  } else if (slotType === 'ring') {
+    currentRing = item;
+  }
+
+  updateSlotDisplay(slotType);
+  closeItemPicker();
+  applyBonuses();
+  updateBonusTags();
+}
+
+// Clear a slot
+function clearSlot(slotType) {
+  if (slotType === 'weapon') {
+    currentWeapon = null;
+    document.getElementById('weapon-info').classList.add('hidden');
+  } else if (slotType === 'ability') {
+    currentAbility = null;
+  } else if (slotType === 'armor') {
+    currentArmor = null;
+  } else if (slotType === 'ring') {
+    currentRing = null;
+  }
+  updateSlotDisplay(slotType);
+  applyBonuses();
+  updateBonusTags();
+}
+
+// Update equipment bonus tags summary
+function updateBonusTags() {
+  var stats = {HP: 0, MP: 0, ATT: 0, DEF: 0, SPD: 0, DEX: 0, VIT: 0, WIS: 0};
+  var sources = [currentWeapon, currentAbility, currentArmor, currentRing];
+  sources.forEach(function(item) {
+    if (!item) return;
+    stats.HP += (item.hpBonus || 0);
+    stats.MP += (item.mpBonus || 0);
+    stats.ATT += (item.attBonus || 0);
+    stats.DEF += (item.defBonus || 0);
+    stats.SPD += (item.spdBonus || 0);
+    stats.DEX += (item.dexBonus || 0);
+    stats.VIT += (item.vitBonus || 0);
+    stats.WIS += (item.wisBonus || 0);
+  });
+
+  var container = document.getElementById('bonus-tags');
+  var bonusSection = document.getElementById('equip-bonuses');
+  var html = '';
+  var hasAny = false;
+
+  var statColors = {HP: '#ef4444', MP: '#3b82f6', ATT: '#f97316', DEF: '#22c55e', SPD: '#06b6d4', DEX: '#a855f7', VIT: '#ec4899', WIS: '#8b5cf6'};
+
+  for (var stat in stats) {
+    if (stats[stat] !== 0) {
+      hasAny = true;
+      var cls = stats[stat] > 0 ? 'positive' : 'negative';
+      var sign = stats[stat] > 0 ? '+' : '';
+      html += '<span class="stat-bonus ' + cls + '" style="border-left: 2px solid ' + statColors[stat] + '">' + sign + stats[stat] + ' ' + stat + '</span>';
+    }
+  }
+
+  if (hasAny) {
+    bonusSection.classList.remove('hidden');
+    container.innerHTML = html;
+  } else {
+    bonusSection.classList.add('hidden');
+  }
+}
+
 // Populate class dropdown
 (function() {
   var sel = document.getElementById('class-select');
@@ -520,19 +815,25 @@ function getClassArmorType(className) {
     opt.textContent = c.name;
     sel.appendChild(opt);
   });
-  // Populate rings (no class filter)
-  populateRings(RINGS);
 })();
 
 function onClassChange() {
   var idx = document.getElementById('class-select').value;
   if (idx === '') {
     currentClass = null;
+    currentWeapon = null;
     currentArmor = null;
+    currentAbility = null;
+    filteredWeapons = [];
+    filteredArmors = [];
+    filteredAbilities = [];
     resetStats();
-    populateWeapons([]);
-    populateArmors([]);
-    populateAbilities([]);
+    updateSlotDisplay('weapon');
+    updateSlotDisplay('ability');
+    updateSlotDisplay('armor');
+    updateSlotDisplay('ring');
+    updateBonusTags();
+    document.getElementById('weapon-info').classList.add('hidden');
     recalculate();
     return;
   }
@@ -543,7 +844,7 @@ function onClassChange() {
 
   // Filter weapons to ones usable by this class
   var validSlots = CLASS_WEAPON_SLOTS[currentClass.weapon] || [];
-  var filtered = WEAPONS.filter(function(w) {
+  filteredWeapons = WEAPONS.filter(function(w) {
     for (var i = 0; i < validSlots.length; i++) {
       for (var st in WEAPON_TYPE_MAP) {
         if (WEAPON_TYPE_MAP[st] === w.type && parseInt(st) === validSlots[i]) return true;
@@ -551,230 +852,36 @@ function onClassChange() {
     }
     return false;
   });
-  populateWeapons(filtered);
 
   // Filter armors by class armor type
   var armorType = getClassArmorType(currentClass.name);
-  var filteredArmors = ARMORS.filter(function(a) { return a.type === armorType; });
-  populateArmors(filteredArmors);
+  filteredArmors = ARMORS.filter(function(a) { return a.type === armorType; });
 
   // Filter abilities by class ability type
   var abilityType = CLASS_ABILITY_MAP[currentClass.ability] || currentClass.ability;
-  var filteredAbilities = ABILITIES.filter(function(a) { return a.type === abilityType; });
-  populateAbilities(filteredAbilities);
+  filteredAbilities = ABILITIES.filter(function(a) { return a.type === abilityType; });
 
-  applyBonuses();
-}
-
-function populateWeapons(weaponList) {
-  var sel = document.getElementById('weapon-select');
-  sel.innerHTML = '<option value="">-- Select a weapon --</option>';
-
-  // Group by rarity
-  var groups = {"Tiered": [], "UT": [], "MY": [], "PR": []};
-  weaponList.forEach(function(w) {
-    var r = w.rarity || "Tiered";
-    if (groups[r]) groups[r].push(w);
-    else groups["Tiered"].push(w);
-  });
-
-  ["Tiered", "UT", "MY", "PR"].forEach(function(rarity) {
-    if (groups[rarity].length === 0) return;
-    var optgroup = document.createElement('optgroup');
-    optgroup.label = rarity === "Tiered" ? "Tiered" : rarity;
-    groups[rarity].forEach(function(w) {
-      var opt = document.createElement('option');
-      opt.value = JSON.stringify(w);
-      opt.textContent = w.name;
-      optgroup.appendChild(opt);
-    });
-    sel.appendChild(optgroup);
-  });
-
-  currentWeapon = null;
-  document.getElementById('weapon-info').classList.add('hidden');
-}
-
-function populateArmors(armorList) {
-  var sel = document.getElementById('armor-select');
-  sel.innerHTML = '<option value="">-- No armor --</option>';
-
-  var groups = {"Tiered": [], "UT": [], "MY": [], "PR": []};
-  armorList.forEach(function(a) {
-    var r = a.rarity || "Tiered";
-    if (groups[r]) groups[r].push(a);
-    else groups["Tiered"].push(a);
-  });
-
-  ["Tiered", "UT", "MY", "PR"].forEach(function(rarity) {
-    if (groups[rarity].length === 0) return;
-    var optgroup = document.createElement('optgroup');
-    optgroup.label = rarity === "Tiered" ? "Tiered" : rarity;
-    groups[rarity].forEach(function(a) {
-      var opt = document.createElement('option');
-      opt.value = JSON.stringify(a);
-      var stats = [];
-      if (a.defBonus) stats.push((a.defBonus > 0 ? '+' : '') + a.defBonus + ' DEF');
-      if (a.attBonus) stats.push((a.attBonus > 0 ? '+' : '') + a.attBonus + ' ATT');
-      if (a.dexBonus) stats.push((a.dexBonus > 0 ? '+' : '') + a.dexBonus + ' DEX');
-      opt.textContent = a.name + (stats.length ? ' (' + stats.join(', ') + ')' : '');
-      optgroup.appendChild(opt);
-    });
-    sel.appendChild(optgroup);
-  });
-
-  currentArmor = null;
-  document.getElementById('armor-info').classList.add('hidden');
-}
-
-function populateRings(ringList) {
-  var sel = document.getElementById('ring-select');
-  sel.innerHTML = '<option value="">-- No ring --</option>';
-
-  var groups = {"Tiered": [], "UT": [], "MY": [], "PR": []};
-  ringList.forEach(function(r) {
-    var ra = r.rarity || "Tiered";
-    if (groups[ra]) groups[ra].push(r);
-    else groups["Tiered"].push(r);
-  });
-
-  ["Tiered", "UT", "MY", "PR"].forEach(function(rarity) {
-    if (groups[rarity].length === 0) return;
-    var optgroup = document.createElement('optgroup');
-    optgroup.label = rarity === "Tiered" ? "Tiered" : rarity;
-    groups[rarity].forEach(function(r) {
-      var opt = document.createElement('option');
-      opt.value = JSON.stringify(r);
-      var stats = [];
-      if (r.hpBonus) stats.push((r.hpBonus > 0 ? '+' : '') + r.hpBonus + ' HP');
-      if (r.attBonus) stats.push((r.attBonus > 0 ? '+' : '') + r.attBonus + ' ATT');
-      if (r.dexBonus) stats.push((r.dexBonus > 0 ? '+' : '') + r.dexBonus + ' DEX');
-      if (r.defBonus) stats.push((r.defBonus > 0 ? '+' : '') + r.defBonus + ' DEF');
-      opt.textContent = r.name + (stats.length ? ' (' + stats.join(', ') + ')' : '');
-      optgroup.appendChild(opt);
-    });
-    sel.appendChild(optgroup);
-  });
-
-  currentRing = null;
-  document.getElementById('ring-info').classList.add('hidden');
-}
-
-function onWeaponChange() {
-  var val = document.getElementById('weapon-select').value;
-  if (!val) {
-    currentWeapon = null;
-    document.getElementById('weapon-info').classList.add('hidden');
-    applyBonuses();
-    return;
+  // Clear selections that don't fit the new class
+  if (currentWeapon) {
+    var weaponStillValid = filteredWeapons.some(function(w) { return w.name === currentWeapon.name; });
+    if (!weaponStillValid) { currentWeapon = null; document.getElementById('weapon-info').classList.add('hidden'); }
   }
-  currentWeapon = JSON.parse(val);
-
-  var info = document.getElementById('weapon-info');
-  info.classList.remove('hidden');
-  document.getElementById('wi-damage').textContent = currentWeapon.minDamage + ' - ' + currentWeapon.maxDamage;
-  document.getElementById('wi-proj').textContent = currentWeapon.numProjectiles;
-  document.getElementById('wi-rof').textContent = currentWeapon.rateOfFire.toFixed(2) + 'x';
-  document.getElementById('wi-ap').textContent = currentWeapon.armorPiercing ? 'Yes' : 'No';
-
-  applyBonuses();
-}
-
-function onArmorChange() {
-  var val = document.getElementById('armor-select').value;
-  if (!val) {
-    currentArmor = null;
-    document.getElementById('armor-info').classList.add('hidden');
-    applyBonuses();
-    return;
+  if (currentArmor) {
+    var armorStillValid = filteredArmors.some(function(a) { return a.name === currentArmor.name; });
+    if (!armorStillValid) currentArmor = null;
   }
-  currentArmor = JSON.parse(val);
-
-  var info = document.getElementById('armor-info');
-  info.classList.remove('hidden');
-  function fmt(v) { return v > 0 ? '+' + v : v === 0 ? '0' : '' + v; }
-  document.getElementById('ai-def').textContent = fmt(currentArmor.defBonus);
-  document.getElementById('ai-hp').textContent = fmt(currentArmor.hpBonus);
-  document.getElementById('ai-att').textContent = fmt(currentArmor.attBonus);
-
-  applyBonuses();
-}
-
-function onRingChange() {
-  var val = document.getElementById('ring-select').value;
-  if (!val) {
-    currentRing = null;
-    document.getElementById('ring-info').classList.add('hidden');
-    applyBonuses();
-    return;
+  if (currentAbility) {
+    var abilityStillValid = filteredAbilities.some(function(a) { return a.name === currentAbility.name; });
+    if (!abilityStillValid) currentAbility = null;
   }
-  currentRing = JSON.parse(val);
 
-  var info = document.getElementById('ring-info');
-  info.classList.remove('hidden');
-  function fmt(v) { return v > 0 ? '+' + v : v === 0 ? '0' : '' + v; }
-  document.getElementById('ri-hp').textContent = fmt(currentRing.hpBonus);
-  document.getElementById('ri-att').textContent = fmt(currentRing.attBonus);
-  document.getElementById('ri-dex').textContent = fmt(currentRing.dexBonus);
-  document.getElementById('ri-def').textContent = fmt(currentRing.defBonus);
-
+  updateSlotDisplay('weapon');
+  updateSlotDisplay('ability');
+  updateSlotDisplay('armor');
+  updateSlotDisplay('ring');
+  updateBonusTags();
   applyBonuses();
 }
-
-function populateAbilities(abilityList) {
-  var sel = document.getElementById('ability-select');
-  sel.innerHTML = '<option value="">-- No ability --</option>';
-
-  var groups = {"Tiered": [], "UT": [], "MY": [], "PR": []};
-  abilityList.forEach(function(a) {
-    var r = a.rarity || "Tiered";
-    if (groups[r]) groups[r].push(a);
-    else groups["Tiered"].push(a);
-  });
-
-  ["Tiered", "UT", "MY", "PR"].forEach(function(rarity) {
-    if (groups[rarity].length === 0) return;
-    var optgroup = document.createElement('optgroup');
-    optgroup.label = rarity === "Tiered" ? "Tiered" : rarity;
-    groups[rarity].forEach(function(a) {
-      var opt = document.createElement('option');
-      opt.value = JSON.stringify(a);
-      var stats = [];
-      if (a.attBonus) stats.push((a.attBonus > 0 ? '+' : '') + a.attBonus + ' ATT');
-      if (a.dexBonus) stats.push((a.dexBonus > 0 ? '+' : '') + a.dexBonus + ' DEX');
-      if (a.hpBonus) stats.push((a.hpBonus > 0 ? '+' : '') + a.hpBonus + ' HP');
-      if (a.defBonus) stats.push((a.defBonus > 0 ? '+' : '') + a.defBonus + ' DEF');
-      opt.textContent = a.name + (stats.length ? ' (' + stats.join(', ') + ')' : '');
-      optgroup.appendChild(opt);
-    });
-    sel.appendChild(optgroup);
-  });
-
-  currentAbility = null;
-  document.getElementById('ability-info').classList.add('hidden');
-}
-
-function onAbilityChange() {
-  var val = document.getElementById('ability-select').value;
-  if (!val) {
-    currentAbility = null;
-    document.getElementById('ability-info').classList.add('hidden');
-    applyBonuses();
-    return;
-  }
-  currentAbility = JSON.parse(val);
-
-  var info = document.getElementById('ability-info');
-  info.classList.remove('hidden');
-  function fmt(v) { return v > 0 ? '+' + v : v === 0 ? '0' : '' + v; }
-  document.getElementById('ab-hp').textContent = fmt(currentAbility.hpBonus);
-  document.getElementById('ab-att').textContent = fmt(currentAbility.attBonus);
-  document.getElementById('ab-dex').textContent = fmt(currentAbility.dexBonus);
-  document.getElementById('ab-def').textContent = fmt(currentAbility.defBonus);
-
-  applyBonuses();
-}
-
 
 function resetStats() {
   baseAtt = 0; baseDex = 0; baseMgt = 0;
@@ -823,7 +930,7 @@ function onDefInput() {
   recalculate();
 }
 
-function calcDPS(att, dex, mgt, weapon, enemyDef) {
+function calcDPS(att, dex, mgt, lck, weapon, enemyDef) {
   if (!weapon) return null;
   var minDmg = weapon.minDamage;
   var maxDmg = weapon.maxDamage;
@@ -835,8 +942,10 @@ function calcDPS(att, dex, mgt, weapon, enemyDef) {
   // ATT modifier: 0.5 + ATT/50
   var attMod = 0.5 + att / 50;
 
-  // Might bonus: additive percentage
-  var mgtMod = 1 + mgt / 100;
+  // Might bonus: only applies on critical hits (chance = luck/1000)
+  // Expected multiplier = 1 + critChance * (might/100)
+  var critChance = Math.min(lck / 1000, 1.0);
+  var mgtMod = 1 + critChance * (mgt / 100);
 
   // Scaled damage per projectile (before DEF)
   var scaledMin = minDmg * attMod * mgtMod;
@@ -851,7 +960,7 @@ function calcDPS(att, dex, mgt, weapon, enemyDef) {
   var shotsPerSec = 1000 / period; // period is in ms
 
   // Apply DEF to each projectile hit
-  var floor = scaledAvg * 0.1; // 10% minimum damage floor
+  var floor = scaledAvg * 0.25; // 25% minimum damage floor (matches game: dmg/4)
   var defReduced;
   if (ap) {
     defReduced = scaledAvg; // armor piercing ignores DEF
@@ -860,8 +969,8 @@ function calcDPS(att, dex, mgt, weapon, enemyDef) {
   }
 
   // Min/max after DEF
-  var minAfterDef = ap ? scaledMin : Math.max(scaledMin - enemyDef, scaledMin * 0.1);
-  var maxAfterDef = ap ? scaledMax : Math.max(scaledMax - enemyDef, scaledMax * 0.1);
+  var minAfterDef = ap ? scaledMin : Math.max(scaledMin - enemyDef, scaledMin * 0.25);
+  var maxAfterDef = ap ? scaledMax : Math.max(scaledMax - enemyDef, scaledMax * 0.25);
 
   var rawDPS = scaledAvg * numProj * shotsPerSec;
   var effDPS = defReduced * numProj * shotsPerSec;
@@ -882,6 +991,7 @@ function recalculate() {
   var att = parseInt(document.getElementById('stat-att').value) || 0;
   var dex = parseInt(document.getElementById('stat-dex').value) || 0;
   var mgt = parseInt(document.getElementById('stat-mgt').value) || 0;
+  var lck = parseInt(document.getElementById('stat-lck').value) || 0;
   var def = parseInt(document.getElementById('enemy-def-num').value) || 0;
 
   if (!currentClass || !currentWeapon) {
@@ -892,7 +1002,7 @@ function recalculate() {
     return;
   }
 
-  var r = calcDPS(att, dex, mgt, currentWeapon, def);
+  var r = calcDPS(att, dex, mgt, lck, currentWeapon, def);
   if (!r) return;
 
   document.getElementById('results-placeholder').classList.add('hidden');
@@ -921,7 +1031,7 @@ function recalculate() {
   var chartHtml = '';
   var maxDps = r.rawDPS; // max is always at 0 DEF
   [0, 10, 20, 30, 40, 50, 60].forEach(function(d) {
-    var result = calcDPS(att, dex, mgt, currentWeapon, d);
+    var result = calcDPS(att, dex, mgt, lck, currentWeapon, d);
     var pct = maxDps > 0 ? Math.round(result.effDPS / maxDps * 100) : 0;
     var isActive = d === def;
     var barColor = isActive ? 'bg-gradient-to-r from-violet-500 to-cyan-500' : 'bg-slate-600';
