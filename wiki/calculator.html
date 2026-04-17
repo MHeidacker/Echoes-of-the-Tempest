@@ -460,6 +460,12 @@ document.addEventListener('click', function(e) {
               class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500">
             <div class="text-xs text-slate-600 mt-0.5 text-center">base: <span id="base-mgt">0</span></div>
           </div>
+          <div>
+            <label class="block text-xs text-yellow-400 font-bold mb-1">LCK</label>
+            <input type="number" id="stat-lck" value="0" min="0" max="200" onchange="recalculate()" oninput="recalculate()"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-center focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500">
+            <div class="text-xs text-slate-600 mt-0.5 text-center">base: <span id="base-lck">0</span></div>
+          </div>
         </div>
       </div>
 
@@ -568,7 +574,7 @@ var currentWeapon = null;
 var currentArmor = null;
 var currentRing = null;
 var currentAbility = null;
-var baseAtt = 0, baseDex = 0, baseMgt = 0;
+var baseAtt = 0, baseDex = 0, baseMgt = 0, baseLck = 0;
 
 // Cached filtered lists per class
 var filteredWeapons = [];
@@ -841,6 +847,7 @@ function onClassChange() {
   baseAtt = currentClass.att;
   baseDex = currentClass.dex;
   baseMgt = currentClass.mgt;
+  baseLck = currentClass.lck;
 
   // Filter weapons to ones usable by this class
   var validSlots = CLASS_WEAPON_SLOTS[currentClass.weapon] || [];
@@ -884,13 +891,15 @@ function onClassChange() {
 }
 
 function resetStats() {
-  baseAtt = 0; baseDex = 0; baseMgt = 0;
+  baseAtt = 0; baseDex = 0; baseMgt = 0; baseLck = 0;
   document.getElementById('stat-att').value = 0;
   document.getElementById('stat-dex').value = 0;
   document.getElementById('stat-mgt').value = 0;
+  document.getElementById('stat-lck').value = 0;
   document.getElementById('base-att').textContent = '0';
   document.getElementById('base-dex').textContent = '0';
   document.getElementById('base-mgt').textContent = '0';
+  document.getElementById('base-lck').textContent = '0';
 }
 
 function applyBonuses() {
@@ -909,10 +918,12 @@ function applyBonuses() {
   document.getElementById('base-att').textContent = totalAtt;
   document.getElementById('base-dex').textContent = totalDex;
   document.getElementById('base-mgt').textContent = baseMgt;
+  document.getElementById('base-lck').textContent = baseLck;
 
   document.getElementById('stat-att').value = totalAtt;
   document.getElementById('stat-dex').value = totalDex;
   document.getElementById('stat-mgt').value = baseMgt;
+  document.getElementById('stat-lck').value = baseLck;
 
   recalculate();
 }
