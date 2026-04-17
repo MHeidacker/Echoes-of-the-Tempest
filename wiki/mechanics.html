@@ -195,7 +195,7 @@ function globalSearch(q, mobile) {
   var html = '';
   matches.forEach(function(m) {
     var url = inWiki ? m.u.replace('wiki/','') : m.u;
-    var badge = m.t === 'item' ? (m.r === 'EX' ? '<span style="color:#e8e0ff;text-shadow:0 0 4px rgba(232,224,255,0.3)" class="text-xs ml-1">EX</span>' : m.r === 'LG' ? '<span class="text-yellow-400 text-xs ml-1">LG</span>' : m.r === 'UT' ? '<span class="text-purple-400 text-xs ml-1">UT</span>' : '') : '<span class="text-red-400 text-xs ml-1">Enemy</span>';
+    var badge = m.t === 'item' ? (m.r === 'PR' ? '<span style="color:#e8e0ff;text-shadow:0 0 4px rgba(232,224,255,0.3)" class="text-xs ml-1">PR</span>' : m.r === 'MY' ? '<span class="text-yellow-400 text-xs ml-1">MY</span>' : m.r === 'UT' ? '<span class="text-purple-400 text-xs ml-1">UT</span>' : '') : '<span class="text-red-400 text-xs ml-1">Enemy</span>';
     html += '<a href="' + url + '" class="block px-4 py-2 text-sm text-slate-300 hover:text-violet-300 hover:bg-slate-800/50 transition-colors">' + m.n + badge + '<span class="text-slate-600 text-xs ml-2">' + m.s + '</span></a>';
   });
   list.innerHTML = html;
