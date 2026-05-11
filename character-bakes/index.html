@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EotT — Character bakes</title>
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --panel: #222;
+    --cell: #2a2a2a;
+    --text: #ddd;
+    --muted: #888;
+    --accent: #5b8fb8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.4;
+  }
+  h1 { margin: 0 0 4px; font-size: 22px; }
+  h2 { margin: 0 0 6px; font-size: 18px; color: var(--accent); }
+  h3 { margin: 14px 0 8px; font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .controls {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 10px 0;
+    margin: 0 -20px 16px;
+    padding-left: 20px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    z-index: 100;
+  }
+  .controls label { font-size: 13px; color: var(--muted); }
+  .controls .group { display: flex; align-items: center; gap: 8px; }
+  .controls button {
+    padding: 5px 12px;
+    background: #333;
+    color: var(--text);
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .controls button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .controls input[type=range] { width: 140px; vertical-align: middle; }
+  .controls .value { display: inline-block; width: 24px; text-align: right; color: var(--text); font-variant-numeric: tabular-nums; }
+
+  .character {
+    margin-bottom: 36px;
+    padding: 20px;
+    background: var(--panel);
+    border-radius: 8px;
+  }
+  .spec {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(8, max-content);
+    gap: 6px;
+    align-items: end;
+  }
+  .cell {
+    background: var(--cell);
+    padding: 6px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .cell img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    display: block;
+    margin: 0 auto;
+  }
+  .cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: ui-monospace, monospace;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+  }
+
+  .error {
+    color: #e76f51;
+    padding: 12px;
+    background: #2a1818;
+    border-radius: 4px;
+  }
+  .error code { color: #ddd; }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1 style="margin: 0; flex: 0;">EotT bakes</h1>
+
+  <div class="group">
+    <label>scale:</label>
+    <button data-scale="2">2×</button>
+    <button data-scale="4" class="active">4×</button>
+    <button data-scale="6">6×</button>
+    <button data-scale="8">8×</button>
+  </div>
+
+  <div class="group">
+    <label>animation fps:</label>
+    <input type="range" id="fps" min="1" max="24" value="8" step="1">
+    <span id="fps-val" class="value">8</span>
+  </div>
+
+  <div class="group">
+    <label>
+      <input type="checkbox" id="play-toggle" checked>
+      play
+    </label>
+  </div>
+</div>
+
+<div id="characters">
+  <p style="color: var(--muted);">Loading…</p>
+</div>
+
+<script>
+const CHARACTERS = [
+  { name: 'scholar',  variant: 'v17-mcp-pro' },
+  { name: 'defector', variant: 'v4-mcp-pro' },
+];
+
+// canonical direction order — clockwise from camera-facing south
+const DIRECTIONS = [
+  'south', 'south-east', 'east', 'north-east',
+  'north', 'north-west', 'west', 'south-west',
+];
+
+const state = {
+  scale: 4,
+  fps: 8,
+  playing: true,
+  frame: 0,
+};
+
+async function loadCharacter(c) {
+  const base = `${c.name}/${c.variant}`;
+  const res = await fetch(`${base}/metadata.json`);
+  if (!res.ok) throw new Error(`Failed to load ${base}/metadata.json: ${res.status}`);
+  const meta = await res.json();
+  return { ...c, base, meta };
+}
+
+function rotationsHTML(char) {
+  const { width: w, height: h } = char.meta.character.size;
+  return `<h3>rotations</h3><div class="grid">
+    ${DIRECTIONS.map(dir => `
+      <div class="cell">
+        <img src="${char.base}/rotations/${dir}.png" data-w="${w}" data-h="${h}" loading="lazy">
+        <div class="label">${dir}</div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+function animationHTML(char, templateName, framesByDir) {
+  const { width: w, height: h } = char.meta.character.size;
+  return `<h3>${templateName}</h3><div class="grid">
+    ${DIRECTIONS.map(dir => {
+      const dirFrames = framesByDir[dir] || [];
+      const fullPaths = dirFrames.map(p => `${char.base}/${p}`);
+      const frame0 = fullPaths[0] || '';
+      return `<div class="cell">
+        <img class="anim" src="${frame0}"
+             data-frames='${JSON.stringify(fullPaths)}'
+             data-w="${w}" data-h="${h}" loading="lazy">
+        <div class="label">${dir} (${dirFrames.length}f)</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function characterHTML(char) {
+  const m = char.meta.character;
+  const animBlocks = Object.entries(char.meta.frames.animations)
+    .map(([name, frames]) => animationHTML(char, name, frames))
+    .join('');
+  return `<div class="character">
+    <h2>${char.name} — ${char.variant}</h2>
+    <div class="spec">
+      ${m.size.width}×${m.size.height} canvas · ${m.directions} directions · view: <b>${m.view}</b> · template: ${m.template_id}
+    </div>
+    ${rotationsHTML(char)}
+    ${animBlocks}
+  </div>`;
+}
+
+function applyScale() {
+  document.querySelectorAll('img').forEach(img => {
+    const w = +img.dataset.w || 0;
+    const h = +img.dataset.h || 0;
+    if (w && h) {
+      img.style.width = (w * state.scale) + 'px';
+      img.style.height = (h * state.scale) + 'px';
+    }
+  });
+}
+
+function bindControls() {
+  document.querySelectorAll('.controls button[data-scale]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.controls button[data-scale]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.scale = +btn.dataset.scale;
+      applyScale();
+    });
+  });
+  const fpsSlider = document.getElementById('fps');
+  fpsSlider.addEventListener('input', e => {
+    state.fps = +e.target.value;
+    document.getElementById('fps-val').textContent = state.fps;
+  });
+  document.getElementById('play-toggle').addEventListener('change', e => {
+    state.playing = e.target.checked;
+  });
+}
+
+let lastAdvance = 0;
+function loop(now) {
+  if (state.playing) {
+    const interval = 1000 / state.fps;
+    if (now - lastAdvance >= interval) {
+      state.frame++;
+      document.querySelectorAll('img.anim').forEach(img => {
+        const frames = JSON.parse(img.dataset.frames);
+        if (frames.length > 0) {
+          img.src = frames[state.frame % frames.length];
+        }
+      });
+      lastAdvance = now;
+    }
+  }
+  requestAnimationFrame(loop);
+}
+
+(async function init() {
+  const container = document.getElementById('characters');
+  try {
+    const loaded = await Promise.all(CHARACTERS.map(loadCharacter));
+    container.innerHTML = loaded.map(characterHTML).join('');
+    bindControls();
+    applyScale();
+    requestAnimationFrame(loop);
+  } catch (e) {
+    container.innerHTML = `<div class="error">
+      <strong>Failed to load character data.</strong>
+      <p>${e.message}</p>
+      <p>This viewer requires an HTTP server (fetch() blocked on <code>file://</code>).
+      From the repo root run:</p>
+      <pre><code>python -m http.server 8000</code></pre>
+      <p>Then open <code>http://localhost:8000/art/characters/index.html</code></p>
+    </div>`;
+    console.error(e);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "defector",
+  "_lore_anchor": "Eastern blade-tradition adept, pattern-fit prodigy: birth tradition wrote them off, but in the Tower's thin substrate their techniques are legendary. Defector with no home culture to return to. See worldbuilding/canon/04-cultures-and-traditions.md (eastern empires + cross-cultural transfer) and 05-magical-practice.md (pattern-fit mechanism).",
+  "_palette": "deep navy + dark slate gray + dusty crimson cord accent + faint Tower-charge teal on blade fitting",
+  "_weapon_overlay_note": "Per ADR 002 Decision 5, blade is an item overlay. The character carries an EMPTY scabbard — the blade is the swappable item.",
+
+  "mode": "pro",
+  "n_directions": 8,
+  "size": 32,
+  "view": "low top-down",
+
+  "description": "Tower-bound eastern blade-tradition practitioner, a defector with no home culture to return to, intricate detailed pixel art character design, wearing layered authentic eastern field garb — a dark indigo knee-length haori coat (open-front, with knotted cord ties at the chest) over a fitted dark slate undertunic, dark gray hakama-style trousers (flowing not tight) tucked into shin-length cloth wraps and worn cloth tabi-boots, a tight dark cloth face wrap covering all but the eyes (NOT a hood — wrapped face mask), a sash at the waist in deep navy with a single dusty crimson knotted cord hanging from it (frayed at the end, a remnant of original home-school regalia preserved as a memento), a torn and scratched-out school crest patch on the right shoulder of the haori (visible defector mark), small leather pouches at the back of the waist, an empty katana scabbard strapped diagonally across the back with NO blade visible (the weapon is removed and held elsewhere) — but with subtle Tower-derived metal fittings on the scabbard pommel that bear a faint pale teal substrate-charge glow, several small paper ofuda talismans bound at the left wrist, both hands clearly drawn and visible at the sides (open palms facing forward, fingers visible, nothing held in either hand), poised low athletic stance with the practiced reserved posture of a blade-adept rather than a generic action-ninja, weight balanced and quietly ready, ash-stained scuff marks on wrap edges suggesting Tower expedition wear, eastern cultural silhouette with layered drape (NOT all-tight-fitted), viewed from a top-down 3/4 perspective with slight forward tilt, chunky pixel art with clean readable silhouette, cool palette dominated by deep navy and dark slate gray with a single dusty crimson accent on the sash cord and a faint pale teal Tower-charge highlight on the blade-pommel",
+
+  "animations": [
+    "breathing-idle",
+    "walking-4-frames",
+    "lead-jab",
+    "taking-punch",
+    "falling-back-death"
+  ],
+
+  "_animation_mapping": {
+    "breathing-idle":     "idle (looped breathing)",
+    "walking-4-frames":   "walk",
+    "lead-jab":           "attack placeholder — defector's real attack is bladework (item overlay swing); revisit with custom action_description when blade overlay anim is locked",
+    "taking-punch":       "hit reaction",
+    "falling-back-death": "death"
+  }
+}

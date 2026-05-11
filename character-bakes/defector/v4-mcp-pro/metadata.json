@@ -1,0 +1,320 @@
+{
+  "character": {
+    "id": "dbe078aa-2ecb-4d0f-8935-d3350a2c7bfb",
+    "name": "defector-v4-mcp-pro",
+    "prompt": "Tower-bound eastern blade-tradition practitioner, a defector with no home culture to return to, intricate detailed pixel art character design, wearing layered authentic eastern field garb \u2014 a dark indigo knee-length haori coat (open-front, with knotted cord ties at the chest) over a fitted dark slate undertunic, dark gray hakama-style trousers (flowing not tight) tucked into shin-length cloth wraps and worn cloth tabi-boots, a tight dark cloth face wrap covering all but the eyes (NOT a hood \u2014 wrapped face mask), a sash at the waist in deep navy with a single dusty crimson knotted cord hanging from it (frayed at the end, a remnant of original home-school regalia preserved as a memento), a torn and scratched-out school crest patch on the right shoulder of the haori (visible defector mark), small leather pouches at the back of the waist, an empty katana scabbard strapped diagonally across the back with NO blade visible (the weapon is removed and held elsewhere) \u2014 but with subtle Tower-derived metal fittings on the scabbard pommel that bear a faint pale teal substrate-charge glow, several small paper ofuda talismans bound at the left wrist, both hands clearly drawn and visible at the sides (open palms facing forward, fingers visible, nothing held in either hand), poised low athletic stance with the practiced reserved posture of a blade-adept rather than a generic action-ninja, weight balanced and quietly ready, ash-stained scuff marks on wrap edges suggesting Tower expedition wear, eastern cultural silhouette with layered drape (NOT all-tight-fitted), viewed from a top-down 3/4 perspective with slight forward tilt, chunky pixel art with clean readable silhouette, cool palette dominated by deep navy and dark slate gray with a single dusty crimson accent on the sash cord and a faint pale teal Tower-charge highlight on the blade-pommel",
+    "size": {
+      "width": 60,
+      "height": 60
+    },
+    "template_id": "mannequin",
+    "directions": 8,
+    "view": "low top-down",
+    "created_at": "2026-05-11T08:53:19.030623+00:00"
+  },
+  "frames": {
+    "rotations": {
+      "south": "rotations/south.png",
+      "south-east": "rotations/south-east.png",
+      "east": "rotations/east.png",
+      "north-east": "rotations/north-east.png",
+      "north": "rotations/north.png",
+      "north-west": "rotations/north-west.png",
+      "west": "rotations/west.png",
+      "south-west": "rotations/south-west.png"
+    },
+    "animations": {
+      "breathing-idle": {
+        "south": [
+          "animations/breathing-idle/south/frame_000.png",
+          "animations/breathing-idle/south/frame_001.png",
+          "animations/breathing-idle/south/frame_002.png",
+          "animations/breathing-idle/south/frame_003.png"
+        ],
+        "north-east": [
+          "animations/breathing-idle/north-east/frame_000.png",
+          "animations/breathing-idle/north-east/frame_001.png",
+          "animations/breathing-idle/north-east/frame_002.png",
+          "animations/breathing-idle/north-east/frame_003.png"
+        ],
+        "south-west": [
+          "animations/breathing-idle/south-west/frame_000.png",
+          "animations/breathing-idle/south-west/frame_001.png",
+          "animations/breathing-idle/south-west/frame_002.png",
+          "animations/breathing-idle/south-west/frame_003.png"
+        ],
+        "south-east": [
+          "animations/breathing-idle/south-east/frame_000.png",
+          "animations/breathing-idle/south-east/frame_001.png",
+          "animations/breathing-idle/south-east/frame_002.png",
+          "animations/breathing-idle/south-east/frame_003.png"
+        ],
+        "east": [
+          "animations/breathing-idle/east/frame_000.png",
+          "animations/breathing-idle/east/frame_001.png",
+          "animations/breathing-idle/east/frame_002.png",
+          "animations/breathing-idle/east/frame_003.png"
+        ],
+        "west": [
+          "animations/breathing-idle/west/frame_000.png",
+          "animations/breathing-idle/west/frame_001.png",
+          "animations/breathing-idle/west/frame_002.png",
+          "animations/breathing-idle/west/frame_003.png"
+        ],
+        "north-west": [
+          "animations/breathing-idle/north-west/frame_000.png",
+          "animations/breathing-idle/north-west/frame_001.png",
+          "animations/breathing-idle/north-west/frame_002.png",
+          "animations/breathing-idle/north-west/frame_003.png"
+        ],
+        "north": [
+          "animations/breathing-idle/north/frame_000.png",
+          "animations/breathing-idle/north/frame_001.png",
+          "animations/breathing-idle/north/frame_002.png",
+          "animations/breathing-idle/north/frame_003.png"
+        ]
+      },
+      "walking-4-frames": {
+        "east": [
+          "animations/walking-4-frames/east/frame_000.png",
+          "animations/walking-4-frames/east/frame_001.png",
+          "animations/walking-4-frames/east/frame_002.png",
+          "animations/walking-4-frames/east/frame_003.png"
+        ],
+        "south": [
+          "animations/walking-4-frames/south/frame_000.png",
+          "animations/walking-4-frames/south/frame_001.png",
+          "animations/walking-4-frames/south/frame_002.png",
+          "animations/walking-4-frames/south/frame_003.png"
+        ],
+        "north": [
+          "animations/walking-4-frames/north/frame_000.png",
+          "animations/walking-4-frames/north/frame_001.png",
+          "animations/walking-4-frames/north/frame_002.png",
+          "animations/walking-4-frames/north/frame_003.png"
+        ],
+        "south-west": [
+          "animations/walking-4-frames/south-west/frame_000.png",
+          "animations/walking-4-frames/south-west/frame_001.png",
+          "animations/walking-4-frames/south-west/frame_002.png",
+          "animations/walking-4-frames/south-west/frame_003.png"
+        ],
+        "north-west": [
+          "animations/walking-4-frames/north-west/frame_000.png",
+          "animations/walking-4-frames/north-west/frame_001.png",
+          "animations/walking-4-frames/north-west/frame_002.png",
+          "animations/walking-4-frames/north-west/frame_003.png"
+        ],
+        "north-east": [
+          "animations/walking-4-frames/north-east/frame_000.png",
+          "animations/walking-4-frames/north-east/frame_001.png",
+          "animations/walking-4-frames/north-east/frame_002.png",
+          "animations/walking-4-frames/north-east/frame_003.png"
+        ],
+        "west": [
+          "animations/walking-4-frames/west/frame_000.png",
+          "animations/walking-4-frames/west/frame_001.png",
+          "animations/walking-4-frames/west/frame_002.png",
+          "animations/walking-4-frames/west/frame_003.png"
+        ],
+        "south-east": [
+          "animations/walking-4-frames/south-east/frame_000.png",
+          "animations/walking-4-frames/south-east/frame_001.png",
+          "animations/walking-4-frames/south-east/frame_002.png",
+          "animations/walking-4-frames/south-east/frame_003.png"
+        ]
+      },
+      "lead-jab": {
+        "south": [
+          "animations/lead-jab/south/frame_000.png",
+          "animations/lead-jab/south/frame_001.png",
+          "animations/lead-jab/south/frame_002.png"
+        ],
+        "north": [
+          "animations/lead-jab/north/frame_000.png",
+          "animations/lead-jab/north/frame_001.png",
+          "animations/lead-jab/north/frame_002.png"
+        ],
+        "north-west": [
+          "animations/lead-jab/north-west/frame_000.png",
+          "animations/lead-jab/north-west/frame_001.png",
+          "animations/lead-jab/north-west/frame_002.png"
+        ],
+        "south-west": [
+          "animations/lead-jab/south-west/frame_000.png",
+          "animations/lead-jab/south-west/frame_001.png",
+          "animations/lead-jab/south-west/frame_002.png"
+        ],
+        "south-east": [
+          "animations/lead-jab/south-east/frame_000.png",
+          "animations/lead-jab/south-east/frame_001.png",
+          "animations/lead-jab/south-east/frame_002.png"
+        ],
+        "north-east": [
+          "animations/lead-jab/north-east/frame_000.png",
+          "animations/lead-jab/north-east/frame_001.png",
+          "animations/lead-jab/north-east/frame_002.png"
+        ],
+        "east": [
+          "animations/lead-jab/east/frame_000.png",
+          "animations/lead-jab/east/frame_001.png",
+          "animations/lead-jab/east/frame_002.png"
+        ],
+        "west": [
+          "animations/lead-jab/west/frame_000.png",
+          "animations/lead-jab/west/frame_001.png",
+          "animations/lead-jab/west/frame_002.png"
+        ]
+      },
+      "taking-punch": {
+        "south": [
+          "animations/taking-punch/south/frame_000.png",
+          "animations/taking-punch/south/frame_001.png",
+          "animations/taking-punch/south/frame_002.png",
+          "animations/taking-punch/south/frame_003.png",
+          "animations/taking-punch/south/frame_004.png",
+          "animations/taking-punch/south/frame_005.png"
+        ],
+        "west": [
+          "animations/taking-punch/west/frame_000.png",
+          "animations/taking-punch/west/frame_001.png",
+          "animations/taking-punch/west/frame_002.png",
+          "animations/taking-punch/west/frame_003.png",
+          "animations/taking-punch/west/frame_004.png",
+          "animations/taking-punch/west/frame_005.png"
+        ],
+        "north": [
+          "animations/taking-punch/north/frame_000.png",
+          "animations/taking-punch/north/frame_001.png",
+          "animations/taking-punch/north/frame_002.png",
+          "animations/taking-punch/north/frame_003.png",
+          "animations/taking-punch/north/frame_004.png",
+          "animations/taking-punch/north/frame_005.png"
+        ],
+        "south-west": [
+          "animations/taking-punch/south-west/frame_000.png",
+          "animations/taking-punch/south-west/frame_001.png",
+          "animations/taking-punch/south-west/frame_002.png",
+          "animations/taking-punch/south-west/frame_003.png",
+          "animations/taking-punch/south-west/frame_004.png",
+          "animations/taking-punch/south-west/frame_005.png"
+        ],
+        "east": [
+          "animations/taking-punch/east/frame_000.png",
+          "animations/taking-punch/east/frame_001.png",
+          "animations/taking-punch/east/frame_002.png",
+          "animations/taking-punch/east/frame_003.png",
+          "animations/taking-punch/east/frame_004.png",
+          "animations/taking-punch/east/frame_005.png"
+        ],
+        "north-east": [
+          "animations/taking-punch/north-east/frame_000.png",
+          "animations/taking-punch/north-east/frame_001.png",
+          "animations/taking-punch/north-east/frame_002.png",
+          "animations/taking-punch/north-east/frame_003.png",
+          "animations/taking-punch/north-east/frame_004.png",
+          "animations/taking-punch/north-east/frame_005.png"
+        ],
+        "north-west": [
+          "animations/taking-punch/north-west/frame_000.png",
+          "animations/taking-punch/north-west/frame_001.png",
+          "animations/taking-punch/north-west/frame_002.png",
+          "animations/taking-punch/north-west/frame_003.png",
+          "animations/taking-punch/north-west/frame_004.png",
+          "animations/taking-punch/north-west/frame_005.png"
+        ],
+        "south-east": [
+          "animations/taking-punch/south-east/frame_000.png",
+          "animations/taking-punch/south-east/frame_001.png",
+          "animations/taking-punch/south-east/frame_002.png",
+          "animations/taking-punch/south-east/frame_003.png",
+          "animations/taking-punch/south-east/frame_004.png",
+          "animations/taking-punch/south-east/frame_005.png"
+        ]
+      },
+      "falling-back-death": {
+        "north-west": [
+          "animations/falling-back-death/north-west/frame_000.png",
+          "animations/falling-back-death/north-west/frame_001.png",
+          "animations/falling-back-death/north-west/frame_002.png",
+          "animations/falling-back-death/north-west/frame_003.png",
+          "animations/falling-back-death/north-west/frame_004.png",
+          "animations/falling-back-death/north-west/frame_005.png",
+          "animations/falling-back-death/north-west/frame_006.png"
+        ],
+        "south-west": [
+          "animations/falling-back-death/south-west/frame_000.png",
+          "animations/falling-back-death/south-west/frame_001.png",
+          "animations/falling-back-death/south-west/frame_002.png",
+          "animations/falling-back-death/south-west/frame_003.png",
+          "animations/falling-back-death/south-west/frame_004.png",
+          "animations/falling-back-death/south-west/frame_005.png",
+          "animations/falling-back-death/south-west/frame_006.png"
+        ],
+        "west": [
+          "animations/falling-back-death/west/frame_000.png",
+          "animations/falling-back-death/west/frame_001.png",
+          "animations/falling-back-death/west/frame_002.png",
+          "animations/falling-back-death/west/frame_003.png",
+          "animations/falling-back-death/west/frame_004.png",
+          "animations/falling-back-death/west/frame_005.png",
+          "animations/falling-back-death/west/frame_006.png"
+        ],
+        "north": [
+          "animations/falling-back-death/north/frame_000.png",
+          "animations/falling-back-death/north/frame_001.png",
+          "animations/falling-back-death/north/frame_002.png",
+          "animations/falling-back-death/north/frame_003.png",
+          "animations/falling-back-death/north/frame_004.png",
+          "animations/falling-back-death/north/frame_005.png",
+          "animations/falling-back-death/north/frame_006.png"
+        ],
+        "south-east": [
+          "animations/falling-back-death/south-east/frame_000.png",
+          "animations/falling-back-death/south-east/frame_001.png",
+          "animations/falling-back-death/south-east/frame_002.png",
+          "animations/falling-back-death/south-east/frame_003.png",
+          "animations/falling-back-death/south-east/frame_004.png",
+          "animations/falling-back-death/south-east/frame_005.png",
+          "animations/falling-back-death/south-east/frame_006.png"
+        ],
+        "north-east": [
+          "animations/falling-back-death/north-east/frame_000.png",
+          "animations/falling-back-death/north-east/frame_001.png",
+          "animations/falling-back-death/north-east/frame_002.png",
+          "animations/falling-back-death/north-east/frame_003.png",
+          "animations/falling-back-death/north-east/frame_004.png",
+          "animations/falling-back-death/north-east/frame_005.png",
+          "animations/falling-back-death/north-east/frame_006.png"
+        ],
+        "south": [
+          "animations/falling-back-death/south/frame_000.png",
+          "animations/falling-back-death/south/frame_001.png",
+          "animations/falling-back-death/south/frame_002.png",
+          "animations/falling-back-death/south/frame_003.png",
+          "animations/falling-back-death/south/frame_004.png",
+          "animations/falling-back-death/south/frame_005.png",
+          "animations/falling-back-death/south/frame_006.png"
+        ],
+        "east": [
+          "animations/falling-back-death/east/frame_000.png",
+          "animations/falling-back-death/east/frame_001.png",
+          "animations/falling-back-death/east/frame_002.png",
+          "animations/falling-back-death/east/frame_003.png",
+          "animations/falling-back-death/east/frame_004.png",
+          "animations/falling-back-death/east/frame_005.png",
+          "animations/falling-back-death/east/frame_006.png"
+        ]
+      }
+    }
+  },
+  "export_version": "2.0",
+  "export_date": "2026-05-11T09:18:37.154676",
+  "spec_template_order": [
+    "breathing-idle",
+    "walking-4-frames",
+    "lead-jab",
+    "taking-punch",
+    "falling-back-death"
+  ]
+}

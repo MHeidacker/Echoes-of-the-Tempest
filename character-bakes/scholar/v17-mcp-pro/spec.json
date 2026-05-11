@@ -1,0 +1,29 @@
+{
+  "name": "scholar",
+  "_lore_anchor": "International scholarly orders practitioner. See worldbuilding/canon/04-cultures-and-traditions.md and worldbuilding/canon/05-magical-practice.md. Combat is substrate-shaping technique, not melee.",
+  "_palette": "deep navy + off-white + brass instrument accent",
+  "_weapon_overlay_note": "Per ADR 002 Decision 5, weapons are item overlays rendered at runtime via per-frame weapon-anchor positions. Hands are described as visible/empty so any item can be composed onto them.",
+
+  "mode": "pro",
+  "n_directions": 8,
+  "size": 32,
+  "view": "low top-down",
+
+  "description": "expedition-attached scholar from international research orders, equipped for fieldwork inside the Tower, intricate detailed pixel art character design, wearing layered field clothing — deep navy outer cloak with hood up showing a thoughtful focused face, off-white undertunic visible at the chest, a leather research apron with brass-fitted pockets across the front, a bandolier across the chest holding small glass specimen vials and rolled parchment notes, sturdy traveling boots, sleeves rolled showing forearms stained from ink and sample work, a small brass-cased lantern hooked at the right hip, a coiled rope at the left hip, both hands clearly drawn and visible at sides (open palms, no items held), cosmopolitan cross-cultural appearance, careful attentive observant posture of someone trained to study what could kill them, viewed from a top-down 3/4 perspective with slight forward tilt, clean readable silhouette",
+
+  "animations": [
+    "breathing-idle",
+    "walking-4-frames",
+    "lead-jab",
+    "taking-punch",
+    "falling-back-death"
+  ],
+
+  "_animation_mapping": {
+    "breathing-idle":     "idle (looped breathing)",
+    "walking-4-frames":   "walk",
+    "lead-jab":           "attack placeholder — scholar's real attack is substrate-shaping channel; revisit with custom action_description when locked",
+    "taking-punch":       "hit reaction",
+    "falling-back-death": "death"
+  }
+}
